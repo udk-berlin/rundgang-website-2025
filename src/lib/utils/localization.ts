@@ -157,8 +157,8 @@ export const UI_TEXTS = {
 		},
 		retry: { de: 'Erneut versuchen', en: 'Retry' },
 		noProjectsWithLocations: {
-			de: 'Keine Projekte mit Standorten gefunden',
-			en: 'No projects with locations found'
+			de: 'Keine Projekte für die ausgewählten Zeiten gefunden',
+			en: 'No projects found for the selected time slots'
 		},
 		noMatchingProjects: {
 			de: 'Keine Projekte entsprechen den aktuellen Filtern',
