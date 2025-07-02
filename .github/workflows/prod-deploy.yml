@@ -30,7 +30,7 @@ jobs:
       - name: Build SvelteKit app
         run: npm run build
         env:
-          NODE_ENV: development
+          NODE_ENV: production
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
           API_AUTH: ${{ secrets.API_AUTH }}
           PORT: ${{ secrets.PORT }}
