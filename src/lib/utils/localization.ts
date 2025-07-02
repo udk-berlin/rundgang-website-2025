@@ -93,6 +93,13 @@ export const UI_TEXTS = {
 		switchToEnglish: { de: 'Zu Englisch wechseln', en: 'Switch to English' }
 	},
 
+	announcement: {
+		content: {
+			de: 'Das Programm des UdK Rundgang wird derzeit noch befüllt und enthält noch nicht alle Projekte...',
+			en: 'The program of the UdK Rundgang is currently being filled and does not yet contain all projects...'
+		}
+	},
+
 	// Filter component
 	filter: {
 		title: { de: 'Filter', en: 'Filter' },

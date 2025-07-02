@@ -5,6 +5,7 @@
 	import FruitCard from '../general/FruitCard.svelte';
 	import { getUIText } from '../../lib/utils/localization';
 	import { activeLanguage } from '../../lib/stores/language';
+	import Announcement from './Announcement.svelte';
 
 	const dispatch = createEventDispatcher();
 
@@ -28,6 +29,7 @@
 </script>
 
 <section class="landing-page">
+	<Announcement />
 	<div class="content">
 		<div class="text-container">
 			<div class="logo-container">
