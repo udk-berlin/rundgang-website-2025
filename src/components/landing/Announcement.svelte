@@ -1,17 +1,9 @@
 <script lang="ts">
 	import { getUIText } from '$lib/utils/localization';
 	import { activeLanguage } from '$lib/stores/language';
-
-	let scrollY: number;
-
-	$: rotation = Math.min(scrollY / 50 - 1.4, 1.4);
-	$: translateY = -scrollY / 5;
 </script>
 
-<svelte:window bind:scrollY />
-
-<div class="announcement-container" style="--rotation: {rotation}deg; --translateY: {translateY}px">
-	<!-- <div class="announcement-container"> -->
+<div class="announcement-container">
 	<div class="announcement-content">
 		<p>{getUIText('announcement.content', $activeLanguage)}</p>
 	</div>
@@ -36,10 +28,20 @@
 		border: 1px solid black;
 		border-radius: $border-radius;
 		box-shadow: $paper-shadow-large;
-		transform: translateY(var(--translateY)) rotate(var(--rotation));
+		will-change: transform;
+		animation: scroll-float 20s ease-in-out infinite;
 
 		@include desktop {
 			width: 25vw;
+		}
+	}
+
+	@keyframes scroll-float {
+		0%, 100% { 
+			transform: translateY(-10px) rotate(-1.4deg); 
+		}
+		50% { 
+			transform: translateY(10px) rotate(1.4deg); 
 		}
 	}
 
