@@ -15,6 +15,7 @@
 		// New prop to control rendering strategy
 		leftKeepInDOM?: boolean;
 		rightKeepInDOM?: boolean;
+		initialView?: 'left' | 'right';
 	}
 
 	export let titles = {
@@ -24,8 +25,9 @@
 	export let leftPanelRatio = 0.5; // Default to 50/50 split, can be 0.33 for 1/3, 0.67 for 2/3, etc.
 	export let leftKeepInDOM = true; // Default to keeping lightweight components in DOM
 	export let rightKeepInDOM = false; // Default to conditional rendering for heavy components
+	export let initialView = 'left'; // 'left' or 'right'
 
-	let currentView = 'left'; // 'left' or 'right'
+	let currentView = initialView; // 'left' or 'right'
 	let isMobile = false;
 	let isTransitioning = false;
 
@@ -80,10 +82,7 @@
 	$: rightFlexValue = 1 - leftPanelRatio;
 </script>
 
-<div
-	class="view-container"
-	style="--left-flex: {leftFlexValue}; --right-flex: {rightFlexValue};"
->
+<div class="view-container" style="--left-flex: {leftFlexValue}; --right-flex: {rightFlexValue};">
 	{#if isMobile}
 		<!-- Mobile: Hybrid approach - translateX for keepInDOM, conditional for others -->
 		<div class="mobile-views">
@@ -105,7 +104,7 @@
 					<slot name="left" />
 				</div>
 			{/if}
-			
+
 			<!-- Right panel -->
 			{#if rightKeepInDOM}
 				<div

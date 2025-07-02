@@ -244,6 +244,7 @@
 		leftPanelRatio={0.33}
 		leftKeepInDOM={true}
 		rightKeepInDOM={true}
+		initialView="right"
 		titles={{
 			left: getUIText('locations.mobileViewToggle.left', $activeLanguage),
 			right: getUIText('locations.mobileViewToggle.right', $activeLanguage)
