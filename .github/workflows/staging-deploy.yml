@@ -42,6 +42,7 @@ jobs:
             --exclude '.env' \
             --exclude '.git*' \
             --exclude 'node_modules/' \
+            --exclude 'static/fonts/' \
             -e "ssh -o StrictHostKeyChecking=accept-new" \
             build \
             package.json \
