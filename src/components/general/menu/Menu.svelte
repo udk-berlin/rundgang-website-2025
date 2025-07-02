@@ -30,6 +30,13 @@
 	<a href="/information" class:active={page.url.pathname === '/information'}
 		>{getUIText('menu.information', $activeLanguage)}</a
 	>
+
+	<div class="footer-menu">
+		<a href="https://www.udk-berlin.de/rundgang/impressum-1/">
+			{getUIText('menu.impressum', $activeLanguage)}
+		</a>
+	</div>
+
 	<LanguageSwitcher />
 	<button on:click={handleMerkelisteClick}>
 		{getUIText('menu.merkliste', $activeLanguage)}
@@ -78,6 +85,20 @@
 
 		@include desktop {
 			display: none;
+		}
+	}
+
+	.footer-menu {
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: flex-end;
+
+		@include desktop {
+			position: fixed;
+			bottom: 5px;
+			right: $body-padding-h-desktop;
+			flex-flow: row nowrap;
+			justify-content: space-between;
 		}
 	}
 

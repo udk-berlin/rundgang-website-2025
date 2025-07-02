@@ -96,6 +96,10 @@
 		opacity: 1;
 		transition: opacity 0.2s ease-in-out;
 
+		@include desktop {
+			top: 5px;
+		}
+
 		&.hidden {
 			opacity: 0;
 			pointer-events: none;

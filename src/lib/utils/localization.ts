@@ -88,6 +88,7 @@ export const UI_TEXTS = {
 		locations: { de: 'Orte', en: 'Locations' },
 		timeline: { de: 'Zeitplan', en: 'Timeline' },
 		information: { de: 'Information', en: 'Information' },
+		impressum: { de: 'Impressum', en: 'Imprint' },
 		merkliste: { de: 'Merkliste', en: 'Bookmarks' },
 		switchToGerman: { de: 'Zu Deutsch wechseln', en: 'Switch to German' },
 		switchToEnglish: { de: 'Zu Englisch wechseln', en: 'Switch to English' }
@@ -95,7 +96,7 @@ export const UI_TEXTS = {
 
 	announcement: {
 		content: {
-			de: 'Das Programm des UdK Rundgang wird derzeit noch befüllt und enthält noch nicht alle Projekte...',
+			de: 'Das Programm des UdK Rundgang wird derzeit befüllt und enthält noch nicht alle Projekte...',
 			en: 'The program of the UdK Rundgang is currently being filled and does not yet contain all projects...'
 		}
 	},
