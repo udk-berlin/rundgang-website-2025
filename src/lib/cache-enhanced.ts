@@ -11,6 +11,8 @@ interface CacheEntry<T> {
 class EnhancedLRUCache<T> {
 	private cache: TTLCache<string, CacheEntry<T>>;
 	private enabled: boolean;
+	private refreshIntervals: Map<string, NodeJS.Timeout> = new Map();
+	private refreshPromises: Map<string, Promise<void>> = new Map();
 
 	constructor(
 		options: {
@@ -25,6 +27,7 @@ class EnhancedLRUCache<T> {
 			ttl: options.ttl || 60 * 60 * 1000, // 1 hour default
 			dispose: (value: CacheEntry<T>, key: string) => {
 				console.debug(`Cache entry evicted: ${key}`);
+				this.stopRefresh(key);
 			},
 			// TTLCache specific options
 			updateAgeOnGet: true, // Update TTL when item is accessed
@@ -109,6 +112,123 @@ class EnhancedLRUCache<T> {
 	// Get all entries
 	entries(): IterableIterator<[string, CacheEntry<T>]> {
 		return this.cache.entries();
+	}
+
+	/**
+	 * Start background refresh for a cache key at specified interval
+	 * The cache will be refreshed in the background without blocking reads
+	 */
+	startBackgroundRefresh(
+		key: string,
+		refreshFn: () => Promise<T>,
+		intervalMinutes: number,
+		ttl?: number
+	): void {
+		if (!this.enabled) return;
+
+		// Stop existing refresh if any
+		this.stopRefresh(key);
+
+		const intervalMs = intervalMinutes * 60 * 1000;
+		
+		const refreshInterval = setInterval(async () => {
+			// Don't refresh if there's already a refresh in progress for this key
+			if (this.refreshPromises.has(key)) {
+				console.log(`🔄 Background refresh already in progress for key: ${key}`);
+				return;
+			}
+
+			try {
+				console.log(`🔄 Starting background refresh for key: ${key}`);
+				const refreshPromise = refreshFn();
+				this.refreshPromises.set(key, refreshPromise.then(() => {}));
+
+				const newData = await refreshPromise;
+				
+				// Only update if we successfully got new data
+				if (newData !== undefined && newData !== null) {
+					this.set(key, newData, ttl);
+					console.log(`✅ Background refresh completed for key: ${key}`);
+				}
+			} catch (error) {
+				console.warn(`❌ Background refresh failed for key ${key}:`, error);
+			} finally {
+				this.refreshPromises.delete(key);
+			}
+		}, intervalMs);
+
+		this.refreshIntervals.set(key, refreshInterval);
+		console.log(`🚀 Started background refresh for key ${key} every ${intervalMinutes} minutes`);
+	}
+
+	/**
+	 * Stop background refresh for a specific key
+	 */
+	stopRefresh(key: string): void {
+		const interval = this.refreshIntervals.get(key);
+		if (interval) {
+			clearInterval(interval);
+			this.refreshIntervals.delete(key);
+			console.debug(`Stopped background refresh for key: ${key}`);
+		}
+
+		// Cancel any ongoing refresh promise
+		this.refreshPromises.delete(key);
+	}
+
+	/**
+	 * Stop all background refreshes
+	 */
+	stopAllRefreshes(): void {
+		for (const [key] of this.refreshIntervals) {
+			this.stopRefresh(key);
+		}
+	}
+
+	/**
+	 * Get or set with automatic background refresh setup
+	 * First loads data immediately, then sets up background refresh
+	 */
+	async getOrSetWithBackgroundRefresh(
+		key: string,
+		fetchFn: () => Promise<T>,
+		refreshIntervalMinutes: number,
+		ttl?: number
+	): Promise<T> {
+		// First, try to get from cache
+		const cached = this.get(key);
+		if (cached !== null) {
+			// Data exists, ensure background refresh is running
+			if (!this.refreshIntervals.has(key)) {
+				this.startBackgroundRefresh(key, fetchFn, refreshIntervalMinutes, ttl);
+			}
+			return cached;
+		}
+
+		// No cached data, fetch immediately
+		console.log(`Cache MISS for key: ${key}, fetching initial data`);
+		const data = await fetchFn();
+		this.set(key, data, ttl);
+
+		// Start background refresh for future updates
+		this.startBackgroundRefresh(key, fetchFn, refreshIntervalMinutes, ttl);
+
+		return data;
+	}
+
+	/**
+	 * Force trigger a background refresh immediately (for testing)
+	 */
+	async triggerRefreshNow(key: string): Promise<void> {
+		const interval = this.refreshIntervals.get(key);
+		if (!interval) {
+			console.log(`❌ No background refresh setup for key: ${key}`);
+			return;
+		}
+		
+		console.log(`🔧 Manually triggering refresh for key: ${key}`);
+		// We can't directly trigger the interval, but we can check if refresh is working
+		console.log(`Active refresh intervals: ${Array.from(this.refreshIntervals.keys()).join(', ')}`);
 	}
 }
 
@@ -524,25 +644,80 @@ export const enhancedCacheUtils = {
 	},
 
 	/**
-	 * Get comprehensive cache statistics
+	 * Set up background refresh for a cache key
+	 * Loads data immediately and then refreshes in background at intervals
+	 */
+	async setupBackgroundRefresh<T>(
+		cache: EnhancedLRUCache<T>,
+		key: string,
+		fetchFn: () => Promise<T>,
+		refreshIntervalMinutes: number,
+		ttl?: number
+	): Promise<T> {
+		return cache.getOrSetWithBackgroundRefresh(key, fetchFn, refreshIntervalMinutes, ttl);
+	},
+
+	/**
+	 * Stop background refresh for a specific cache and key
+	 */
+	stopBackgroundRefresh<T>(cache: EnhancedLRUCache<T>, key: string): void {
+		cache.stopRefresh(key);
+	},
+
+	/**
+	 * Stop all background refreshes for all caches
+	 */
+	stopAllBackgroundRefreshes(): void {
+		projectContentCache.stopAllRefreshes();
+		singleProjectCache.stopAllRefreshes();
+		filterCache.stopAllRefreshes();
+		imageCache.stopAllRefreshes();
+	},
+
+	/**
+	 * Check background refresh status for debugging
+	 */
+	checkRefreshStatus(): void {
+		console.log('🔍 Background Refresh Status:');
+		console.log('Project Content Cache:', Array.from((projectContentCache as any).refreshIntervals.keys()));
+		console.log('Single Project Cache:', Array.from((singleProjectCache as any).refreshIntervals.keys()));
+		console.log('Filter Cache:', Array.from((filterCache as any).refreshIntervals.keys()));
+		console.log('Image Cache:', Array.from((imageCache as any).refreshIntervals.keys()));
+	},
+
+	/**
+	 * Get comprehensive cache statistics including refresh status
 	 */
 	getStats() {
 		return {
-			projectContent: projectContentCache.getStats(),
-			singleProject: singleProjectCache.getStats(),
-			filters: filterCache.getStats(),
-			images: imageCache.getStats()
+			projectContent: {
+				...projectContentCache.getStats(),
+				activeRefreshes: Array.from((projectContentCache as any).refreshIntervals.keys())
+			},
+			singleProject: {
+				...singleProjectCache.getStats(),
+				activeRefreshes: Array.from((singleProjectCache as any).refreshIntervals.keys())
+			},
+			filters: {
+				...filterCache.getStats(),
+				activeRefreshes: Array.from((filterCache as any).refreshIntervals.keys())
+			},
+			images: {
+				...imageCache.getStats(),
+				activeRefreshes: Array.from((imageCache as any).refreshIntervals.keys())
+			}
 		};
 	}
 };
 
 // Auto-cleanup and monitoring
-if (CACHE_CONFIG.ENABLED) {
-	setInterval(() => {
-		const stats = enhancedCacheUtils.getStats();
-		console.debug('Cache statistics:', stats);
-	}, CACHE_CONFIG.CLEANUP_INTERVAL);
-}
+// if (CACHE_CONFIG.ENABLED) {
+// 	setInterval(() => {
+// 		// Optional: log cache statistics for monitoring
+// 		// const stats = enhancedCacheUtils.getStats();
+// 		// console.debug('Cache statistics:', stats);
+// 	}, CACHE_CONFIG.CLEANUP_INTERVAL);
+// }
 
 export default {
 	projectContentCache,

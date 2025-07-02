@@ -12,46 +12,6 @@ import type { KirbyProjectResponse } from '$lib/api/types/kirby';
 import { PROJECT_SELECTS, PROJECT_QUERIES } from '$lib/api/queries/kirby';
 import { locationMatchData } from '$lib/data/locations';
 
-/**
- * Seeded random number generator for deterministic shuffling on server
- */
-class SeededRandom {
-	private seed: number;
-
-	constructor(seed: string | number) {
-		this.seed = typeof seed === 'string' ? this.hashString(seed) : seed;
-	}
-
-	private hashString(str: string): number {
-		let hash = 0;
-		for (let i = 0; i < str.length; i++) {
-			const char = str.charCodeAt(i);
-			hash = (hash << 5) - hash + char;
-			hash = hash & hash; // Convert to 32-bit integer
-		}
-		return Math.abs(hash);
-	}
-
-	next(): number {
-		this.seed = (this.seed * 1103515245 + 12345) & 0x7fffffff;
-		return this.seed / 0x7fffffff;
-	}
-}
-
-/**
- * Deterministic Fisher-Yates shuffle using seeded random generator
- */
-function deterministicShuffle<T>(array: T[], seed: string | number): T[] {
-	const shuffled = [...array];
-	const rng = new SeededRandom(seed);
-
-	for (let i = shuffled.length - 1; i > 0; i--) {
-		const j = Math.floor(rng.next() * (i + 1));
-		[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-	}
-
-	return shuffled;
-}
 
 // Interfaces for parsed content_field blocks
 export interface HeadingContentData {
@@ -501,7 +461,8 @@ export const POST: RequestHandler = async ({ request }) => {
 		});
 
 		// Check cache first
-		const cached = filterCache.get(cacheKey);
+		// const cached = filterCache.get(cacheKey);
+		const cached = null;
 		if (cached !== null) {
 			console.log(`🎯 Projects cache HIT for ${cacheKey}`);
 			console.log(`📊 Cache hit performance: 0ms (vs ~6000ms without cache)`);

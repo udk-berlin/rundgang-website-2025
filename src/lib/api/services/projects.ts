@@ -273,13 +273,13 @@ class ProjectsService {
 	/**
 	 * Initialize cache with all project metadata on app startup
 	 * Pre-loads both German and English data for instant language switching
+	 * Note: Background refresh is now handled server-side
 	 */
 	async initializeCache(language: 'DE' | 'EN' = 'EN'): Promise<void> {
 		try {
-			console.log('Initializing project cache with both languages...');
+			console.log('Initializing client-side project cache...');
 
-			// Pre-load both languages by calling fetchAllMetadata
-			// This will trigger the preloadBothLanguages utility
+			// Pre-load both languages by calling fetchAllProjects
 			await this.fetchAllProjects(
 				{
 					shuffle: true,
@@ -288,9 +288,9 @@ class ProjectsService {
 				language
 			);
 
-			// console.log('Project cache initialized successfully with both languages');
+			console.log('✅ Client-side project cache initialized (server handles background refresh)');
 		} catch (error) {
-			// console.error('Failed to initialize project cache:', error);
+			console.error('Failed to initialize client-side project cache:', error);
 		}
 	}
 

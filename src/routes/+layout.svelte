@@ -35,7 +35,7 @@
 		// Initialize filter data when the app starts
 		initializeFilters();
 
-		// Initialize project cache in the background
+		// Project cache is now initialized server-side
 		// initializeApp();
 	});
 
