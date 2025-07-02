@@ -25,7 +25,6 @@ vite.config.ts.timestamp-*
 # logs
 *.log
 
-/.serena
-
-# Fonts
-static/fonts
+# ignore static/fonts
+/static/fonts
+*.woff2

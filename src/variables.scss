@@ -1,0 +1,113 @@
+$black: #000000;
+$white: #ffffff;
+$grey: #f0f0f0;
+$grey_medium: #cfcfcf;
+
+$color_pink: #fe4aae;
+$color_yellow: #ffff33;
+$color_purple: #685b6f;
+$color_olive: #93996d;
+
+$color_day_friday: $color_yellow;
+$color_day_saturday: $color_purple;
+$color_day_sunday: $color_olive;
+
+$color_shadow: rgba($black, 0.05);
+$box-shadow: -10px 0 10px 0 rgba($black, 0.1);
+$paper-shadow-large:
+	0 0 50px 0 rgba(0, 0, 0, 0.1),
+	0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+// Breakpoints
+$breakpoint-mobile: 320px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+$breakpoint-large: 1440px;
+$breakpoint-xlarge: 1920px;
+
+// Border radius
+$border-radius: 0.5em;
+
+// Font sizes
+$font-small: 12px;
+$font-medium: 1rem;
+$font-large: 1.5rem;
+$font-xlarge: 2rem;
+$font-size-project-count: 0.75em;
+
+// Opacity etc.
+$overlay-opacity: 0.5;
+
+// Spacing
+$header-height: 1.5rem; // 2*0.25rem padding-v + 1rem font-size
+$body-header-spacing: 5rem;
+$body-padding-h-mobile: 1ch;
+$body-padding-h-desktop: 1rem;
+
+// Padding for components
+$overlay-padding: 0.5rem;
+
+// Media query mixins
+@mixin mobile-only {
+	@media (max-width: #{$breakpoint-tablet - 1}) {
+		@content;
+	}
+}
+
+@mixin tablet-only {
+	@media (min-width: #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop - 1}) {
+		@content;
+	}
+}
+
+@mixin mobile-and-tablet {
+	@media (max-width: #{$breakpoint-desktop - 1}) {
+		@content;
+	}
+}
+
+@mixin desktop {
+	@media (min-width: #{$breakpoint-desktop}) {
+		@content;
+	}
+}
+
+@mixin large {
+	@media (min-width: #{$breakpoint-large}) {
+		@content;
+	}
+}
+
+@mixin xlarge {
+	@media (min-width: #{$breakpoint-xlarge}) {
+		@content;
+	}
+}
+
+// Horizontal margin and padding mixins
+@mixin margin-h($value) {
+	margin-left: $value;
+	margin-right: $value;
+}
+
+@mixin padding-h($value) {
+	padding-left: $value;
+	padding-right: $value;
+}
+
+// Horizontal margin and padding mixins
+@mixin margin-v($value) {
+	margin-top: $value;
+	margin-bottom: $value;
+}
+
+@mixin padding-v($value) {
+	padding-top: $value;
+	padding-bottom: $value;
+}
+
+// highlighting
+a:hover {
+	color: $color_pink;
+	transition: color 100ms ease-in-out;
+}

@@ -1,0 +1,61 @@
+name: Deploy Production (Node.js)
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '19'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build SvelteKit app
+        run: npm run build
+        env:
+          NODE_ENV: development
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+          API_AUTH: ${{ secrets.API_AUTH }}
+          PORT: ${{ vars.PORT }}
+          FONTS: ${{ vars.FONTS }}
+
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Show SSH Keys in Agent
+        run: ssh-add -L
+
+      - name: Deploy to server with rsync
+        run: |
+          rsync -avzr --delete \
+            --exclude '.env' \
+            --exclude '.git*' \
+            --exclude 'node_modules/' \
+            -e "ssh -o StrictHostKeyChecking=accept-new" \
+            build \
+            package.json \
+            ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }}:${{ vars.DEPLOY_PATH }}
+
+      - name: Post-deployment commands on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ vars.SSH_HOST }}
+          username: ${{ vars.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ vars.SSH_PORT || 22 }}
+          script: |
+            cd ${{ vars.DEPLOY_PATH }}
+            npm clean-install --omit=dev --legacy-peer-deps
+            sudo systemctl restart rundgang-website-2025.service
