@@ -110,7 +110,7 @@
 	<div class="info-container">
 		<AccordionList items={accordionData}>
 			<div slot="head" let:item>
-				<h5>{item.title.text}</h5>
+				<h5>{@html item.title.text}</h5>
 			</div>
 
 			<div slot="details" let:item class="info-content">
