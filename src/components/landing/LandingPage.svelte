@@ -46,7 +46,7 @@
 				</a>
 				<a href="/information">
 					<img src="{base}/icons/arrows/arrow_6.png" alt="arrow" class="nav-arrow" />
-					{getUIText('menu.information', $activeLanguage)}
+					{getUIText('menu.faq', $activeLanguage)}
 				</a>
 			</div>
 		</div>
