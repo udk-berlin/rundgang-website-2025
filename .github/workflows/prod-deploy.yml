@@ -34,7 +34,6 @@ jobs:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
           API_AUTH: ${{ secrets.API_AUTH }}
           PORT: ${{ secrets.PORT }}
-          FONTS: ${{ secrets.FONTS }}
 
       - name: Install SSH key
         uses: webfactory/ssh-agent@v0.9.0
@@ -50,7 +49,7 @@ jobs:
             --exclude '.env' \
             --exclude '.git*' \
             --exclude 'node_modules/' \
-            --exclude 'static/fonts/' \
+            --exclude 'build/client/fonts/' \
             -e "ssh -o StrictHostKeyChecking=accept-new" \
             build \
             package.json \

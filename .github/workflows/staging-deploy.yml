@@ -36,7 +36,6 @@ jobs:
           PUBLIC_ENABLE_IMAGE_PROXY: true
           PUBLIC_STAGING_PROXY_SERVER: 'https://rundgang-website-2025.medienhaus.udk-berlin.de/proxy-image/'
           PORT: ${{ secrets.PORT }}
-          FONTS: ${{ secrets.FONTS }}
 
       - name: Install SSH key
         uses: webfactory/ssh-agent@v0.9.0
@@ -49,7 +48,7 @@ jobs:
             --exclude '.env' \
             --exclude '.git*' \
             --exclude 'node_modules/' \
-            --exclude 'static/fonts/' \
+            --exclude 'build/client/fonts/' \
             -e "ssh -o StrictHostKeyChecking=accept-new" \
             build \
             package.json \
