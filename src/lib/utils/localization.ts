@@ -87,7 +87,7 @@ export const UI_TEXTS = {
 		overview: { de: 'Übersicht', en: 'Overview' },
 		locations: { de: 'Orte', en: 'Locations' },
 		timeline: { de: 'Zeitplan', en: 'Timeline' },
-		information: { de: 'Information', en: 'Information' },
+		faq: { de: 'FAQ', en: 'FAQ' },
 		impressum: { de: 'Impressum', en: 'Imprint' },
 		contacts: { de: 'Kontakte', en: 'Contacts' },
 		merkliste: { de: 'Merkliste', en: 'Bookmarks' },

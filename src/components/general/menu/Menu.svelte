@@ -18,17 +18,17 @@
 </script>
 
 {#snippet menuItems()}
-	<a href="/overview" class:active={page.url.pathname === '/overview'}
+	<!-- <a href="/overview" class:active={page.url.pathname === '/overview'}
 		>{getUIText('menu.overview', $activeLanguage)}</a
-	>
+	> -->
 	<a href="/locations" class:active={page.url.pathname === '/locations'}
 		>{getUIText('menu.locations', $activeLanguage)}</a
 	>
 	<a href="/timeline" class:active={page.url.pathname === '/timeline'}
 		>{getUIText('menu.timeline', $activeLanguage)}</a
 	>
-	<a href="/information" class:active={page.url.pathname === '/information'}
-		>{getUIText('menu.information', $activeLanguage)}</a
+	<a href="/faq" class:active={page.url.pathname === '/faq'}
+		>{getUIText('menu.faq', $activeLanguage)}</a
 	>
 
 	<div class="footer-menu">
