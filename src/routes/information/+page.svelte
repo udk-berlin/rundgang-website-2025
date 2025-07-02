@@ -2,8 +2,70 @@
 	import { activeLanguage } from '$lib/stores/language';
 	import { getUIText } from '$lib/utils/localization';
 	import AccordionList from '../../components/general/accordion/AccordionList.svelte';
+	import { page } from '$app/stores';
 
-	const accordionData = [
+	interface ApiResponse {
+		result: Array<{
+			title: string;
+			modified: string;
+			url: string;
+			content: Array<{
+				title?: string;
+				text?: string;
+				content?: string;
+			}>;
+		}>;
+	}
+
+	interface PageData {
+		enData: ApiResponse;
+		deData: ApiResponse;
+	}
+
+	export let data: PageData;
+
+	$: console.log(data);
+
+	// Function to extract accordion data from the API response
+	function extractAccordionData(apiData: ApiResponse) {
+		if (!apiData?.result?.length) return [];
+		
+		const pageData = apiData.result[0];
+		if (!pageData?.content?.length) return [];
+
+		// Transform the content blocks into accordion format
+		return pageData.content.map((block, index) => ({
+			id: `faq-${index}`,
+			title: block.title || `FAQ Item ${index + 1}`,
+			content: block.text || block.content || 'No content available.'
+		}));
+	}
+
+	// Function to extract main text content
+	function extractMainContent(apiData: ApiResponse): string {
+		if (!apiData?.result?.length) return '';
+		
+		const pageData = apiData.result[0];
+		if (!pageData?.content?.length) return '';
+
+		// Look for main text content - assuming it's the first block or has specific structure
+		const firstBlock = pageData.content[0];
+		console.log("First block:", firstBlock);
+		return firstBlock?.content?.text || firstBlock?.content || '';
+	}
+
+	// Reactive statement to get accordion data based on current language
+	$: accordionData = $activeLanguage === 'DE' 
+		? extractAccordionData(data.deData)
+		: extractAccordionData(data.enData);
+
+	// Reactive statement to get main content based on current language
+	$: mainContent = $activeLanguage === 'DE'
+		? extractMainContent(data.deData)
+		: extractMainContent(data.enData);
+
+	// Fallback accordion data in case API data is not available
+	const fallbackAccordionData = [
 		{
 			id: 'accessibility',
 			title: 'Accessibility',
@@ -95,6 +157,21 @@
 			content: 'Content about wristbands goes here.'
 		}
 	];
+
+	const fallbackMainContent = `From the 18th to the 20th of July, the Berlin University of the Arts invites you to the Rundgang
+		– Open Days. Workshops, studios and rehearsal rooms of the colleges of Fine Arts, Architecture, Media
+		and Design, Music and Performing Arts as well as the Inter-University Centre for Dance Berlin, the
+		Jazz Institute Berlin and the Berlin Career College open their doors at the end of the academic year.
+		From painting, sculpture, and performance to design sketches, fashion shows, and film screenings
+		to concerts, dance, and sound installations, students will show the results and processes of their
+		artistic work. Everyone who would like to get to know the University as a place of encounter and
+		discourse for the arts and sciences is invited to the Rundgang. In addition, a wide range of advisory
+		services offers prospective students a concrete insight into the diverse range of courses offered
+		by the Berlin University of the Arts.`;
+
+	// Use fallback data if no data is available
+	$: finalAccordionData = accordionData.length > 0 ? accordionData : fallbackAccordionData;
+	$: finalMainContent = mainContent || fallbackMainContent;
 </script>
 
 <svelte:head>
@@ -111,25 +188,16 @@
 		<h1>
 			{getUIText('pages.information', $activeLanguage)}
 		</h1>
-		From the 18th to the 20th of July, the Berlin University of the Arts invites you to the Rundgang
-		– Open Days. Workshops, studios and rehearsal rooms of the colleges of Fine Arts, Architecture, Media
-		and Design, Music and Performing Arts as well as the Inter-University Centre for Dance Berlin, the
-		Jazz Institute Berlin and the Berlin Career College open their doors at the end of the academic year.
-		From painting, sculpture, and performance to design sketches, fashion shows, and film screenings
-		to concerts, dance, and sound installations, students will show the results and processes of their
-		artistic work. Everyone who would like to get to know the University as a place of encounter and
-		discourse for the arts and sciences is invited to the Rundgang. In addition, a wide range of advisory
-		services offers prospective students a concrete insight into the diverse range of courses offered
-		by the Berlin University of the Arts.
+		<p>{@html finalMainContent}</p>
 	</div>
 	<div class="info-container">
-		<AccordionList items={accordionData}>
+		<AccordionList items={finalAccordionData}>
 			<div slot="head" let:item>
 				<h5>{item.title}</h5>
 			</div>
 
 			<div slot="details" let:item class="info-content">
-				<p>{item.content}</p>
+				<p>{@html item.content.text}</p>
 			</div>
 		</AccordionList>
 	</div>
