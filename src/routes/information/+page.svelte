@@ -13,6 +13,7 @@
 				title?: string;
 				text?: string;
 				content?: string;
+				type?: string;
 			}>;
 		}>;
 	}
@@ -29,12 +30,17 @@
 	// Function to extract accordion data from the API response
 	function extractAccordionData(apiData: ApiResponse) {
 		if (!apiData?.result?.length) return [];
-		
+
 		const pageData = apiData.result[0];
 		if (!pageData?.content?.length) return [];
 
+		// Create a copy of content array without the first element (which is the main content)
+		// The content strucuture of the two language version differs, that is why, as a very basic fallback, we start the Accordion list at with or after the first item
+		const accordionContent =
+			pageData.content[0]?.type === 'text' ? pageData.content.slice(1) : pageData.content;
+
 		// Transform the content blocks into accordion format
-		return pageData.content.map((block, index) => ({
+		return accordionContent.map((block, index) => ({
 			id: `faq-${index}`,
 			title: block.title || `FAQ Item ${index + 1}`,
 			content: block.text || block.content || 'No content available.'
@@ -44,25 +50,35 @@
 	// Function to extract main text content
 	function extractMainContent(apiData: ApiResponse): string {
 		if (!apiData?.result?.length) return '';
-		
+
 		const pageData = apiData.result[0];
 		if (!pageData?.content?.length) return '';
 
 		// Look for main text content - assuming it's the first block or has specific structure
 		const firstBlock = pageData.content[0];
-		console.log("First block:", firstBlock);
-		return firstBlock?.content?.text || firstBlock?.content || '';
+
+		// The content strucuture of the two language version differs, that is why, as a very basic fallback, we return the English version on the German page aswell, as this is missing
+		if (firstBlock?.type === 'text') {
+			if (typeof firstBlock?.content === 'string') {
+				return firstBlock.content;
+			} else if (typeof firstBlock?.content === 'object' && firstBlock?.content) {
+				return (firstBlock.content as any).text || '';
+			}
+			return firstBlock?.text || '';
+		} else {
+			return 'The Berlin University of the Arts invites you to the Rundgang – Open Days from 18 to 20 July 2025. Workshops, studios and rehearsal rooms of the colleges of Fine Arts, Architecture, Media and Design, Music and Performing Arts as well as the Jazz Institute Berlin and the Berlin Career College open their doors at the end of the academic year. From painting, sculpture, and performance to design sketches, fashion shows, and film screenings to concerts, dance, and sound installations, students will show the results and processes of their artistic work. Everyone who would like to get to know the University as a place of encounter and discourse for the arts and sciences is invited to the Rundgang - Open Days. In addition, a wide range of advisory services offers prospective students a concrete insight into the diverse range of courses offered by the Berlin University of the Arts.';
+		}
 	}
 
 	// Reactive statement to get accordion data based on current language
-	$: accordionData = $activeLanguage === 'DE' 
-		? extractAccordionData(data.deData)
-		: extractAccordionData(data.enData);
+	$: accordionData =
+		$activeLanguage === 'DE'
+			? extractAccordionData(data.deData)
+			: extractAccordionData(data.enData);
 
 	// Reactive statement to get main content based on current language
-	$: mainContent = $activeLanguage === 'DE'
-		? extractMainContent(data.deData)
-		: extractMainContent(data.enData);
+	$: mainContent =
+		$activeLanguage === 'DE' ? extractMainContent(data.deData) : extractMainContent(data.enData);
 
 	// Fallback accordion data in case API data is not available
 	const fallbackAccordionData = [
