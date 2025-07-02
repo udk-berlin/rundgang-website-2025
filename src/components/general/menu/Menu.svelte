@@ -35,6 +35,9 @@
 		<a href="https://www.udk-berlin.de/rundgang/impressum-1/">
 			{getUIText('menu.impressum', $activeLanguage)}
 		</a>
+		<a href="https://www.udk-berlin.de/rundgang/impressum-1/">
+			{getUIText('menu.contacts', $activeLanguage)}
+		</a>
 	</div>
 
 	<LanguageSwitcher />

@@ -89,6 +89,7 @@ export const UI_TEXTS = {
 		timeline: { de: 'Zeitplan', en: 'Timeline' },
 		information: { de: 'Information', en: 'Information' },
 		impressum: { de: 'Impressum', en: 'Imprint' },
+		contacts: { de: 'Kontakte', en: 'Contacts' },
 		merkliste: { de: 'Merkliste', en: 'Bookmarks' },
 		switchToGerman: { de: 'Zu Deutsch wechseln', en: 'Switch to German' },
 		switchToEnglish: { de: 'Zu Englisch wechseln', en: 'Switch to English' }
