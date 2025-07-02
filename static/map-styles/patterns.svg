@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <defs>
+    <!-- Water wave pattern -->
+    <pattern id="water-pattern" x="0" y="0" width="16" height="8" patternUnits="userSpaceOnUse">
+      <rect width="16" height="8" fill="white"/>
+      <path d="M0,4 Q2,2 4,4 T8,4 T12,4 T16,4" stroke="black" stroke-width="0.5" fill="none"/>
+      <path d="M0,6 Q2,4 4,6 T8,6 T12,6 T16,6" stroke="black" stroke-width="0.3" fill="none"/>
+    </pattern>
+    
+    <!-- Dotted pattern for parks -->
+    <pattern id="dots-pattern" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+      <rect width="8" height="8" fill="white"/>
+      <circle cx="2" cy="2" r="0.5" fill="black"/>
+      <circle cx="6" cy="6" r="0.5" fill="black"/>
+      <circle cx="2" cy="6" r="0.3" fill="black"/>
+      <circle cx="6" cy="2" r="0.3" fill="black"/>
+    </pattern>
+    
+    <!-- Cross-hatch pattern for buildings -->
+    <pattern id="hatch-pattern" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+      <rect width="8" height="8" fill="white"/>
+      <path d="M0,0 L8,8 M0,8 L8,0" stroke="black" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  
+  <!-- Define pattern swatches for sprite generation -->
+  <rect x="0" y="0" width="16" height="16" fill="url(#water-pattern)" id="water-pattern"/>
+  <rect x="16" y="0" width="16" height="16" fill="url(#dots-pattern)" id="dots-pattern"/>
+  <rect x="32" y="0" width="16" height="16" fill="url(#hatch-pattern)" id="hatch-pattern"/>
+</svg>

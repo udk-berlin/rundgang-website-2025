@@ -1,0 +1,69 @@
+name: Deploy Production (Node.js)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: The branch, tag or SHA to checkout
+        required: true
+        default: 'main'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '19'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build SvelteKit app
+        run: npm run build
+        env:
+          NODE_ENV: development
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          API_AUTH: ${{ secrets.API_AUTH }}
+          PORT: ${{ secrets.PORT }}
+          FONTS: ${{ secrets.FONTS }}
+
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Show SSH Keys in Agent
+        run: ssh-add -L
+
+      - name: Deploy to server with rsync
+        run: |
+          rsync -avzr --delete \
+            --exclude '.env' \
+            --exclude '.git*' \
+            --exclude 'node_modules/' \
+            --exclude 'static/fonts/' \
+            -e "ssh -o StrictHostKeyChecking=accept-new" \
+            build \
+            package.json \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}
+
+      - name: Post-deployment commands on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script: |
+            cd ${{ secrets.DEPLOY_PATH }}
+            npm clean-install --omit=dev --legacy-peer-deps
+            sudo systemctl restart rundgang-website-2025.service

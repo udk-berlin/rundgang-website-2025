@@ -1,0 +1,68 @@
+name: Deploy Staging (Node.js)
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: The branch, tag or SHA to checkout
+        required: true
+        default: 'main'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '19'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build SvelteKit app
+        run: npm run build
+        env:
+          NODE_ENV: development
+          API_BASE_URL: ${{ secrets.STAGING_API_BASE_URL }}
+          API_AUTH: ${{ secrets.STAGING_API_AUTH }}
+          PUBLIC_ENABLE_IMAGE_PROXY: true
+          PUBLIC_STAGING_PROXY_SERVER: 'https://rundgang-website-2025.medienhaus.udk-berlin.de/proxy-image/'
+          PORT: ${{ secrets.PORT }}
+          FONTS: ${{ secrets.FONTS }}
+
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_STAGING_PRIVATE_KEY }}
+
+      - name: Deploy to server with rsync
+        run: |
+          rsync -avzr --delete \
+            --exclude '.env' \
+            --exclude '.git*' \
+            --exclude 'node_modules/' \
+            --exclude 'static/fonts/' \
+            -e "ssh -o StrictHostKeyChecking=accept-new" \
+            build \
+            package.json \
+            ${{ secrets.STAGING_SSH_USER }}@${{ secrets.STAGING_SSH_HOST }}:${{ secrets.STAGING_DEPLOY_PATH }}
+
+      - name: Post-deployment commands on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.STAGING_SSH_HOST }}
+          username: deploy
+          key: ${{ secrets.SSH_STAGING_PRIVATE_KEY }}
+          port: ${{ secrets.STAGING_SSH_PORT || 22 }}
+          script: |
+            cd ${{ secrets.DEPLOY_PATH }}
+            npm clean-install --omit=dev --legacy-peer-deps
+            sudo systemctl restart rundgang-website-2025.service
