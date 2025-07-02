@@ -53,6 +53,7 @@ jobs:
             -e "ssh -o StrictHostKeyChecking=accept-new" \
             build \
             package.json \
+            package-lock.json \
             ${{ secrets.STAGING_SSH_USER }}@${{ secrets.STAGING_SSH_HOST }}:${{ secrets.STAGING_DEPLOY_PATH }}
 
       - name: Post-deployment commands on server
