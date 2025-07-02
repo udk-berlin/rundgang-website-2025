@@ -44,7 +44,7 @@
 					<img src="{base}/icons/arrows/arrow_6.png" alt="arrow" class="nav-arrow" />
 					{getUIText('menu.timeline', $activeLanguage)}
 				</a>
-				<a href="/information">
+				<a href="/faq">
 					<img src="{base}/icons/arrows/arrow_6.png" alt="arrow" class="nav-arrow" />
 					{getUIText('menu.faq', $activeLanguage)}
 				</a>
