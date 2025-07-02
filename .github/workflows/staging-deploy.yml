@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - develop
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: The branch, tag or SHA to checkout
+        required: true
+        default: 'main'
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
