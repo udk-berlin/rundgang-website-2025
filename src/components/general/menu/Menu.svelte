@@ -32,10 +32,10 @@
 	>
 
 	<div class="footer-menu">
-		<a href="https://www.udk-berlin.de/rundgang/impressum-1/">
+		<a href="/imprint">
 			{getUIText('menu.impressum', $activeLanguage)}
 		</a>
-		<a href="https://www.udk-berlin.de/rundgang/impressum-1/">
+		<a href="/contacts">
 			{getUIText('menu.contacts', $activeLanguage)}
 		</a>
 	</div>

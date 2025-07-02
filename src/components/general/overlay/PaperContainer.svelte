@@ -6,6 +6,7 @@
 	export let width: string = 'auto';
 	export let height: string = 'auto';
 	export let vertical: 'top' | 'bottom' = 'top';
+	export let fixed: boolean = true;
 
 	const rotation = staticRotation ?? getRandomRotation();
 </script>
@@ -14,6 +15,7 @@
 	class="paper-container"
 	class:top={vertical === 'top'}
 	class:bottom={vertical === 'bottom'}
+	class:fixed
 	style="--rotation: {rotation}deg; --padding: {padding}; --width: {width}; --height: {height};"
 >
 	<slot />
@@ -21,7 +23,7 @@
 
 <style lang="scss">
 	.paper-container {
-		position: fixed;
+		position: relative;
 		background-color: $white;
 		border-radius: $border-radius;
 		box-shadow: $paper-shadow-large;
@@ -37,8 +39,11 @@
 		align-items: center;
 		transform: rotate(var(--rotation));
 
-		@include desktop {
+		&.fixed {
 			position: fixed;
+		}
+
+		@include desktop {
 			width: var(--width);
 			border: 1px solid black;
 			left: 0;
