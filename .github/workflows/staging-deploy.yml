@@ -24,12 +24,12 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: development
-          API_BASE_URL: ${{ vars.STAGING_API_BASE_URL }}
+          API_BASE_URL: ${{ secrets.STAGING_API_BASE_URL }}
           API_AUTH: ${{ secrets.STAGING_API_AUTH }}
           PUBLIC_ENABLE_IMAGE_PROXY: true
           PUBLIC_STAGING_PROXY_SERVER: 'https://rundgang-website-2025.medienhaus.udk-berlin.de/proxy-image/'
-          PORT: ${{ vars.PORT }}
-          FONTS: ${{ vars.FONTS }}
+          PORT: ${{ secrets.PORT }}
+          FONTS: ${{ secrets.FONTS }}
 
       - name: Install SSH key
         uses: webfactory/ssh-agent@v0.9.0
@@ -46,16 +46,16 @@ jobs:
             -e "ssh -o StrictHostKeyChecking=accept-new" \
             build \
             package.json \
-            ${{ vars.STAGING_SSH_USER }}@${{ vars.STAGING_SSH_HOST }}:${{ vars.DEPLOY_PATH }}
+            ${{ secrets.STAGING_SSH_USER }}@${{ secrets.STAGING_SSH_HOST }}:${{ secrets.DEPLOY_PATH }}
 
       - name: Post-deployment commands on server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ vars.STAGING_SSH_HOST }}
+          host: ${{ secrets.STAGING_SSH_HOST }}
           username: deploy
           key: ${{ secrets.SSH_STAGING_PRIVATE_KEY }}
-          port: ${{ vars.STAGING_SSH_PORT || 22 }}
+          port: ${{ secrets.STAGING_SSH_PORT || 22 }}
           script: |
-            cd ${{ vars.DEPLOY_PATH }}
+            cd ${{ secrets.DEPLOY_PATH }}
             npm clean-install --omit=dev --legacy-peer-deps
             sudo systemctl restart rundgang-website-2025.service

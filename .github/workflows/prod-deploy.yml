@@ -24,10 +24,10 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: development
-          API_BASE_URL: ${{ vars.API_BASE_URL }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
           API_AUTH: ${{ secrets.API_AUTH }}
-          PORT: ${{ vars.PORT }}
-          FONTS: ${{ vars.FONTS }}
+          PORT: ${{ secrets.PORT }}
+          FONTS: ${{ secrets.FONTS }}
 
       - name: Install SSH key
         uses: webfactory/ssh-agent@v0.9.0
@@ -47,16 +47,16 @@ jobs:
             -e "ssh -o StrictHostKeyChecking=accept-new" \
             build \
             package.json \
-            ${{ vars.SSH_USER }}@${{ vars.SSH_HOST }}:${{ vars.DEPLOY_PATH }}
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}
 
       - name: Post-deployment commands on server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ vars.SSH_HOST }}
-          username: ${{ vars.SSH_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ vars.SSH_PORT || 22 }}
+          port: ${{ secrets.SSH_PORT || 22 }}
           script: |
-            cd ${{ vars.DEPLOY_PATH }}
+            cd ${{ secrets.DEPLOY_PATH }}
             npm clean-install --omit=dev --legacy-peer-deps
             sudo systemctl restart rundgang-website-2025.service
