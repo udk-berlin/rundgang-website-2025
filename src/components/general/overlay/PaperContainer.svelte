@@ -3,6 +3,7 @@
 
 	export let staticRotation: number | undefined = undefined;
 	export let padding: string = '2rem';
+	export let paddingLeft: string = '5rem';
 	export let width: string = 'auto';
 	export let height: string = 'auto';
 	export let vertical: 'top' | 'bottom' = 'top';
@@ -16,7 +17,7 @@
 	class:top={vertical === 'top'}
 	class:bottom={vertical === 'bottom'}
 	class:fixed
-	style="--rotation: {rotation}deg; --padding: {padding}; --width: {width}; --height: {height};"
+	style="--rotation: {rotation}deg; --padding: {padding}; --padding-left: {paddingLeft}; --width: {width}; --height: {height};"
 >
 	<slot />
 </div>
@@ -28,7 +29,7 @@
 		border-radius: $border-radius;
 		box-shadow: $paper-shadow-large;
 		padding: var(--padding);
-		padding-left: 5rem;
+		padding-left: var(--padding-left);
 		margin-left: -5rem;
 		height: var(--height);
 		position: relative;
@@ -36,9 +37,12 @@
 		bottom: -1rem;
 		display: flex;
 		justify-content: center;
-		align-items: center;
+		align-items: flex-start;
 		transform: rotate(var(--rotation));
-		transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+		transition:
+			transform 0.3s ease,
+			width 0.3s ease,
+			height 0.3s ease;
 		width: auto;
 
 		&.fixed {
