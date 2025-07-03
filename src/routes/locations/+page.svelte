@@ -242,7 +242,7 @@
 	<MobileViewToggle
 		bind:this={mobileViewToggle}
 		leftPanelRatio={0.33}
-		initialView="right"
+		initialView="left"
 		titles={{
 			left: getUIText('locations.mobileViewToggle.left', $activeLanguage),
 			right: getUIText('locations.mobileViewToggle.right', $activeLanguage)

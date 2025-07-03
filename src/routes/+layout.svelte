@@ -112,7 +112,7 @@
 		@include desktop {
 			text-align: left;
 			font-size: 4rem;
-			margin: 4rem 0 2rem 0;
+			margin: 2rem 0 2rem 0;
 		}
 	}
 </style>

@@ -85,7 +85,7 @@
 			<div
 				class="view-panel left-panel"
 				class:active={currentView === 'left'}
-				style="transform: translateX({currentView === 'left' ? '0' : '-85vw'})"
+				style="transform: translateX({currentView === 'left' ? '0' : '-95vw'})"
 			>
 				<slot name="left" />
 			</div>
