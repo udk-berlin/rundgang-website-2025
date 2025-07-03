@@ -85,7 +85,7 @@
 			<div
 				class="view-panel left-panel"
 				class:active={currentView === 'left'}
-				style="transform: translateX({currentView === 'left' ? '0' : '-100%'})"
+				style="transform: translateX({currentView === 'left' ? '0' : '-85vw'})"
 			>
 				<slot name="left" />
 			</div>
@@ -94,7 +94,7 @@
 			<div
 				class="view-panel right-panel"
 				class:active={currentView === 'right'}
-				style="transform: translateX({currentView === 'right' ? '0' : '100%'})"
+				style="transform: translateX({currentView === 'right' ? '0' : '10vw'})"
 			>
 				<slot name="right" />
 			</div>
@@ -215,6 +215,10 @@
 		flex-direction: row;
 		flex-wrap: nowrap;
 		height: 100%;
+	}
+
+	.left-panel {
+		z-index: 2; // Render above right panel
 	}
 
 	.desktop-views .left-panel {
