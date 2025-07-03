@@ -76,7 +76,7 @@
 </svelte:head>
 
 <main>
-	<PaperContainer fixed={false}>
+	<PaperContainer fixed={false} staticRotation={-1} paddingLeft="6.5rem">
 		<div class="content-container">
 			<h1>{@html contentData.heading}</h1>
 			<div class="content-text">
