@@ -29,7 +29,7 @@
 		box-shadow: $paper-shadow-large;
 		padding: var(--padding);
 		padding-left: 5rem;
-		margin-left: -3rem;
+		margin-left: -5rem;
 		height: var(--height);
 		position: relative;
 		left: -1rem;

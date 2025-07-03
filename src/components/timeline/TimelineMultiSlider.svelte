@@ -285,15 +285,22 @@
 	.day-header {
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
+		align-items: flex-end;
 		margin-bottom: 0.5rem;
+
+		@include desktop {
+			align-items: center;
+		}
 
 		h3 {
 			margin: 0;
 			font-size: $font-medium;
-			font-weight: normal;
+			font-weight: bold;
+			padding-top: 0.5rem; // to prevent layout shift when clear button appears (because that is larger)
 
 			@include desktop {
+				padding-top: 0;
+				font-weight: normal;
 				font-size: $font-large;
 			}
 		}
