@@ -391,7 +391,7 @@
 		@include mobile-only {
 			:global(.paper-container) {
 				width: 100vw;
-				height: fit-content;
+				height: auto;
 				margin: 0;
 				left: -2rem;
 				bottom: 5rem; // to be visible above toggle button
