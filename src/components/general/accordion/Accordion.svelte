@@ -7,6 +7,7 @@
 
 	export let open = false;
 	export let showDivider = true;
+	export let showDividerTop = false;
 	export let textAlign = 'left'; // 'left' or 'right'
 	export let contentAlign = 'left'; // 'left' or 'right'
 	export let noMargin = false;
@@ -63,6 +64,28 @@
 		</button>
 	</div>
 
+	{#if showDividerTop}
+		<svg
+			class="divider"
+			xmlns="http://www.w3.org/2000/svg"
+			width="100%"
+			height="5"
+			viewBox="0 0 100 5"
+			preserveAspectRatio="none"
+		>
+			<line
+				x1="0"
+				y1="2.5"
+				x2="100"
+				y2="2.5"
+				stroke="#000"
+				stroke-width="2px"
+				vector-effect="non-scaling-stroke"
+				filter="url(#scribble-animation)"
+			/>
+		</svg>
+	{/if}
+
 	{#if open}
 		<div
 			class="details"
@@ -83,7 +106,6 @@
 			{/if}
 		</div>
 	{/if}
-
 	{#if showDivider}
 		<svg
 			class="divider"
@@ -175,7 +197,7 @@
 
 		.accordion.open & {
 			border-left: 2px solid $color_pink;
-			padding-left: 1rem;
+			padding: 0.5rem 2rem 1rem 1rem;
 		}
 
 		.map-button.show-on-map {

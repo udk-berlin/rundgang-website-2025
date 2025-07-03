@@ -13,8 +13,6 @@
 		left?: Snippet;
 		right?: Snippet;
 		// New prop to control rendering strategy
-		leftKeepInDOM?: boolean;
-		rightKeepInDOM?: boolean;
 		initialView?: 'left' | 'right';
 	}
 
@@ -23,8 +21,6 @@
 		right: 'Right'
 	};
 	export let leftPanelRatio = 0.5; // Default to 50/50 split, can be 0.33 for 1/3, 0.67 for 2/3, etc.
-	export let leftKeepInDOM = true; // Default to keeping lightweight components in DOM
-	export let rightKeepInDOM = false; // Default to conditional rendering for heavy components
 	export let initialView = 'left'; // 'left' or 'right'
 
 	let currentView = initialView; // 'left' or 'right'
@@ -84,52 +80,24 @@
 
 <div class="view-container" style="--left-flex: {leftFlexValue}; --right-flex: {rightFlexValue};">
 	{#if isMobile}
-		<!-- Mobile: Hybrid approach - translateX for keepInDOM, conditional for others -->
 		<div class="mobile-views">
 			<!-- Left panel -->
-			{#if leftKeepInDOM}
-				<div
-					class="view-panel left-panel"
-					class:active={currentView === 'left'}
-					style="transform: translateX({currentView === 'left' ? '0' : '-100%'})"
-				>
-					<slot name="left" />
-				</div>
-			{:else if currentView === 'left'}
-				<div
-					class="view-panel left-panel active"
-					in:fly={{ x: -window.innerWidth, duration: 300 }}
-					out:fly={{ x: -window.innerWidth, duration: 300 }}
-				>
-					<slot name="left" />
-				</div>
-			{/if}
+			<div
+				class="view-panel left-panel"
+				class:active={currentView === 'left'}
+				style="transform: translateX({currentView === 'left' ? '0' : '-95vw'})"
+			>
+				<slot name="left" />
+			</div>
 
 			<!-- Right panel -->
-			{#if rightKeepInDOM}
-				<div
-					class="view-panel right-panel"
-					class:active={currentView === 'right'}
-					style="transform: translateX({currentView === 'right' ? '0' : '100%'})"
-				>
-					<slot name="right" />
-				</div>
-			{:else if currentView === 'right'}
-				<div
-					class="view-panel right-panel active"
-					in:fly={{ x: window.innerWidth, duration: 300 }}
-					out:fly={{ x: window.innerWidth, duration: 300 }}
-				>
-					<slot name="right" />
-				</div>
-			{:else if !rightKeepInDOM && currentView === 'left' && isTransitioning}
-				<!-- Loading state for heavy components during transition -->
-				<div class="view-panel right-panel loading-state">
-					<div class="loading-spinner">
-						<div class="spinner"></div>
-					</div>
-				</div>
-			{/if}
+			<div
+				class="view-panel right-panel"
+				class:active={currentView === 'right'}
+				style="transform: translateX({currentView === 'right' ? '0' : '10vw'})"
+			>
+				<slot name="right" />
+			</div>
 		</div>
 
 		<!-- Mobile toggle button with two sides -->
@@ -247,6 +215,10 @@
 		flex-direction: row;
 		flex-wrap: nowrap;
 		height: 100%;
+	}
+
+	.left-panel {
+		z-index: 2; // Render above right panel
 	}
 
 	.desktop-views .left-panel {

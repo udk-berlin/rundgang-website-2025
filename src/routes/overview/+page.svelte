@@ -3,7 +3,7 @@
 	import ProjectContainer from '../../components/general/ProjectContainer.svelte';
 	import { projectsService, type Project } from '$lib/api';
 	import { activeLanguage } from '$lib/stores/language';
-	
+
 	import ScribbleAnimation from '../../components/scribble/ScribbleAnimation.svelte';
 	import { getUIText } from '$lib/utils/localization';
 	import FilterContainer from '../../components/filter/FilterContainer.svelte';
@@ -89,7 +89,7 @@
 		</div>
 	{:else}
 		{#key projectsKey}
-			<ProjectContainer projects={allProjects} />
+			<ProjectContainer projects={allProjects} bottomSpace={true} />
 		{/key}
 
 		<!-- {#if allProjects.length > 0}

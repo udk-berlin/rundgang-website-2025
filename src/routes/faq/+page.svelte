@@ -2,6 +2,8 @@
 	import { activeLanguage } from '$lib/stores/language';
 	import { getUIText } from '$lib/utils/localization';
 	import AccordionList from '../../components/general/accordion/AccordionList.svelte';
+	import MobileViewToggle from '../../components/mobile/MobileViewToggle.svelte';
+	import PaperContainer from '../../components/general/overlay/PaperContainer.svelte';
 	import { page } from '$app/stores';
 
 	interface ApiResponse {
@@ -98,48 +100,70 @@
 </svelte:head>
 
 <main>
-	<div class="about-container">
-		<h1>
-			{getUIText('pages.information', $activeLanguage)}
-		</h1>
-		<p>{@html mainContent}</p>
-	</div>
-	<div class="info-container">
-		<AccordionList items={accordionData}>
-			<div slot="head" let:item>
-				<h5>{@html item.title.text}</h5>
-			</div>
+	<MobileViewToggle
+		titles={{
+			left: getUIText('pages.information', $activeLanguage),
+			right: 'FAQ'
+		}}
+		leftPanelRatio={0.5}
+	>
+		<div slot="left" class="about-container">
+			<PaperContainer staticRotation={1.5} height="auto" padding="0" width="50%" vertical="top">
+				<div class="about-content">
+					<h1>
+						{getUIText('pages.information', $activeLanguage)}
+					</h1>
+					<p>{@html mainContent}</p>
+				</div>
+			</PaperContainer>
+		</div>
 
-			<div slot="details" let:item class="info-content">
-				<p>{@html item.content.text}</p>
-			</div>
-		</AccordionList>
-	</div>
+		<div slot="right" class="info-container">
+			<AccordionList items={accordionData}>
+				<div slot="head" let:item>
+					<h5>{@html item.title.text}</h5>
+				</div>
+
+				<div slot="details" let:item class="info-content">
+					<p>{@html item.content.text}</p>
+				</div>
+			</AccordionList>
+		</div>
+	</MobileViewToggle>
 </main>
 
 <style lang="scss">
 	main {
-		display: flex;
-		flex-direction: column;
-		gap: 2rem;
+		height: 100vh;
+		overflow: hidden;
+	}
+
+	.about-container,
+	.info-container {
 		padding: $body-header-spacing $body-padding-h-desktop;
+		height: 100%;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+	}
 
-		& > div {
-			width: 100%;
+	.about-content {
+		padding: 2rem;
+		text-align: left;
 
-			@include desktop {
-				width: 50%;
-			}
+		:global(p) {
+			margin-bottom: 1rem;
 		}
 
-		@include desktop {
-			flex-direction: row;
-			flex-wrap: nowrap;
+		:global(p:last-of-type) {
+			margin-bottom: 0;
+		}
+
+		@include mobile-only {
+			width: 100vw;
 		}
 	}
 
-	.info-content,
-	.about-container {
+	.info-content {
 		text-align: left;
 
 		:global(p) {
