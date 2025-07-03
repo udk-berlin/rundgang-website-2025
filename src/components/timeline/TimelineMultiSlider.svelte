@@ -294,8 +294,8 @@
 
 		h3 {
 			margin: 0;
-			font-size: $font-medium;
-			font-weight: bold;
+			font-size: 1.25rem; // specific font size but everything else looks weird here
+			font-weight: normal;
 			padding-top: 0.5rem; // to prevent layout shift when clear button appears (because that is larger)
 
 			@include desktop {

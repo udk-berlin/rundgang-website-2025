@@ -4,7 +4,7 @@
 	h3 {
 		margin: 0 0 3rem 0;
 		font-size: $font-large;
-		font-weight: normal;
+		font-weight: bold;
 		color: rgba($black, 0.8);
 		line-height: 1.2;
 
