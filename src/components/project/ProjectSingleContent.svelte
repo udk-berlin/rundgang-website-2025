@@ -158,6 +158,14 @@
 			break-inside: avoid;
 		}
 
+		& :global(p) {
+			margin-bottom: 1rem;
+		}
+
+		:global(a) {
+			text-decoration: underline;
+		}
+
 		.dynamic-heading {
 			// Assuming global h1, h2, etc. styles handle font size and weight.
 			margin: 0.5em 0 0.25em 0;
