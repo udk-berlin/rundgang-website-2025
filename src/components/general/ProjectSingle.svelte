@@ -441,7 +441,7 @@
 			}
 
 			&::before {
-				transform: translate(-110%, 20%);
+				transform: translate(-105%, 20%);
 				font-size: 0.75rem;
 			}
 		}
