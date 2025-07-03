@@ -38,6 +38,7 @@
 		justify-content: center;
 		align-items: center;
 		transform: rotate(var(--rotation));
+		transition: all 0.3s ease;
 
 		&.fixed {
 			position: fixed;

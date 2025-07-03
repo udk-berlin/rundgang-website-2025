@@ -290,8 +290,12 @@
 
 		h3 {
 			margin: 0;
-			font-size: $font-large;
+			font-size: $font-medium;
 			font-weight: normal;
+
+			@include desktop {
+				font-size: $font-large;
+			}
 		}
 
 		.clear-button {

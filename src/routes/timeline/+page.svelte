@@ -3,7 +3,7 @@
 	import ProjectContainer from '../../components/general/ProjectContainer.svelte';
 	import AccordionList from '../../components/general/accordion/AccordionList.svelte';
 	import { projectsService, type Project } from '$lib/api';
-	
+
 	import { activeLanguage } from '$lib/stores/language';
 	import {
 		filterStore,
@@ -394,7 +394,7 @@
 				height: fit-content;
 				margin: 0;
 				left: -2rem;
-				bottom: -4rem;
+				bottom: 5rem; // to be visible above toggle button
 				padding: 0.5rem;
 				padding-left: 4rem;
 			}
