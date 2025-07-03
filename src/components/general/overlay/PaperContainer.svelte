@@ -36,9 +36,12 @@
 		bottom: -1rem;
 		display: flex;
 		justify-content: center;
-		align-items: center;
+		align-items: flex-start;
 		transform: rotate(var(--rotation));
-		transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+		transition:
+			transform 0.3s ease,
+			width 0.3s ease,
+			height 0.3s ease;
 		width: auto;
 
 		&.fixed {
