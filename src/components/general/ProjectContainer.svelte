@@ -199,6 +199,7 @@
 	.masonry-container {
 		width: 100%;
 		min-height: min-content;
+		padding-bottom: 15vh;
 
 		&.half-width {
 			width: 50%;
