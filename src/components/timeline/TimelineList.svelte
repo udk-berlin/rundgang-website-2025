@@ -64,7 +64,8 @@
 		{:else}
 			<AccordionList
 				items={accordionItems}
-				showDivider={true}
+				showDivider={false}
+				showDividerTop={true}
 				textAlign="right"
 				contentAlign="right"
 			>

@@ -7,6 +7,7 @@
 
 	export let open = false;
 	export let showDivider = true;
+	export let showDividerTop = false;
 	export let textAlign = 'left'; // 'left' or 'right'
 	export let contentAlign = 'left'; // 'left' or 'right'
 	export let noMargin = false;
@@ -63,7 +64,7 @@
 		</button>
 	</div>
 
-	{#if showDivider}
+	{#if showDividerTop}
 		<svg
 			class="divider"
 			xmlns="http://www.w3.org/2000/svg"
@@ -104,6 +105,27 @@
 				</div>
 			{/if}
 		</div>
+	{/if}
+	{#if showDivider}
+		<svg
+			class="divider"
+			xmlns="http://www.w3.org/2000/svg"
+			width="100%"
+			height="5"
+			viewBox="0 0 100 5"
+			preserveAspectRatio="none"
+		>
+			<line
+				x1="0"
+				y1="2.5"
+				x2="100"
+				y2="2.5"
+				stroke="#000"
+				stroke-width="2px"
+				vector-effect="non-scaling-stroke"
+				filter="url(#scribble-animation)"
+			/>
+		</svg>
 	{/if}
 </div>
 

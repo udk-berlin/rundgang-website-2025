@@ -3,6 +3,7 @@
 
 	export let items: any[] = [];
 	export let showDivider: boolean = true;
+	export let showDividerTop: boolean = false;
 	export let textAlign: 'left' | 'right' = 'left';
 	export let contentAlign: 'left' | 'right' = 'left';
 	export let noMargin: boolean = false;
@@ -21,6 +22,7 @@
 		<Accordion
 			open={openItemId === item.id}
 			{showDivider}
+			{showDividerTop}
 			{textAlign}
 			{contentAlign}
 			{noMargin}
