@@ -20,12 +20,14 @@
 		projects = [],
 		skeletonCount = 0,
 		variant = 'full',
-		disableFiltering = false
+		disableFiltering = false,
+		bottomSpace = false
 	} = $props<{
 		variant?: 'full' | 'half';
 		projects: Project[];
 		skeletonCount?: number;
 		disableFiltering?: boolean;
+		bottomSpace?: boolean;
 	}>();
 
 	let [minColWidth, gap] = [variant === 'half' ? 220 : 260, 20];
@@ -154,7 +156,11 @@
 	}));
 </script>
 
-<div class="masonry-container" class:half-width={variant === 'half'}>
+<div
+	class="masonry-container"
+	class:half-width={variant === 'half'}
+	class:bottom-space={bottomSpace}
+>
 	{#if showSkeletons}
 		<!-- Show skeletons while loading -->
 		<Masonry
@@ -199,7 +205,11 @@
 	.masonry-container {
 		width: 100%;
 		min-height: min-content;
-		padding-bottom: 15vh;
+		padding-bottom: 2rem;
+
+		&.bottom-space {
+			padding-bottom: 15vh;
+		}
 
 		&.half-width {
 			width: 50%;

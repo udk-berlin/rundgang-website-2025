@@ -72,8 +72,7 @@
 	<FilterContainer />
 
 	<LandingPage on:contentReady={handleLandingContentReady} />
-	<ProjectContainer projects={allProjects} {skeletonCount} />
-
+	<ProjectContainer projects={allProjects} {skeletonCount} bottomSpace={true} />
 </main>
 
 <style lang="scss">
