@@ -171,7 +171,7 @@
 	.location-name {
 		position: relative;
 		font-size: $font-medium;
-		font-weight: 700;
+		font-weight: normal;
 		transition: text-decoration 0.15s ease;
 		flex: 1;
 	}
@@ -189,10 +189,7 @@
 	}
 
 	.location-filter.selected .location-name {
-		text-decoration: underline;
-		text-decoration-color: $color_pink;
-		text-decoration-thickness: 1.5px;
-		text-underline-offset: 2px;
+		font-weight: bold;
 	}
 
 	.clear-all-button {
@@ -222,7 +219,7 @@
 	.button-container {
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
-		margin-top: 1rem;
+		gap: 0.15rem;
+		margin-top: 0.35rem;
 	}
 </style>

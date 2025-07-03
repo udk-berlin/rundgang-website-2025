@@ -123,8 +123,8 @@
 	.button-container {
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
-		margin-top: 0.5rem;
+		gap: 0.15rem;
+		margin-top: 0.35rem;
 	}
 
 	/* Location Overlay Styles */

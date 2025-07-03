@@ -175,7 +175,7 @@
 
 		.accordion.open & {
 			border-left: 2px solid $color_pink;
-			padding-left: 1rem;
+			padding: 0.5rem 2rem 1rem 1rem;
 		}
 
 		.map-button.show-on-map {
