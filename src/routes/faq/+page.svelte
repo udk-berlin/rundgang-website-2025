@@ -25,8 +25,6 @@
 
 	export let data: PageData;
 
-	$: console.log(data);
-
 	// Function to extract accordion data from the API response
 	function extractAccordionData(apiData: ApiResponse) {
 		if (!apiData?.result?.length) return [];
@@ -53,7 +51,6 @@
 				content: accordionContent[i + 1].content || 'No content available.'
 			});
 		}
-		// debugger;
 		return accordionData;
 	}
 
@@ -141,7 +138,8 @@
 		}
 	}
 
-	.info-content {
+	.info-content,
+	.about-container {
 		text-align: left;
 
 		:global(p) {

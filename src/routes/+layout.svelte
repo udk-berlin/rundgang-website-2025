@@ -107,6 +107,8 @@
 	}
 
 	:global(h1) {
+		margin-bottom: 2rem;
+
 		@include desktop {
 			text-align: left;
 			font-size: 4rem;
