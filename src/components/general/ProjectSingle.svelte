@@ -397,8 +397,8 @@
 			transition: opacity 200ms ease-in-out;
 			z-index: 30;
 			pointer-events: none;
-			opacity: 0;
-			visibility: hidden;
+			// opacity: 0;
+			// visibility: hidden;
 		}
 
 		&:hover::before {
@@ -440,9 +440,9 @@
 				height: 2.5rem;
 			}
 
-			&:hover::before {
-				opacity: 0;
-				visibility: hidden;
+			&::before {
+				transform: translate(-110%, 20%);
+				font-size: 0.75rem;
 			}
 		}
 	}
