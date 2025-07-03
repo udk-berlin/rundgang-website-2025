@@ -181,7 +181,9 @@
 				{/each}
 			</div>
 		{/if}
-		<EventBadges schedule={project.schedule} />
+		{#if project.schedule?.friday?.length > 0 || project.schedule?.saturday?.length > 0 || project.schedule?.sunday?.length > 0}
+			<EventBadges schedule={project.schedule} />
+		{/if}
 	</div>
 	<button
 		class="save-button"
@@ -273,13 +275,13 @@
 	}
 
 	h3,
-	p.artist {
+	p.author {
 		margin: 0;
 		font-size: $font-medium;
 		font-weight: 400;
 	}
 
-	p.artist {
+	p.author {
 		font-style: italic;
 	}
 
