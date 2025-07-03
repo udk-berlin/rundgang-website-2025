@@ -397,8 +397,8 @@
 			transition: opacity 200ms ease-in-out;
 			z-index: 30;
 			pointer-events: none;
-			// opacity: 0;
-			// visibility: hidden;
+			opacity: 0;
+			visibility: hidden;
 		}
 
 		&:hover::before {
