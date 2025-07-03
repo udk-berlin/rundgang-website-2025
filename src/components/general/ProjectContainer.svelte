@@ -205,7 +205,6 @@
 	.masonry-container {
 		width: 100%;
 		min-height: min-content;
-		padding-bottom: 2rem;
 
 		&.bottom-space {
 			padding-bottom: 15vh;

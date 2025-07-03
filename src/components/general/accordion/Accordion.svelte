@@ -63,27 +63,6 @@
 		</button>
 	</div>
 
-	{#if open}
-		<div
-			class="details"
-			class:content-right={contentAlign === 'right'}
-			in:slide={{ duration: 200 }}
-			out:slide={{ duration: 200 }}
-		>
-			<slot name="details"></slot>
-			{#if showLocationActions}
-				<div class="map-button-container">
-					<button class="map-button show-on-map" on:click={handleShowOnMap}
-						>{getUIText('locations.accordion.showOnMap', $activeLanguage)}</button
-					>
-					<button class="map-button" on:click={handleShowProjects}
-						>{getUIText('locations.accordion.showProjects', $activeLanguage)}</button
-					>
-				</div>
-			{/if}
-		</div>
-	{/if}
-
 	{#if showDivider}
 		<svg
 			class="divider"
@@ -104,6 +83,27 @@
 				filter="url(#scribble-animation)"
 			/>
 		</svg>
+	{/if}
+
+	{#if open}
+		<div
+			class="details"
+			class:content-right={contentAlign === 'right'}
+			in:slide={{ duration: 200 }}
+			out:slide={{ duration: 200 }}
+		>
+			<slot name="details"></slot>
+			{#if showLocationActions}
+				<div class="map-button-container">
+					<button class="map-button show-on-map" on:click={handleShowOnMap}
+						>{getUIText('locations.accordion.showOnMap', $activeLanguage)}</button
+					>
+					<button class="map-button" on:click={handleShowProjects}
+						>{getUIText('locations.accordion.showProjects', $activeLanguage)}</button
+					>
+				</div>
+			{/if}
+		</div>
 	{/if}
 </div>
 
