@@ -113,7 +113,26 @@
 		</div>
 
 		<div class="description-container">
-			<h1 class="title">{getLocalizedLabel(project.title, $activeLanguage)}</h1>
+			<div class="description-title-container">
+				<h1 class="title">{getLocalizedLabel(project.title, $activeLanguage)}</h1>
+				<button
+					class="save-button"
+					class:saved={isSaved}
+					on:click={handleSaveClick}
+					aria-label={isSaved
+						? getUIText('merkliste.removeFromMerkliste', $activeLanguage)
+						: getUIText('merkliste.addToMerkliste', $activeLanguage)}
+					data-tooltip={isSaved
+						? getUIText('merkliste.removeFromMerkliste', $activeLanguage)
+						: getUIText('merkliste.addToMerkliste', $activeLanguage)}
+				>
+					{#if isSaved}
+						<img src="{base}/icons/basket_full.png" alt="Remove" class="basket-icon" />
+					{:else}
+						<img src="{base}/icons/basket_empty.png" alt="Add" class="basket-icon" />
+					{/if}
+				</button>
+			</div>
 			<p class="author">{project.author}</p>
 			{#if project.coauthors && project.coauthors.length > 0}
 				<div class="coauthors">
@@ -122,7 +141,7 @@
 					{/each}
 				</div>
 			{/if}
-			<br />
+			<!-- <br /> -->
 			<div class="location-format-section">
 				<p class="category">
 					{project.formats.map((format) => getLocalizedLabel(format, $activeLanguage)).join(', ')}
@@ -214,6 +233,12 @@
 			grid-row: 3 / 4;
 			transform: rotate(0deg);
 		}
+	}
+
+	.description-title-container {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
 	}
 
 	.title-image-container {
@@ -319,8 +344,7 @@
 		transition: all 200ms ease-in-out;
 		z-index: 20;
 		display: flex;
-		align-items: center;
-		justify-content: center;
+		align-self: flex-start;
 		gap: 0.5rem;
 		white-space: nowrap;
 		flex-shrink: 0;
@@ -358,6 +382,29 @@
 			font-size: $font-small;
 			white-space: nowrap;
 		}
+
+		// Tooltip on hover
+		&::before {
+			content: attr(data-tooltip);
+			position: absolute;
+			transform: translate(-110%, 25%);
+			background: rgba(0, 0, 0, 0.9);
+			color: white;
+			padding: 0.5rem 0.5rem;
+			border-radius: $border-radius;
+			font-size: 1rem;
+			white-space: nowrap;
+			transition: opacity 200ms ease-in-out;
+			z-index: 30;
+			pointer-events: none;
+			opacity: 0;
+			visibility: hidden;
+		}
+
+		&:hover::before {
+			opacity: 1;
+			visibility: visible;
+		}
 	}
 
 	@include mobile-and-tablet {
@@ -391,6 +438,11 @@
 			.basket-icon {
 				width: 2.5rem;
 				height: 2.5rem;
+			}
+
+			&::before {
+				transform: translate(-105%, 20%);
+				font-size: 0.75rem;
 			}
 		}
 	}
