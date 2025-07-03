@@ -120,7 +120,7 @@
 			{@const textContent = item?.content?.text}
 			{#if textContent}
 				<div class="dynamic-text">
-					<p>{getLocalizedLabel(textContent, $activeLanguage)}</p>
+					{@html getLocalizedLabel(textContent, $activeLanguage)}
 				</div>
 			{/if}
 		{/if}
