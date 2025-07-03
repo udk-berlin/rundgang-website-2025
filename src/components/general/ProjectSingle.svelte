@@ -382,6 +382,29 @@
 			font-size: $font-small;
 			white-space: nowrap;
 		}
+
+		// Tooltip on hover
+		&::before {
+			content: attr(data-tooltip);
+			position: absolute;
+			transform: translate(-110%, 25%);
+			background: rgba(0, 0, 0, 0.9);
+			color: white;
+			padding: 0.5rem 0.5rem;
+			border-radius: $border-radius;
+			font-size: 1rem;
+			white-space: nowrap;
+			transition: opacity 200ms ease-in-out;
+			z-index: 30;
+			pointer-events: none;
+			opacity: 0;
+			visibility: hidden;
+		}
+
+		&:hover::before {
+			opacity: 1;
+			visibility: visible;
+		}
 	}
 
 	@include mobile-and-tablet {
@@ -415,6 +438,11 @@
 			.basket-icon {
 				width: 2.5rem;
 				height: 2.5rem;
+			}
+
+			&:hover::before {
+				opacity: 0;
+				visibility: hidden;
 			}
 		}
 	}
