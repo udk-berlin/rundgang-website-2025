@@ -104,8 +104,8 @@ export const locations: Location[] = [
 		longitude: '13.357244'
 	},
 	{
-		id: 'strasse_des_17_juni',
-		name: 'Straße des 17. Juni',
+		id: 'strasse_des_17_juni_118',
+		name: 'Straße des 17. Juni 118',
 		street: 'Straße des 17. Juni 118',
 		postcode: '10623',
 		city: 'Berlin',
@@ -180,19 +180,19 @@ export const locationMatchData: LocationMatch[] = [
 		match: ['medienhaus', 'medienhaus-berlin']
 	},
 	{
-		id: 'strasse_des_17_juni',
-		match: ['strasse-des-17-juni', 'strasse-des-17-juni-berlin']
+		id: 'strasse_des_17_juni_118',
+		match: ['strasse-des-17-juni', 'strasse-des-17-juni-118']
 	},
 	{
 		id: 'universitaetsbibliothek',
 		match: [
 			'universitaetsbibliothek',
-			'universitaetsbibliothek-berlin',
+			'universitaetsbibliothek',
 			'universitaetsbibliothek-im-volkswagen-haus'
 		]
 	},
 	{
 		id: 'mierendorffstrasse',
-		match: ['mierendorffstrasse-30', 'mierendorffstrasse', 'mierendorffstrasse-berlin']
+		match: ['mierendorffstrasse-30', 'mierendorffstrasse']
 	}
 ];
