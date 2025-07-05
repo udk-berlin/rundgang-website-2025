@@ -344,7 +344,7 @@
 		@include mobile-only {
 			:global(.paper-container) {
 				width: 100vw;
-				height: fit-content;
+				height: auto;
 				max-height: fit-content;
 				margin: 0;
 				left: -2rem;
