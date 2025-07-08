@@ -20,9 +20,19 @@
 		toggleFilterOption(category, value);
 	}
 
+	function clearAllFilters() {
+		Object.keys($filterStore.selectedFilters).forEach((category) => {
+			$filterStore.selectedFilters[category] = [];
+		});
+	}
+
 	function isOptionSelected(category: string, value: string): boolean {
 		return $filterStore.selectedFilters[category]?.includes(value) || false;
 	}
+
+	$: hasActiveFilters = Object.values($filterStore.selectedFilters).some(
+		(filters) => filters.length > 0
+	);
 
 	$: filteredGroups = (() => {
 		const { contexts, formats, locations } = $filterStore.data;
@@ -39,7 +49,14 @@
 	on:close={closeOverlay}
 >
 	<div class="content">
-		<h1>{getUIText('filter.title', $activeLanguage)}</h1>
+		<div class="header">
+			<h1>{getUIText('filter.title', $activeLanguage)}</h1>
+			{#if hasActiveFilters}
+				<button class="clear-all-button" on:click={clearAllFilters}>
+					{getUIText('filter.clearSelection', $activeLanguage) || 'Clear all'}
+				</button>
+			{/if}
+		</div>
 
 		{#if $filterStore.isLoading}
 			<div class="loading">{getUIText('filter.loading', $activeLanguage)}</div>
@@ -82,10 +99,34 @@
 		padding: 2rem;
 	}
 
-	h1 {
+	.header {
+		display: flex;
+		align-items: center;
+		gap: 2rem;
 		margin: 0 0 1.5rem 0;
+	}
+
+	h1 {
+		margin: 0;
 		font-size: $font-xlarge;
 		font-weight: 400;
+	}
+
+	.clear-all-button {
+		background: none;
+		border: 1px solid $color_pink;
+		border-radius: 4px;
+		padding: 0.5rem 1rem;
+		color: $color_pink;
+		cursor: pointer;
+		font-size: 0.8rem;
+		transition: all 0.2s ease;
+		margin-right: 2rem;
+	}
+
+	.clear-all-button:hover {
+		background: $color_pink;
+		color: white;
 	}
 
 	.loading,
@@ -153,6 +194,10 @@
 		h1 {
 			font-size: $font-large;
 			margin-bottom: 1rem;
+		}
+
+		.clear-all-button {
+			align-self: flex-start;
 		}
 
 		.loading,
