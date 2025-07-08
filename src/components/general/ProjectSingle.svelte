@@ -403,7 +403,23 @@
 			white-space: nowrap;
 		}
 
-		&:hover::before {
+		&::after {
+			content: attr(data-tooltip);
+			position: absolute;
+			transform: translate(-50%, 250%) rotate(-2deg);
+			padding: 0.25rem 0.25rem;
+			background-color: $white;
+			border-radius: $border-radius;
+			font-size: $font-small;
+			white-space: nowrap;
+			transition: opacity 200ms ease-in-out;
+			z-index: 30;
+			pointer-events: none;
+			opacity: 0;
+			visibility: hidden;
+		}
+
+		&:hover::after {
 			opacity: 1;
 			visibility: visible;
 		}
@@ -448,9 +464,8 @@
 				height: 2.5rem;
 			}
 
-			&::before {
-				transform: translate(-105%, 20%);
-				font-size: 0.75rem;
+			&::after {
+				transform: translate(-65%, 200%) rotate(-2deg);
 			}
 		}
 	}
