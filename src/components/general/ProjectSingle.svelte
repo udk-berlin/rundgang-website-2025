@@ -133,13 +133,15 @@
 					{/if}
 				</button>
 			</div>
-			<div class="author">
-				<span>{project.author}</span>{#if project.coauthors && project.coauthors.length > 0}
-					{#each project.coauthors as coauthor}
-						<span>, {coauthor}</span>
-					{/each}
-				{/if}
-			</div>
+			{#if project.authorship_visibility !== false}
+				<div class="author">
+					<span>{project.author}</span>{#if project.coauthors && project.coauthors.length > 0}
+						{#each project.coauthors as coauthor}
+							<span>, {coauthor}</span>
+						{/each}
+					{/if}
+				</div>
+			{/if}
 			<div class="location-format-section">
 				<p class="category">
 					{project.formats.map((format) => getLocalizedLabel(format, $activeLanguage)).join(', ')}

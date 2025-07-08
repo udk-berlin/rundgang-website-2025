@@ -110,6 +110,7 @@ export interface KirbyProjectResponse {
 	modified: number;
 	author?: Author;
 	coauthor?: Author;
+	authorship_visibility?: boolean;
 	url: string;
 	formats: string[]; // Array of format strings
 	location: string[]; // Array of location strings

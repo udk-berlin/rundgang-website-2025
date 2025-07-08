@@ -173,13 +173,15 @@
 			</div>
 		</div>
 		<h3 class="title">{getLocalizedLabel(project.title, $activeLanguage)}</h3>
-		<div class="author">
-			<span>{project.author}</span>{#if project.coauthors && project.coauthors.length > 0}
-				{#each project.coauthors as coauthor}
-					<span>, {coauthor}</span>
-				{/each}
-			{/if}
-		</div>
+		{#if project.authorship_visibility !== false}
+			<div class="author">
+				<span>{project.author}</span>{#if project.coauthors && project.coauthors.length > 0}
+					{#each project.coauthors as coauthor}
+						<span>, {coauthor}</span>
+					{/each}
+				{/if}
+			</div>
+		{/if}
 		{#if project.schedule?.friday?.length > 0 || project.schedule?.saturday?.length > 0 || project.schedule?.sunday?.length > 0}
 			<EventBadges schedule={project.schedule} />
 		{/if}
