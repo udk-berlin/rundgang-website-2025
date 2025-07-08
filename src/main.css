@@ -202,3 +202,27 @@ input[type='checkbox'] {
 	word-wrap: break-word;
 	overflow-wrap: break-word;
 }
+
+/* tooltip */
+[data-tooltip]::after {
+	display: block;
+	position: absolute;
+	content: attr(data-tooltip);
+	border: 1px solid black;
+	border-radius: 0.25em;
+	font-size: 0.8em;
+	line-height: 1.2;
+	background: white;
+	padding: 0.25em 0.5ch 0.1em;
+	transform: translateX(-50%) rotate(1.5deg);
+	z-index: 500;
+	pointer-events: none;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 200ms ease-in-out;
+}
+
+[data-tooltip]:hover::after {
+	opacity: 1;
+	visibility: visible;
+}

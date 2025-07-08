@@ -12,6 +12,7 @@
 	import { merkelisteStore, addToMerkeliste, removeFromMerkeliste } from '$lib/stores/merkliste';
 	import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
 	import { ensureResponsiveImage, applyProxyToResponsiveImage } from '$lib/utils/image-helpers';
+	import LanguageSwitcher from './LanguageSwitcher.svelte';
 
 	let { project, isOpen }: { project: Project; isOpen: boolean } = $props();
 
@@ -115,6 +116,12 @@
 		<div class="description-container">
 			<div class="description-title-container">
 				<h1 class="title">{getLocalizedLabel(project.title, $activeLanguage)}</h1>
+				<div
+					class="language-switcher-container"
+					data-tooltip="Note that some projects are only available in German or English."
+				>
+					<LanguageSwitcher />
+				</div>
 				<button
 					class="save-button"
 					class:saved={isSaved}
@@ -314,6 +321,10 @@
 		color: rgba($black, 0.8);
 	}
 
+	.language-switcher-container {
+		@include padding-h(1em);
+	}
+
 	.location-format-section {
 		display: flex;
 		gap: 1rem;
@@ -390,24 +401,6 @@
 		.basket-icon-text {
 			font-size: $font-small;
 			white-space: nowrap;
-		}
-
-		// Tooltip on hover
-		&::before {
-			content: attr(data-tooltip);
-			position: absolute;
-			transform: translate(-110%, 25%);
-			background: rgba(0, 0, 0, 0.9);
-			color: white;
-			padding: 0.5rem 0.5rem;
-			border-radius: $border-radius;
-			font-size: 1rem;
-			white-space: nowrap;
-			transition: opacity 200ms ease-in-out;
-			z-index: 30;
-			pointer-events: none;
-			opacity: 0;
-			visibility: hidden;
 		}
 
 		&:hover::before {

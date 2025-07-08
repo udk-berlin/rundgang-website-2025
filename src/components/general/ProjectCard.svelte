@@ -353,25 +353,6 @@
 			animation: pulse 0.6s ease-in-out;
 		}
 
-		// Tooltip on hover
-		&::after {
-			content: attr(data-tooltip);
-			position: absolute;
-			bottom: 0.6rem;
-			right: 3rem;
-			background: rgba(0, 0, 0, 0.9);
-			color: white;
-			padding: 0.25rem 0.5rem;
-			border-radius: 0.25rem;
-			font-size: 10px;
-			white-space: nowrap;
-			opacity: 0;
-			visibility: hidden;
-			transition: opacity 200ms ease-in-out;
-			z-index: 30;
-			pointer-events: none;
-		}
-
 		&:hover::after {
 			opacity: 1;
 			visibility: visible;
