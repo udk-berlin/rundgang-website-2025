@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 import { AppStorage } from '../utils/app-storage';
 
-const initialValue: 'DE' | 'EN' = 'EN';
+const initialValue: 'DE' | 'EN' = 'DE';
 
 // Initialize with stored value if in browser
 if (browser) {
@@ -52,12 +52,12 @@ export const activeLanguage = createLanguageStore();
  * Helper function to get current language value (for non-reactive contexts)
  */
 export async function getCurrentLanguage(): Promise<'DE' | 'EN'> {
-	if (!browser) return 'EN';
+	if (!browser) return 'DE';
 	try {
 		const stored = await AppStorage.getItem('rg-25-lang');
 		return (stored as 'DE' | 'EN') || 'EN';
 	} catch (error) {
 		// console.warn('Failed to get current language from storage:', error);
-		return 'EN';
+		return 'DE';
 	}
 }
