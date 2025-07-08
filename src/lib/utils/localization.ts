@@ -114,6 +114,7 @@ export const UI_TEXTS = {
 		title: { de: 'Filter', en: 'Filter' },
 		loading: { de: 'Filter werden geladen...', en: 'Loading filters...' },
 		noFilters: { de: 'Keine Filter verfügbar', en: 'No filters available' },
+		clearSelection: { de: 'Auswahl löschen', en: 'Clear Selection' },
 		clearAll: { de: 'Alle Filter entfernen', en: 'Clear All Filters' },
 		locations: { de: 'Orte', en: 'Locations' },
 		timeSlots: { de: 'Zeitfenster auswählen', en: 'Select Time Slots' },
