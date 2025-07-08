@@ -195,6 +195,7 @@ export function transformKirbyProjectToMetadata(kirbyProject: KirbyProjectRespon
 				name: contextId
 			})),
 		url: kirbyProject.url,
+		intro: kirbyProject.intro,
 		location: (() => {
 			// Use enriched location data if available
 			if (kirbyProject.enrichedLocations && kirbyProject.enrichedLocations.length > 0) {
@@ -300,6 +301,7 @@ export function transformKirbyProject(kirbyProject: KirbyProjectResponse): Proje
 		contexts: kirbyProject.enrichedContexts || [],
 		url: kirbyProject.url,
 		images: kirbyProject.images,
+		intro: kirbyProject.intro,
 		location: (() => {
 			// Use enriched location data if available
 			if (kirbyProject.enrichedLocations && kirbyProject.enrichedLocations.length > 0) {

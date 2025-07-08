@@ -23,6 +23,7 @@ export interface Project {
 	titleImage?: KirbySrcsetImageEntry[];
 	images?: KirbySrcsetImageEntry[];
 	content?: BilingualContentBlock[];
+	intro?: { de: string; en: string };
 	// Legacy individual date fields for backward compatibility
 	fridayDate?: string | string[];
 	saturdayDate?: string | string[];
