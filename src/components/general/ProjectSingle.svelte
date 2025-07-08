@@ -118,7 +118,7 @@
 				<h1 class="title">{getLocalizedLabel(project.title, $activeLanguage)}</h1>
 				<div
 					class="language-switcher-container"
-					data-tooltip="Note that some projects are only available in German or English."
+					data-tooltip={getUIText('languageSwitcher.de', $activeLanguage)}
 				>
 					<LanguageSwitcher />
 				</div>
