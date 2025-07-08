@@ -13,6 +13,7 @@ export interface Project {
 	title: { de: string; en: string };
 	author: string;
 	coauthors?: string[];
+	authorship_visibility?: boolean;
 	formats: EnrichedFormatData[];
 	contexts: EnrichedContextData[];
 	location?: EnrichedLocationData;

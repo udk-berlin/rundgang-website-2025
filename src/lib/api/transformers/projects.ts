@@ -178,6 +178,7 @@ export function transformKirbyProjectToMetadata(kirbyProject: KirbyProjectRespon
 				: { de: kirbyProject.title || 'Untitled', en: kirbyProject.title || 'Untitled' },
 		author: kirbyProject.author?.username || 'Unknown Artist',
 		coauthors: kirbyProject.coauthor?.username ? [kirbyProject.coauthor.username] : [],
+		authorship_visibility: kirbyProject.authorship_visibility === 'false' ? false : true,
 		formats:
 			kirbyProject.enrichedFormats ||
 			normalizeToArray(kirbyProject.formats).map((format) => ({
@@ -285,6 +286,7 @@ export function transformKirbyProject(kirbyProject: KirbyProjectResponse): Proje
 				: { de: kirbyProject.title || 'Untitled', en: kirbyProject.title || 'Untitled' },
 		author: kirbyProject.author?.username || 'Unknown Artist',
 		coauthors: kirbyProject.coauthor?.username ? [kirbyProject.coauthor.username] : [],
+		authorship_visibility: kirbyProject.authorship_visibility === 'false' ? false : true,
 		formats:
 			kirbyProject.enrichedFormats ||
 			normalizeToArray(kirbyProject.formats).map((format) => ({

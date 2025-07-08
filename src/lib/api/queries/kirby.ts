@@ -174,6 +174,7 @@ export const PROJECT_SELECTS = {
 		modified: true,
 		author: AUTHOR_SELECT,
 		coauthor: COAUTHOR_SELECT,
+		authorship_visibility: true,
 		url: true,
 		formats: {
 			query: 'page.format_field_select.toObject'
@@ -201,6 +202,7 @@ export const PROJECT_SELECTS = {
 		modified: true,
 		author: AUTHOR_SELECT,
 		coauthor: COAUTHOR_SELECT,
+		authorship_visibility: true,
 		url: true,
 		formats: {
 			query: 'page.format_field_select.toObject'
