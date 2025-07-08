@@ -353,6 +353,21 @@
 			animation: pulse 0.6s ease-in-out;
 		}
 
+		&::after {
+			content: attr(data-tooltip);
+			position: absolute;
+			transform: translate(-70%, 0%) rotate(var(--rotation));
+			padding: 0.25rem 0.25rem;
+			border-radius: $border-radius;
+			font-size: $font-small;
+			white-space: nowrap;
+			transition: opacity 200ms ease-in-out;
+			z-index: 30;
+			pointer-events: none;
+			opacity: 0;
+			visibility: hidden;
+		}
+
 		&:hover::after {
 			opacity: 1;
 			visibility: visible;

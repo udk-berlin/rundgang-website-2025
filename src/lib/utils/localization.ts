@@ -102,6 +102,13 @@ export const UI_TEXTS = {
 		}
 	},
 
+	languageSwitcher: {
+		de: {
+			de: 'Beachten Sie, dass einige Projekte nur auf Deutsch oder Englisch verfügbar sind.',
+			en: 'Note that some projects are only available in German or English.'
+		}
+	},
+
 	// Filter component
 	filter: {
 		title: { de: 'Filter', en: 'Filter' },
