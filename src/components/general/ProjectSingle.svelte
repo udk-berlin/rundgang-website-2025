@@ -160,6 +160,11 @@
 				</div>
 			</div>
 		</div>
+		{#if project.intro}
+			<div class="project-intro">
+				{getLocalizedLabel(project.intro, $activeLanguage)}
+			</div>
+		{/if}
 		{#if project}
 			<ProjectSingleContent {project} />
 		{/if}
@@ -409,6 +414,12 @@
 			opacity: 1;
 			visibility: visible;
 		}
+	}
+
+	.project-intro {
+		margin-bottom: 1em;
+		font-weight: bold;
+		white-space: pre-wrap;
 	}
 
 	@include mobile-and-tablet {

@@ -223,7 +223,8 @@ export const PROJECT_SELECTS = {
 		},
 		content: {
 			query: 'page.content_field.toBlocks'
-		}
+		},
+		intro_field_intro: true
 	},
 
 	MODIFIED: {

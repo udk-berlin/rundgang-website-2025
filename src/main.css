@@ -112,7 +112,7 @@ html {
 
 body {
 	/* 4. Add accessible line-height */
-	line-height: 1.5;
+	line-height: 1.6;
 	/* 5. Improve text rendering */
 	-webkit-font-smoothing: antialiased;
 	/* Make body the scroll container */

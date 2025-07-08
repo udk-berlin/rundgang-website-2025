@@ -137,6 +137,7 @@ function mapRawLocationToCleanId(rawLocationId: string | null | undefined): stri
 interface BilingualKirbyProjectResponse extends Omit<KirbyProjectResponse, 'title' | 'content'> {
 	title: { de: string; en: string };
 	content?: BilingualContentBlock[];
+	intro?: { de: string; en: string };
 }
 
 // Interface for bilingual content blocks
@@ -253,7 +254,11 @@ function mergeLanguageResponses(
 			return {
 				...deProject,
 				title: { de: deTitle, en: deTitle },
-				content: mergeContentBlocks(deProject.content, [])
+				content: mergeContentBlocks(deProject.content, []),
+				intro: {
+					de: deProject.intro_field_intro || '',
+					en: deProject.intro_field_intro || ''
+				}
 			};
 		}
 
@@ -269,7 +274,11 @@ function mergeLanguageResponses(
 						: enProject.title?.en ||
 							(typeof deProject.title === 'string' ? deProject.title : deProject.title.de)
 			},
-			content: mergeContentBlocks(deProject.content, enProject.content)
+			content: mergeContentBlocks(deProject.content, enProject.content),
+			intro: {
+				de: deProject.intro_field_intro || '',
+				en: enProject.intro_field_intro || deProject.intro_field_intro || ''
+			}
 		};
 
 		return merged;
