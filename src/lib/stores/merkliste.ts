@@ -187,7 +187,6 @@ export function addToMerkeliste(projectId: string) {
 export function removeFromMerkeliste(projectId: string) {
 	merkelisteStore.update((state) => {
 		if (!state) return state;
-		console.log('State:', state);
 		return {
 			...state,
 			savedProjects: state.savedProjects.filter((id) => id !== projectId)

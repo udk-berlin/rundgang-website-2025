@@ -24,15 +24,12 @@ function createLanguageStore() {
 	return {
 		subscribe,
 		set: (value: 'DE' | 'EN') => {
-			// console.log(`Language store: Setting language to ${value}`);
 
 			if (browser) {
 				AppStorage.setItem('rg-25-lang', value)
 					.then(() => {
-						// console.log(`Language store: Saved to AppStorage: ${value}`);
 					})
 					.catch((error) => {
-						// console.error('Failed to save language to storage:', error);
 					});
 			}
 

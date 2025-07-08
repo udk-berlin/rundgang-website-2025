@@ -69,10 +69,6 @@
 		transition: opacity 0.3s ease-out;
 		margin-top: 5vh;
 
-		&.hidden {
-			opacity: 0;
-			pointer-events: none;
-		}
 	}
 
 	.content {

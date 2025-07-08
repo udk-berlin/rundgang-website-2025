@@ -134,33 +134,8 @@
 			color: rgba($black, 0.7);
 		}
 
-		button {
-			padding: 0.75rem 1.5rem;
-			border: 1px solid $black;
-			border-radius: $border-radius;
-			background: white;
-			cursor: pointer;
-			font-size: $font-medium;
-			transition: all 0.2s ease;
-
-			&:hover {
-				background: $black;
-				color: white;
-			}
-		}
 	}
 
-	.project-stats {
-		text-align: center;
-		margin: 1rem 0;
-		opacity: 0.7;
-		pointer-events: none;
-
-		p {
-			font-size: $font-small;
-			color: rgba($black, 0.6);
-		}
-	}
 
 	.error-message {
 		text-align: center;

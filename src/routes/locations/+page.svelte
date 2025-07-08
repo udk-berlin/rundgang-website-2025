@@ -318,13 +318,6 @@
 		position: relative;
 	}
 
-	.layout-container {
-		display: flex;
-		height: 100vh;
-		gap: 2rem;
-		padding: 2rem 0; /* Remove left and right padding since sidebars are positioned fixed */
-		padding-left: 22vw; /* Add left padding to make space for fixed filter container */
-	}
 
 	.filter-container {
 		flex: 0 0 20vw;
@@ -355,11 +348,6 @@
 		}
 	}
 
-	.centered-content {
-		@include mobile-only {
-			width: 100vw;
-		}
-	}
 
 	/* Projects Sidebar */
 	:global(.overlay-content) {
@@ -448,10 +436,5 @@
 		max-height: 90vh;
 		overflow-y: auto;
 
-		h2 {
-			margin: 0 0 2rem 0;
-			font-size: 2rem;
-			color: $color_pink;
-		}
 	}
 </style>

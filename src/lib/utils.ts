@@ -42,7 +42,6 @@ export function filterProjects(
 		// Check formats filter (maps to project.formats)
 		if (selectedFilters.formats && selectedFilters.formats.length > 0) {
 			const hasMatchingFormat = selectedFilters.formats.some((selectedFormat) => {
-				console.log('Selected format:', selectedFormat);
 				return project.formats.some((format: EnrichedFormatData) => format.key === selectedFormat);
 			});
 			if (!hasMatchingFormat) return false;
@@ -65,8 +64,6 @@ export function filterProjects(
 
 		// Check contexts filter (maps to project.contexts)
 		if (selectedFilters.contexts && selectedFilters.contexts.length > 0) {
-			console.log('selectedFilters.contexts: ', selectedFilters.contexts);
-			console.log('project.contexts: ', project.contexts);
 			const hasMatchingContext = selectedFilters.contexts.some((selectedContext) => {
 				return project.contexts.some(
 					(context: EnrichedContextData) => context.id === selectedContext
