@@ -11,17 +11,13 @@ export const cacheReady = writable(false);
  */
 export async function initializeApp() {
 	try {
-		console.log('Initializing application...');
-
 		// Initialize project cache in the background with current language
 		const currentLanguage = await getCurrentLanguage();
 		await projectsService.initializeCache(currentLanguage);
 		cacheReady.set(true);
 
 		appInitialized.set(true);
-		console.log('Application initialized successfully');
 	} catch (error) {
-		// console.error('Failed to initialize application:', error);
 		// Continue without cache rather than failing completely
 		appInitialized.set(true);
 	}

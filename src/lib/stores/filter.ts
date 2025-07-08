@@ -54,7 +54,6 @@ export const initialState: FilterState = {
 };
 
 export function resetFilterStore() {
-	// console.log('resetFilterStore');
 	// set selectedFilters to empty object
 	filterStore.update((state) => ({
 		...state,
