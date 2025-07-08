@@ -5,7 +5,7 @@
 
 <div class="announcement-container">
 	<div class="announcement-content">
-		<p>{getUIText('announcement.content', $activeLanguage)}</p>
+		<p>{@html getUIText('announcement.content', $activeLanguage)}</p>
 	</div>
 </div>
 
@@ -23,6 +23,9 @@
 	}
 
 	.announcement-content {
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		width: 80vw;
 		background: white;
 		border: 1px solid black;
@@ -30,24 +33,30 @@
 		box-shadow: $paper-shadow-large;
 		will-change: transform;
 		animation: scroll-float 20s ease-in-out infinite;
-
 		@include desktop {
 			width: 25vw;
 		}
 	}
 
 	@keyframes scroll-float {
-		0%, 100% { 
-			transform: translateY(-10px) rotate(-1.4deg); 
+		0%,
+		100% {
+			transform: translateY(-10px) rotate(-1.4deg);
 		}
-		50% { 
-			transform: translateY(10px) rotate(1.4deg); 
+		50% {
+			transform: translateY(10px) rotate(1.4deg);
 		}
 	}
 
 	p {
 		padding: 1rem 2ch;
 		font-size: $font-medium;
+
+		:global(span) {
+			font-weight: bold;
+			background-color: $color_day_friday;
+			padding: 0.2rem 0.3rem;
+		}
 
 		@include desktop {
 			// font-size: $font-small;

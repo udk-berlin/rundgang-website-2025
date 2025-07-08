@@ -97,8 +97,8 @@ export const UI_TEXTS = {
 
 	announcement: {
 		content: {
-			de: 'Das Programm des UdK Rundgang wird derzeit befüllt und enthält noch nicht alle Projekte...',
-			en: 'The program of the UdK Rundgang is currently being filled and does not yet contain all projects...'
+			de: 'Der Rundgang startet <span>Freitag, 18. Juli um 16 Uhr</span>',
+			en: 'The Rundgang starts on <span>Friday, 18th July at 4pm</span>'
 		}
 	},
 
