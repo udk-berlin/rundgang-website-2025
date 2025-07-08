@@ -115,11 +115,11 @@ export interface KirbyProjectResponse {
 	location: string[]; // Array of location strings
 	contexts?: string; // Single context string
 	// Timeline-specific event fields
-	fridayDate?: string; // "allday" or "datetime"
+	fridayDate?: string; // "allday" or "datetime" or "none"
 	fridayTimes?: TimelineEventTime[];
-	saturdayDate?: string; // "allday" or "datetime"
+	saturdayDate?: string; // "allday" or "datetime" or "none"
 	saturdayTimes?: TimelineEventTime[];
-	sundayDate?: string; // "allday" or "datetime"
+	sundayDate?: string; // "allday" or "datetime" or "none"
 	sundayTimes?: TimelineEventTime[];
 	uuid: string;
 	images: KirbySrcsetImageEntry[]; // Added based on new structure
@@ -160,12 +160,8 @@ export interface KqlQuery {
 
 // KQL selections for initial project loading (with title images only)
 
-
 // KQL selections for loading additional images when needed with native srcset
-
 
 // Default KQL selections for different entity types (uses native srcset)
 
-
 // KQL field mappings for filtering
-
