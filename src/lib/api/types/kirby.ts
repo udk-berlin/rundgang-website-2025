@@ -110,6 +110,7 @@ export interface KirbyProjectResponse {
 	modified: number;
 	author?: Author;
 	coauthor?: Author;
+	authorship_visibility?: boolean;
 	url: string;
 	formats: string[]; // Array of format strings
 	location: string[]; // Array of location strings
@@ -124,6 +125,8 @@ export interface KirbyProjectResponse {
 	uuid: string;
 	images: KirbySrcsetImageEntry[]; // Added based on new structure
 	content?: ContentBlock[]; // Updated to reflect parsed blocks
+	intro_field_intro?: string; // Raw intro field from Kirby CMS
+	intro?: { de: string; en: string }; // Processed bilingual intro field
 	titleImage?: TitleImageBlock[]; // Updated to match actual structure
 	// Enhanced data
 	enrichedLocations?: EnrichedLocationData[];

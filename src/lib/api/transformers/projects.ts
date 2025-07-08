@@ -179,6 +179,7 @@ export function transformKirbyProjectToMetadata(kirbyProject: KirbyProjectRespon
 				: { de: kirbyProject.title || 'Untitled', en: kirbyProject.title || 'Untitled' },
 		author: kirbyProject.author?.username || 'Unknown Artist',
 		coauthors: kirbyProject.coauthor?.username ? [kirbyProject.coauthor.username] : [],
+		authorship_visibility: kirbyProject.authorship_visibility === 'false' ? false : true,
 		formats:
 			kirbyProject.enrichedFormats ||
 			normalizeToArray(kirbyProject.formats).map((format) => ({
@@ -194,6 +195,7 @@ export function transformKirbyProjectToMetadata(kirbyProject: KirbyProjectRespon
 				name: contextId
 			})),
 		url: kirbyProject.url,
+		intro: kirbyProject.intro,
 		location: (() => {
 			// Use enriched location data if available
 			if (kirbyProject.enrichedLocations && kirbyProject.enrichedLocations.length > 0) {
@@ -288,6 +290,7 @@ export function transformKirbyProject(kirbyProject: KirbyProjectResponse): Proje
 				: { de: kirbyProject.title || 'Untitled', en: kirbyProject.title || 'Untitled' },
 		author: kirbyProject.author?.username || 'Unknown Artist',
 		coauthors: kirbyProject.coauthor?.username ? [kirbyProject.coauthor.username] : [],
+		authorship_visibility: kirbyProject.authorship_visibility === 'false' ? false : true,
 		formats:
 			kirbyProject.enrichedFormats ||
 			normalizeToArray(kirbyProject.formats).map((format) => ({
@@ -298,6 +301,7 @@ export function transformKirbyProject(kirbyProject: KirbyProjectResponse): Proje
 		contexts: kirbyProject.enrichedContexts || [],
 		url: kirbyProject.url,
 		images: kirbyProject.images,
+		intro: kirbyProject.intro,
 		location: (() => {
 			// Use enriched location data if available
 			if (kirbyProject.enrichedLocations && kirbyProject.enrichedLocations.length > 0) {

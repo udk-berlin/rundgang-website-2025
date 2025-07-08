@@ -173,7 +173,6 @@
 		}
 
 		.dynamic-text {
-			line-height: 1.6;
 			white-space: pre-wrap; // To respect newlines in plain text from CMS
 			p {
 				// If text contains <p> tags from {@html}
