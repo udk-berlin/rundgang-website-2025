@@ -17,7 +17,7 @@ function extractTimelineEvents(kirbyProject: KirbyProjectResponse): TimelineEven
 
 	// Process Friday
 	if (kirbyProject.fridayDate) {
-		const fridayType = kirbyProject.fridayDate as 'allday' | 'datetime' | 'closed';
+		const fridayType = kirbyProject.fridayDate as 'allday' | 'datetime' | 'closed' | 'none';
 		events.push({
 			day: 'friday',
 			type: fridayType,
@@ -27,7 +27,7 @@ function extractTimelineEvents(kirbyProject: KirbyProjectResponse): TimelineEven
 
 	// Process Saturday
 	if (kirbyProject.saturdayDate) {
-		const saturdayType = kirbyProject.saturdayDate as 'allday' | 'datetime' | 'closed';
+		const saturdayType = kirbyProject.saturdayDate as 'allday' | 'datetime' | 'closed' | 'none';
 		events.push({
 			day: 'saturday',
 			type: saturdayType,
@@ -37,7 +37,7 @@ function extractTimelineEvents(kirbyProject: KirbyProjectResponse): TimelineEven
 
 	// Process Sunday
 	if (kirbyProject.sundayDate) {
-		const sundayType = kirbyProject.sundayDate as 'allday' | 'datetime' | 'closed';
+		const sundayType = kirbyProject.sundayDate as 'allday' | 'datetime' | 'closed' | 'none';
 		events.push({
 			day: 'sunday',
 			type: sundayType,
@@ -66,7 +66,7 @@ function transformEvents(events: TimelineEvent[]): ScheduleByDay {
 			continue;
 		}
 
-		if (entry.type === 'allday') {
+		if (entry.type === 'allday' || entry.type === 'none') {
 			// Handle all-day events
 			if (entry.times?.length) {
 				let dateStr: string | undefined;
@@ -167,11 +167,12 @@ export function transformKirbyProjectToMetadata(kirbyProject: KirbyProjectRespon
 	const timelineEvents = extractTimelineEvents(kirbyProject);
 	const schedule = transformEvents(timelineEvents);
 
-
 	const metadata: Project = {
 		id: kirbyProject.id,
 		uuid: kirbyProject.uuid || kirbyProject.id,
-		modified: kirbyProject.modified ? new Date(kirbyProject.modified * 1000).toISOString() : new Date().toISOString(),
+		modified: kirbyProject.modified
+			? new Date(kirbyProject.modified * 1000).toISOString()
+			: new Date().toISOString(),
 		title:
 			typeof kirbyProject.title === 'object' && kirbyProject.title !== null
 				? { de: kirbyProject.title.de || 'Untitled', en: kirbyProject.title.en || 'Untitled' }
@@ -278,7 +279,9 @@ export function transformKirbyProject(kirbyProject: KirbyProjectResponse): Proje
 	const project: Project = {
 		id: kirbyProject.id,
 		uuid: kirbyProject.uuid || kirbyProject.id,
-		modified: kirbyProject.modified ? new Date(kirbyProject.modified * 1000).toISOString() : new Date().toISOString(),
+		modified: kirbyProject.modified
+			? new Date(kirbyProject.modified * 1000).toISOString()
+			: new Date().toISOString(),
 		title:
 			typeof kirbyProject.title === 'object' && kirbyProject.title !== null
 				? { de: kirbyProject.title.de || 'Untitled', en: kirbyProject.title.en || 'Untitled' }
@@ -374,7 +377,6 @@ export function transformKirbyProjects(kirbyProjects: KirbyProjectResponse[]): P
 	return projects;
 }
 
-
 export function validateProject(project: Project): boolean {
 	return !!(
 		project.id &&
@@ -388,7 +390,6 @@ export function validateProject(project: Project): boolean {
 /**
  * Transform and validate metadata in one pass
  */
-
 
 /**
  * Filter and validate projects in one pass
