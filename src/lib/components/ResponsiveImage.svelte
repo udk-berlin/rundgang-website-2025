@@ -61,7 +61,7 @@
 					context,
 					screenSize,
 					pixelDensity
-			  })
+				})
 			: image.medium // Always use medium size for SSR consistency
 	);
 

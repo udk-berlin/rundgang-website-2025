@@ -365,7 +365,6 @@
 		position: relative;
 	}
 
-
 	.filter-container {
 		flex: 0 0 20vw;
 		height: 100%;
@@ -394,10 +393,6 @@
 		}
 	}
 
-
-
-
-
 	.projects-container {
 		width: 100%;
 		padding: 1rem;
@@ -406,6 +401,4 @@
 			padding: 0 !important;
 		}
 	}
-
-
 </style>

@@ -20,15 +20,15 @@ interface PageData {
 
 export const load = async ({ fetch }): Promise<PageData> => {
 	const response = await fetch(`/api/static-pages/faq`);
-	
+
 	if (!response.ok) {
 		throw new Error('Failed to fetch FAQ data');
 	}
-	
+
 	const { enData, deData } = await response.json();
-	
-	return { 
-		enData: enData, 
+
+	return {
+		enData: enData,
 		deData: deData
 	};
 };

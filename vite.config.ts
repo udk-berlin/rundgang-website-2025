@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => ({
 		preprocessorOptions: {
 			scss: {
 				additionalData: `@use '$styles/variables.scss' as *;`,
-				silenceDeprecations: ["legacy-js-api"]
+				silenceDeprecations: ['legacy-js-api']
 			}
 		}
 	},

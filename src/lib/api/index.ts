@@ -21,7 +21,6 @@ export type {
 
 	// Project types
 	Project,
-
 	ProjectQueryOptions,
 	ProjectsRequestBody,
 	ProjectFilters,
@@ -42,15 +41,9 @@ export type {
 } from './types/index';
 
 // Constants
-export {
-	API_ENDPOINTS
-} from './types/index';
+export { API_ENDPOINTS } from './types/index';
 
-export {
-	PROJECT_QUERIES,
-	FILTER_QUERIES,
-	DEFAULT_PROJECT_SELECT
-} from './queries/index';
+export { PROJECT_QUERIES, FILTER_QUERIES, DEFAULT_PROJECT_SELECT } from './queries/index';
 
 // Utilities
 export * from './utils/errors';

@@ -54,7 +54,7 @@ export interface ProjectQueryOptions {
 	locations?: string[];
 	contexts?: string[];
 	searchTerm?: string;
-	
+
 	metadataOnly?: boolean; // New flag for lightweight loading
 }
 
@@ -65,7 +65,7 @@ export interface ProjectsRequestBody extends Record<string, unknown> {
 	limit?: number;
 	offset?: number;
 	page?: number;
-	
+
 	selectConfig?: 'default' | 'initial' | 'images'; // Configuration for different select modes
 	metadataOnly?: boolean;
 }

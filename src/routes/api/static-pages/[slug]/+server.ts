@@ -56,7 +56,7 @@ export const GET: RequestHandler = async ({ params }): Promise<Response> => {
 		const enData = await getStaticPage(slug, 'en');
 		const deData = await getStaticPage(slug, 'de');
 
-		return new Response(JSON.stringify({ enData, deData }), { 
+		return new Response(JSON.stringify({ enData, deData }), {
 			status: 200,
 			headers: {
 				'Content-Type': 'application/json'

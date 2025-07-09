@@ -133,9 +133,7 @@
 			font-size: $font-large;
 			color: rgba($black, 0.7);
 		}
-
 	}
-
 
 	.error-message {
 		text-align: center;

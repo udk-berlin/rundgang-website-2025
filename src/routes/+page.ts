@@ -11,7 +11,7 @@ export const load = async ({ url, fetch }: { url: URL; fetch: typeof globalThis.
 
 		// Take first 30 for initial server-side render
 		// const initialProjects = allProjects.slice(0, 100);
-		const initialProjects = allProjects
+		const initialProjects = allProjects;
 		const expectedCount = allProjects.length;
 
 		return {

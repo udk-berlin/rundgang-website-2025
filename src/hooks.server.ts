@@ -8,9 +8,6 @@ import type { Handle } from '@sveltejs/kit';
 import { building } from '$app/environment';
 import type { KirbyAPIResponse } from './routes/api/projects/+server';
 
-
-
-
 // Initialize external data cache when server starts
 let cacheInitialized = false;
 
@@ -56,7 +53,7 @@ async function initializeProjectCacheWithRefresh() {
 			cacheKey,
 			async () => {
 				console.log('🔄 Server-side background refresh: Fetching updated project data...');
-				
+
 				const apiUrl = `${SERVER_API_CONFIG.BASE_URL}/query`;
 				const response = await fetch(apiUrl, {
 					method: 'POST',
@@ -77,7 +74,9 @@ async function initializeProjectCacheWithRefresh() {
 				});
 
 				if (!response.ok) {
-					throw new Error(`Server background refresh API error: ${response.status} ${response.statusText}`);
+					throw new Error(
+						`Server background refresh API error: ${response.status} ${response.statusText}`
+					);
 				}
 
 				const data: KirbyAPIResponse = await response.json();
@@ -92,8 +91,6 @@ async function initializeProjectCacheWithRefresh() {
 		console.error('❌ Failed to initialize project cache with background refresh:', error);
 	}
 }
-
-
 
 if (!building) {
 	initializeServerCache();

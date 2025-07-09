@@ -24,13 +24,10 @@ function createLanguageStore() {
 	return {
 		subscribe,
 		set: (value: 'DE' | 'EN') => {
-
 			if (browser) {
 				AppStorage.setItem('rg-25-lang', value)
-					.then(() => {
-					})
-					.catch((error) => {
-					});
+					.then(() => {})
+					.catch((error) => {});
 			}
 
 			// No need to clear cache anymore - we use multi-language caching

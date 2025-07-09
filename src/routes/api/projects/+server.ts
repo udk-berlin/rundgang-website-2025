@@ -12,7 +12,6 @@ import type { KirbyProjectResponse } from '$lib/api/types/kirby';
 import { PROJECT_SELECTS, PROJECT_QUERIES } from '$lib/api/queries/kirby';
 import { locationMatchData } from '$lib/data/locations';
 
-
 // Interfaces for parsed content_field blocks
 export interface HeadingContentData {
 	level: string; // e.g., "h2", "h3", etc.
@@ -543,7 +542,7 @@ export const POST: RequestHandler = async ({ request }) => {
 				...deData.result,
 				data: mergedProjects as unknown as KirbyProjectResponse[] // Type assertion needed for now
 			}
-		}
+		};
 
 		// Get enriched data from cache and enhance projects
 		const enhancementStart = performance.now();
@@ -570,7 +569,6 @@ export const POST: RequestHandler = async ({ request }) => {
 			// console.warn('❌ Failed to enhance projects with enriched data:', enhancementError);
 			// Continue without enrichment rather than failing the entire request
 		}
-
 
 		// Cache the result (10 minutes TTL for content)
 		filterCache.set(cacheKey, data, 10 * 60 * 1000);

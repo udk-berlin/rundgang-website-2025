@@ -53,7 +53,6 @@ class EnhancedLRUCache<T> {
 		return entry ? entry.data : null;
 	}
 
-
 	has(key: string): boolean {
 		if (!this.enabled) return false;
 		return this.cache.has(key);
@@ -76,7 +75,7 @@ class EnhancedLRUCache<T> {
 			// We can add our own stats here
 			info: {
 				keys: Array.from(this.cache.keys()),
-				remainingTTLs: Array.from(this.cache.keys()).map(key => ({
+				remainingTTLs: Array.from(this.cache.keys()).map((key) => ({
 					key,
 					remainingTTL: this.cache.getRemainingTTL(key)
 				}))
@@ -130,7 +129,7 @@ class EnhancedLRUCache<T> {
 		this.stopRefresh(key);
 
 		const intervalMs = intervalMinutes * 60 * 1000;
-		
+
 		const refreshInterval = setInterval(async () => {
 			// Don't refresh if there's already a refresh in progress for this key
 			if (this.refreshPromises.has(key)) {
@@ -141,10 +140,13 @@ class EnhancedLRUCache<T> {
 			try {
 				console.log(`🔄 Starting background refresh for key: ${key}`);
 				const refreshPromise = refreshFn();
-				this.refreshPromises.set(key, refreshPromise.then(() => {}));
+				this.refreshPromises.set(
+					key,
+					refreshPromise.then(() => {})
+				);
 
 				const newData = await refreshPromise;
-				
+
 				// Only update if we successfully got new data
 				if (newData !== undefined && newData !== null) {
 					this.set(key, newData, ttl);
@@ -225,7 +227,7 @@ class EnhancedLRUCache<T> {
 			console.log(`❌ No background refresh setup for key: ${key}`);
 			return;
 		}
-		
+
 		console.log(`🔧 Manually triggering refresh for key: ${key}`);
 		// We can't directly trigger the interval, but we can check if refresh is working
 		console.log(`Active refresh intervals: ${Array.from(this.refreshIntervals.keys()).join(', ')}`);
@@ -507,11 +509,11 @@ export const enhancedCacheUtils = {
 
 			// Get current modified timestamps from server
 			const currentModified = await fetchModifiedFn();
-			const currentModifiedMap = new Map(currentModified.map(p => [p.uuid, p.modified]));
+			const currentModifiedMap = new Map(currentModified.map((p) => [p.uuid, p.modified]));
 
 			// Check which cached projects are outdated
 			const outdatedUuids: string[] = [];
-			const cachedModifiedMap = new Map(cachedData.map(p => [p.uuid, p.modified]));
+			const cachedModifiedMap = new Map(cachedData.map((p) => [p.uuid, p.modified]));
 
 			// Only check projects that are in cache, not all server projects
 			for (const [uuid, cachedModified] of cachedModifiedMap) {
@@ -535,7 +537,9 @@ export const enhancedCacheUtils = {
 				return cachedData;
 			}
 
-			console.debug(`🔄 Found ${outdatedUuids.length} outdated and ${deletedUuids.length} deleted projects`);
+			console.debug(
+				`🔄 Found ${outdatedUuids.length} outdated and ${deletedUuids.length} deleted projects`
+			);
 
 			// Fetch only the updated projects
 			let updatedProjects: T[] = [];
@@ -562,23 +566,25 @@ export const enhancedCacheUtils = {
 		updatedProjects: T[],
 		deletedUuids: string[] = []
 	): T[] {
-		const updatedMap = new Map(updatedProjects.map(p => [p.uuid, p]));
+		const updatedMap = new Map(updatedProjects.map((p) => [p.uuid, p]));
 		const deletedSet = new Set(deletedUuids);
 
 		// Replace updated projects and filter out deleted ones
 		const result = cachedData
-			.filter(project => !deletedSet.has(project.uuid))
-			.map(project => updatedMap.get(project.uuid) || project);
+			.filter((project) => !deletedSet.has(project.uuid))
+			.map((project) => updatedMap.get(project.uuid) || project);
 
 		// Add any new projects that weren't in the original cache
 		for (const updatedProject of updatedProjects) {
-			const existsInCache = cachedData.some(p => p.uuid === updatedProject.uuid);
+			const existsInCache = cachedData.some((p) => p.uuid === updatedProject.uuid);
 			if (!existsInCache) {
 				result.push(updatedProject);
 			}
 		}
 
-		console.debug(`🔄 Cache update: ${updatedProjects.length} updated, ${deletedUuids.length} deleted, ${result.length} total`);
+		console.debug(
+			`🔄 Cache update: ${updatedProjects.length} updated, ${deletedUuids.length} deleted, ${result.length} total`
+		);
 		return result;
 	},
 
@@ -587,13 +593,13 @@ export const enhancedCacheUtils = {
 	 */
 	invalidateProjects(projectUuids: string[]): void {
 		const uuidSet = new Set(projectUuids);
-		
+
 		// Invalidate project content cache entries that contain these projects
 		for (const key of projectContentCache.keys()) {
 			const cached = projectContentCache.get(key);
 			if (cached && Array.isArray(cached)) {
-				const hasTargetProject = cached.some((project: any) => 
-					project.uuid && uuidSet.has(project.uuid)
+				const hasTargetProject = cached.some(
+					(project: any) => project.uuid && uuidSet.has(project.uuid)
 				);
 				if (hasTargetProject) {
 					projectContentCache.delete(key);
@@ -679,8 +685,14 @@ export const enhancedCacheUtils = {
 	 */
 	checkRefreshStatus(): void {
 		console.log('🔍 Background Refresh Status:');
-		console.log('Project Content Cache:', Array.from((projectContentCache as any).refreshIntervals.keys()));
-		console.log('Single Project Cache:', Array.from((singleProjectCache as any).refreshIntervals.keys()));
+		console.log(
+			'Project Content Cache:',
+			Array.from((projectContentCache as any).refreshIntervals.keys())
+		);
+		console.log(
+			'Single Project Cache:',
+			Array.from((singleProjectCache as any).refreshIntervals.keys())
+		);
 		console.log('Filter Cache:', Array.from((filterCache as any).refreshIntervals.keys()));
 		console.log('Image Cache:', Array.from((imageCache as any).refreshIntervals.keys()));
 	},

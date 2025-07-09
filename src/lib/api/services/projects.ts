@@ -3,15 +3,8 @@ import {
 	createUniversalApiClient,
 	type UniversalClient
 } from '../universal-client';
-import {
-	transformAndValidateProjects,
-	transformKirbyProject
-} from '../transformers/projects';
-import {
-	projectContentCache,
-	singleProjectCache,
-	enhancedCacheUtils
-} from '../../cache-enhanced';
+import { transformAndValidateProjects, transformKirbyProject } from '../transformers/projects';
+import { projectContentCache, singleProjectCache, enhancedCacheUtils } from '../../cache-enhanced';
 import type {
 	Project,
 	ProjectQueryOptions,

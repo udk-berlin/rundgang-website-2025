@@ -68,7 +68,6 @@
 		background-color: $white;
 		transition: opacity 0.3s ease-out;
 		margin-top: 5vh;
-
 	}
 
 	.content {

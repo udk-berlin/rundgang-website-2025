@@ -175,7 +175,6 @@
 		pointer-events: none;
 	}
 
-
 	/* Desktop styles */
 	.desktop-views {
 		display: flex;

@@ -32,12 +32,9 @@ export type {
 	KqlQuery
 } from './kirby';
 
-
-
 // Project types
 export type {
 	Project,
-
 	ProjectQueryOptions,
 	ProjectsRequestBody,
 	ProjectFilters,
