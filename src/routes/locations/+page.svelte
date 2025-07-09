@@ -48,6 +48,9 @@
 	// Context visibility toggle state
 	let showContexts = false;
 
+	// Loading state for contexts computation
+	let availableContexts: Array<{ context: EnrichedContextData; count: number }> = [];
+
 	// Get selected location filters from filter store
 	$: selectedLocationFilters = $filterStore.selectedFilters.locations || [];
 
@@ -253,6 +256,7 @@
 				{locations}
 				{allProjects}
 				{selectedLocationFilters}
+				{availableContexts}
 				on:locationClick={({ detail }) => handleLocationClick(detail.locationId, detail.event)}
 				on:showOnMap={({ detail }) => handleShowOnMap(detail.locationId, detail.event)}
 				on:showProjects={({ detail }) => handleShowProjects(detail.locationId)}
@@ -260,7 +264,7 @@
 				on:toggleContexts={handleToggleContexts}
 			/>
 			<!-- Location Contexts -->
-			{#if showContexts && selectedLocationFilters.length > 0}
+			{#if showContexts && availableContexts.length > 0 && selectedLocationFilters.length > 0}
 				<LocationContexts
 					{availableFaculties}
 					{availableContexts}
@@ -318,7 +322,6 @@
 		position: relative;
 	}
 
-
 	.filter-container {
 		flex: 0 0 20vw;
 		height: 100%;
@@ -347,7 +350,6 @@
 			}
 		}
 	}
-
 
 	/* Projects Sidebar */
 	:global(.overlay-content) {
@@ -435,6 +437,5 @@
 		max-width: 90vw;
 		max-height: 90vh;
 		overflow-y: auto;
-
 	}
 </style>

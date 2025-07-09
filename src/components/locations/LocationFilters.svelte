@@ -21,6 +21,7 @@
 	}>;
 	export let allProjects: Project[];
 	export let selectedLocationFilters: string[];
+	export let availableContexts: Array<{ context: EnrichedContextData; count: number }>;
 
 	const dispatch = createEventDispatcher<{
 		locationClick: { locationId: string; event: Event };
@@ -106,6 +107,7 @@
 						<LocationActionButtons
 							text={getUIText('locations.locationActionButtons.showContexts', $activeLanguage)}
 							variant="secondary"
+							disabled={availableContexts.length === 0}
 							on:click={handleToggleContexts}
 						/>
 					</div>
