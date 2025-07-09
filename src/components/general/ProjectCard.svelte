@@ -163,13 +163,13 @@
 	</div>
 	<div class="info">
 		<div class="category-container">
+			<div class="location">
+				<p>{project.location?.name}</p>
+			</div>
 			<div class="formats">
 				{#each localizedFormats as formatLabel}
 					<p>{formatLabel}</p>
 				{/each}
-			</div>
-			<div class="location">
-				<p>{project.location?.name}</p>
 			</div>
 		</div>
 		<h3 class="title">{getLocalizedLabel(project.title, $activeLanguage)}</h3>
