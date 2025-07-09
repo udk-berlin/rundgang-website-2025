@@ -26,6 +26,7 @@
 
 <PaperContainer height="auto" width="66vw" vertical="bottom">
 	<CloseButton onClick={handleClose} />
+	<h4>An dem ausgewählten Standort finden Sie folgende Kontexte:</h4>
 	<div class="location-details-section" transition:slide={{ duration: 150 }}>
 		<!-- Faculties -->
 		{#if availableFaculties.length > 0}
@@ -63,6 +64,10 @@
 </PaperContainer>
 
 <style lang="scss">
+	.location-details-section {
+		margin-top: 1rem;
+	}
+
 	.section-group {
 		margin-bottom: 1.5rem;
 	}
