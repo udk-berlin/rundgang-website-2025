@@ -160,6 +160,11 @@
 				<span class="placeholder-text">{getLocalizedLabel(project.title, $activeLanguage)}</span>
 			</div>
 		{/if}
+		{#if project.schedule?.friday?.length > 0 || project.schedule?.saturday?.length > 0 || project.schedule?.sunday?.length > 0}
+			<div class="event-badge-container">
+				<EventBadges schedule={project.schedule} />
+			</div>
+		{/if}
 	</div>
 	<div class="info">
 		<div class="category-container">
@@ -181,9 +186,6 @@
 					{/each}
 				{/if}
 			</div>
-		{/if}
-		{#if project.schedule?.friday?.length > 0 || project.schedule?.saturday?.length > 0 || project.schedule?.sunday?.length > 0}
-			<EventBadges schedule={project.schedule} />
 		{/if}
 	</div>
 	<button
@@ -260,6 +262,12 @@
 
 	.image-container .placeholder-image {
 		background-color: $grey;
+	}
+
+	.event-badge-container {
+		position: absolute;
+		bottom: 0.5rem;
+		left: 0.5rem;
 	}
 
 	.placeholder-content {
