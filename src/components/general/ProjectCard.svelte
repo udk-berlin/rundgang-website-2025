@@ -32,11 +32,6 @@
 
 	const rotation = getRandomRotation();
 
-	let scribbleSeed: number;
-	// Get the localized title for scribble seed calculation
-	$: localizedTitle = getLocalizedLabel(project.title, $activeLanguage);
-	$: scribbleSeed = (localizedTitle.charCodeAt(0) % 5) + 1; // just some way to randomize the scribble border
-
 	let imageAspectRatioStyle = 'padding-top: 75%;'; // Default aspect ratio (e.g., 4:3)
 	let responsiveImage: ResponsiveImageEntry | undefined = undefined;
 	let imageAlt: string | undefined = undefined;
@@ -141,6 +136,23 @@
 >
 	<!-- <ScribbleBorder seed={scribbleSeed} scale={0.7} /> -->
 	<div class="image-container" style={imageAspectRatioStyle}>
+		<button
+			class="save-button"
+			class:saved={isSaved}
+			on:click={handleSaveClick}
+			aria-label={isSaved
+				? getUIText('merkliste.removeFromMerkliste', $activeLanguage)
+				: getUIText('merkliste.addToMerkliste', $activeLanguage)}
+			data-tooltip={isSaved
+				? getUIText('merkliste.removeFromMerkliste', $activeLanguage)
+				: getUIText('merkliste.addToMerkliste', $activeLanguage)}
+		>
+			{#if isSaved}
+				<img src="{base}/icons/basket_full.png" alt="Remove" class="basket-icon" />
+			{:else}
+				<img src="{base}/icons/basket_empty.png" alt="Add" class="basket-icon" />
+			{/if}
+		</button>
 		{#if responsiveImage}
 			<ResponsiveImage
 				image={responsiveImage}
@@ -188,23 +200,6 @@
 			</div>
 		{/if}
 	</div>
-	<button
-		class="save-button"
-		class:saved={isSaved}
-		on:click={handleSaveClick}
-		aria-label={isSaved
-			? getUIText('merkliste.removeFromMerkliste', $activeLanguage)
-			: getUIText('merkliste.addToMerkliste', $activeLanguage)}
-		data-tooltip={isSaved
-			? getUIText('merkliste.removeFromMerkliste', $activeLanguage)
-			: getUIText('merkliste.addToMerkliste', $activeLanguage)}
-	>
-		{#if isSaved}
-			<img src="{base}/icons/basket_full.png" alt="Remove" class="basket-icon" />
-		{:else}
-			<img src="{base}/icons/basket_empty.png" alt="Add" class="basket-icon" />
-		{/if}
-	</button>
 	<!-- <ScribbleAnimation /> -->
 </a>
 
@@ -229,10 +224,6 @@
 			transform 300ms ease-in-out,
 			border 300ms ease-in-out,
 			height 300ms ease-in-out;
-
-		.save-button {
-			opacity: 1;
-		}
 
 		&:hover {
 			// border: 1px solid $color_pink;
@@ -313,8 +304,8 @@
 		position: absolute;
 		top: 0.5rem;
 		right: 0.5rem;
-		background: white;
-		// border: 1px solid rgba(0, 0, 0, 0.5);
+		background: rgba(255, 255, 255, 0.2);
+		backdrop-filter: blur(2px);
 		color: black;
 		font-size: 1.5rem;
 		cursor: pointer;
@@ -329,11 +320,11 @@
 		align-items: center;
 		justify-content: center;
 		box-sizing: border-box;
-		// box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		border: 1px solid rgba(255, 255, 255, 0.5);
 
 		&:hover {
 			transform: scale(1.1);
-			background: white;
+			background: rgba(255, 255, 255, 0.4);
 			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 		}
 
@@ -342,9 +333,10 @@
 		}
 
 		&.saved {
-			background: white;
-			// color: black;
+			background: rgba(255, 255, 255, 0.3);
+			backdrop-filter: blur(2px);
 			border: 1px solid $color_pink;
+			box-shadow: inset 0px 0px 10px $color_pink;
 
 			&:hover {
 				transform: scale(1.1);
@@ -352,8 +344,14 @@
 		}
 
 		.basket-icon {
+			width: 1.5rem;
+			height: 1.5rem;
 			object-fit: contain;
 			filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
 		}
 
 		// Add a subtle pulse animation when saved
@@ -384,13 +382,13 @@
 
 	@keyframes pulse {
 		0% {
-			transform: scale(1);
+			transform: translate(-50%, -50%) scale(1);
 		}
 		50% {
-			transform: scale(1.2);
+			transform: translate(-50%, -50%) scale(1.2);
 		}
 		100% {
-			transform: scale(1);
+			transform: translate(-50%, -50%) scale(1);
 		}
 	}
 </style>
