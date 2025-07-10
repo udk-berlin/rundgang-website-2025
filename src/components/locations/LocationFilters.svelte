@@ -102,6 +102,7 @@
 						<LocationActionButtons
 							text={getUIText('locations.accordion.showProjects', $activeLanguage)}
 							variant="primary"
+							disabled={allProjects.filter((p) => p.location?.id === item.id).length === 0}
 							on:click={() => handleShowProjects(item.id)}
 						/>
 						<LocationActionButtons

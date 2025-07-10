@@ -26,11 +26,12 @@
 
 <PaperContainer height="auto" width="66vw" vertical="bottom">
 	<CloseButton onClick={handleClose} />
-	<h4>An dem ausgewählten Standort finden Sie folgende Kontexte:</h4>
+	<p class="contexts-heading">{getUIText('locations.contexts.heading', $activeLanguage)}</p>
 	<div class="location-details-section" transition:slide={{ duration: 150 }}>
 		<!-- Faculties -->
 		{#if availableFaculties.length > 0}
 			<div class="section-group">
+				<h4>{getUIText('locations.facultiesHeading', $activeLanguage)}</h4>
 				<div class="pills-container">
 					{#each availableFaculties as { faculty, count }}
 						<div class="info-pill">
@@ -79,6 +80,15 @@
 		margin: 0 0 0.5rem 0;
 		text-transform: uppercase;
 		letter-spacing: 0.5px;
+	}
+
+	.contexts-heading {
+		// font-weight: normal;
+		width: 100%;
+
+		@include desktop {
+			width: 80%;
+		}
 	}
 
 	.clickable-pill {

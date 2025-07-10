@@ -205,6 +205,7 @@ export const UI_TEXTS = {
 		contextsHeading: { de: 'Kontexte', en: 'Contexts' },
 		facultiesHeading: { de: 'Fakultäten', en: 'Faculties' },
 		coursesHeading: { de: 'Kurse', en: 'Courses' },
+		facultiesHeading: { de: 'Fakultäten', en: 'Faculties' },
 		classesHeading: { de: 'Veranstaltungsformen', en: 'Classes' },
 		clearSelection: { de: 'Auswahl löschen', en: 'Clear Selection' },
 		clearContexts: { de: 'Kontexte löschen', en: 'Clear Contexts' },
@@ -242,6 +243,12 @@ export const UI_TEXTS = {
 			showOnMap: { de: 'Auf Karte zeigen', en: 'Show on Map' },
 			showProjects: { de: 'Projekte zeigen', en: 'Show Projects' },
 			showContexts: { de: 'Kontexte zeigen', en: 'Show Contexts' }
+		},
+		contexts: {
+			heading: {
+				de: 'An dem ausgewählten Standort finden Projekte im Rahmen folgender Kontexte statt:',
+				en: 'Projects at the selected location take place in the following contexts:'
+			}
 		}
 	},
 
