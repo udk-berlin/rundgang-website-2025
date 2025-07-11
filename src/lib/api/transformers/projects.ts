@@ -209,6 +209,7 @@ export function transformKirbyProjectToMetadata(kirbyProject: KirbyProjectRespon
 			const locationData = normalizeToArray(kirbyProject.location)[0];
 			return locationData ? transformLocationToObject(locationData) : undefined;
 		})(),
+		location_additional_info: kirbyProject.location_field_text,
 		fridayDate: kirbyProject.fridayDate,
 		saturdayDate: kirbyProject.saturdayDate,
 		sundayDate: kirbyProject.sundayDate,
@@ -315,6 +316,7 @@ export function transformKirbyProject(kirbyProject: KirbyProjectResponse): Proje
 			const locationData = normalizeToArray(kirbyProject.location)[0];
 			return locationData ? transformLocationToObject(locationData) : undefined;
 		})(),
+		location_additional_info: kirbyProject.location_field_text,
 		content: kirbyProject.content as BilingualContentBlock[] | undefined,
 		timelineEvents,
 		schedule,

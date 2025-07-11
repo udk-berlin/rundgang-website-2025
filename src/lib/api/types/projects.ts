@@ -17,6 +17,7 @@ export interface Project {
 	formats: EnrichedFormatData[];
 	contexts: EnrichedContextData[];
 	location?: EnrichedLocationData;
+	location_additional_info?: string;
 	timelineEvents: TimelineEvent[];
 	schedule: ScheduleByDay;
 	url: string;

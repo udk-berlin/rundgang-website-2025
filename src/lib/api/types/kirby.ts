@@ -115,6 +115,7 @@ export interface KirbyProjectResponse {
 	formats: string[]; // Array of format strings
 	location: string[]; // Array of location strings
 	contexts?: string; // Single context string
+	location_field_text?: string; // Additional location information from content field
 	// Timeline-specific event fields
 	fridayDate?: string; // "allday" or "datetime" or "none"
 	fridayTimes?: TimelineEventTime[];

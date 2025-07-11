@@ -153,7 +153,12 @@
 				<p class="category">
 					{project.formats.map((format) => getLocalizedLabel(format, $activeLanguage)).join(', ')}
 				</p>
-				<p class="location">{project.location?.name}</p>
+				<div class="location-container">
+					<p class="location">{project.location?.name}</p>
+					{#if project.location_additional_info}
+						<p class="location-additional-info">{project.location_additional_info}</p>
+					{/if}
+				</div>
 			</div>
 			{#if project.schedule.friday.length > 0 || project.schedule.saturday.length > 0 || project.schedule.sunday.length > 0}
 				<EventBadges schedule={project.schedule} />
