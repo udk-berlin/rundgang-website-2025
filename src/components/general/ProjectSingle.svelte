@@ -113,6 +113,20 @@
 			{/if}
 		</div>
 
+		<div class="location-format-section">
+			<div class="location-container">
+				<p class="location">{project.location?.name}</p>
+				{#if project.location_additional_info}
+					<p class="location-additional-info">{project.location_additional_info}</p>
+				{/if}
+			</div>
+			<div class="category-container">
+				<p class="category">
+					{project.formats.map((format) => getLocalizedLabel(format, $activeLanguage)).join(', ')}
+				</p>
+			</div>
+		</div>
+
 		<div class="description-container">
 			<div class="description-title-container">
 				<h1 class="title">{getLocalizedLabel(project.title, $activeLanguage)}</h1>
@@ -149,17 +163,7 @@
 					{/if}
 				</div>
 			{/if}
-			<div class="location-format-section">
-				<p class="category">
-					{project.formats.map((format) => getLocalizedLabel(format, $activeLanguage)).join(', ')}
-				</p>
-				<div class="location-container">
-					<p class="location">{project.location?.name}</p>
-					{#if project.location_additional_info}
-						<p class="location-additional-info">{project.location_additional_info}</p>
-					{/if}
-				</div>
-			</div>
+
 			{#if project.schedule.friday.length > 0 || project.schedule.saturday.length > 0 || project.schedule.sunday.length > 0}
 				<EventBadges schedule={project.schedule} />
 			{/if}
@@ -332,21 +336,27 @@
 
 	.location-format-section {
 		display: flex;
-		gap: 1rem;
-		align-items: baseline;
-		flex-wrap: wrap;
+		gap: 1ch;
+		align-items: flex-start;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+		padding: 0.5rem;
+		border: 1px solid rgba($black, 0.1);
+		border-radius: $border-radius;
 
-		p.location {
+		& > div {
+			flex-basis: 50%;
+		}
+
+		p.location,
+		p.category {
 			padding: 0;
 			margin: 0;
 			font-size: $font-medium;
 		}
 
 		p.category {
-			padding: 0;
-			margin: 0;
-			font-size: $font-medium;
-			color: rgba($black, 0.7);
+			text-align: end;
 		}
 	}
 
