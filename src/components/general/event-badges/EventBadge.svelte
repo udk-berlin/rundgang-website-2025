@@ -26,7 +26,7 @@
 <style lang="scss">
 	span {
 		display: inline-block;
-		padding: 0.125rem 0.375rem 0;
+		padding: 0.125em 0.375rem 0.05em;
 		border-radius: 0.5em;
 		font-size: 0.75em;
 		font-weight: normal;
@@ -35,6 +35,7 @@
 		white-space: nowrap;
 		line-height: 1.2;
 		margin-right: 0.5ch;
+		border: 1px solid white;
 
 		&:last-of-type {
 			margin-right: 0;
