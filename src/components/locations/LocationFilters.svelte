@@ -157,7 +157,6 @@
 	.location-filter {
 		font-size: 0.9rem;
 		cursor: pointer;
-		padding: 0.25rem 0;
 		transition: color 0.15s ease;
 		color: #333;
 		background: none;

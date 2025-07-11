@@ -207,13 +207,14 @@ input[type='checkbox'] {
 [data-tooltip]::after {
 	display: block;
 	position: absolute;
+	color: black;
 	content: attr(data-tooltip);
 	border: 1px solid black;
-	border-radius: 0.25em;
-	font-size: 0.8em;
+	border-radius: 0.5rem;
+	font-size: 0.8rem;
 	line-height: 1.2;
 	background: white;
-	padding: 0.25em 0.5ch 0.1em;
+	padding: 0.5em 1.5ch 0.3em;
 	transform: translateX(-50%) rotate(1.5deg);
 	z-index: 500;
 	pointer-events: none;

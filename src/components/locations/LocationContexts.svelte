@@ -52,7 +52,7 @@
 						<button
 							class="info-pill clickable-pill"
 							on:click={() => handleContextClick(context.id)}
-							title={getUIText('locations.navigateToOverview', $activeLanguage)}
+							data-tooltip={getUIText('locations.navigateToOverview', $activeLanguage)}
 						>
 							<span class="item-name">{context.name}</span>
 							<span class="project-count">({count})</span>
