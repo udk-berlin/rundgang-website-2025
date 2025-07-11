@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import { getUIText } from '$lib/utils/localization';
+	import { activeLanguage } from '$lib/stores/language';
 
 	let { onClose }: { onClose: () => void } = $props();
 
@@ -40,8 +42,11 @@
 		if (browser && showBottomButton && !bottomButtonElement) {
 			// Create bottom button and append to body to bypass overlay positioning
 			bottomButtonElement = document.createElement('button');
-			bottomButtonElement.textContent = 'Close Overlay';
-			bottomButtonElement.setAttribute('aria-label', 'Close project overlay');
+			bottomButtonElement.textContent = getUIText('projectSingle.close', $activeLanguage);
+			bottomButtonElement.setAttribute(
+				'aria-label',
+				getUIText('projectSingle.close', $activeLanguage)
+			);
 			bottomButtonElement.addEventListener('click', onClose);
 
 			// Apply inline styles to avoid global CSS
@@ -95,9 +100,10 @@
 <!-- Top close button (icon only, positioned absolutely) -->
 <button
 	bind:this={topButtonRef}
+	data-tooltip={getUIText('projectSingle.close', $activeLanguage)}
 	class="close-button top-button"
 	onclick={onClose}
-	aria-label="Close project"
+	aria-label={getUIText('projectSingle.close', $activeLanguage)}
 >
 	<img
 		src="/icons/close-btn/close-11.png"
@@ -125,14 +131,25 @@
 
 	.top-button {
 		position: absolute;
-		top: -2rem;
-		right: 0;
+		top: -4rem;
+		right: 1rem;
 		width: 3rem;
 		height: 3rem;
 		border-radius: 50%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		box-shadow: $box-shadow;
+		transition: transform 0.2s ease-in-out;
+
+		&:hover {
+			transform: scale(1.1);
+		}
+
+		@include desktop {
+			right: -4rem;
+			top: 0;
+		}
 
 		img {
 			width: 1.5rem;
