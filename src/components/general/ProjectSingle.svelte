@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { base } from '$app/paths';
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { replaceState } from '$app/navigation';
 	import { browser } from '$app/environment';
@@ -9,8 +8,8 @@
 	import Overlay from './overlay/Overlay.svelte';
 	import ProjectSingleContent from '../project/ProjectSingleContent.svelte';
 	import EventBadges from './event-badges/EventBadgeList.svelte';
-	import { merkelisteStore, addToMerkeliste, removeFromMerkeliste } from '$lib/stores/merkliste';
 	import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
+import SaveButton from './SaveButton.svelte';
 	import { ensureResponsiveImage, applyProxyToResponsiveImage } from '$lib/utils/image-helpers';
 	import LanguageSwitcher from './LanguageSwitcher.svelte';
 
@@ -75,17 +74,6 @@
 		}
 	});
 
-	let isSaved = $derived($merkelisteStore.savedProjects.includes(project.id));
-
-	function handleSaveClick(event: MouseEvent) {
-		event.preventDefault();
-		event.stopPropagation();
-		if (isSaved) {
-			removeFromMerkeliste(project.id);
-		} else {
-			addToMerkeliste(project.id);
-		}
-	}
 </script>
 
 <Overlay
@@ -98,6 +86,7 @@
 >
 	<div class="content aspect-ratio-{titleImageAspectRatio}">
 		<div class="title-image-container">
+			<SaveButton projectId={project.id} variant="card" />
 			{#if responsiveTitleImage}
 				<ResponsiveImage
 					image={responsiveTitleImage}
@@ -136,23 +125,6 @@
 				>
 					<LanguageSwitcher />
 				</div>
-				<button
-					class="save-button"
-					class:saved={isSaved}
-					on:click={handleSaveClick}
-					aria-label={isSaved
-						? getUIText('merkliste.removeFromMerkliste', $activeLanguage)
-						: getUIText('merkliste.addToMerkliste', $activeLanguage)}
-					data-tooltip={isSaved
-						? getUIText('merkliste.removeFromMerkliste', $activeLanguage)
-						: getUIText('merkliste.addToMerkliste', $activeLanguage)}
-				>
-					{#if isSaved}
-						<img src="{base}/icons/basket_full.png" alt="Remove" class="basket-icon" />
-					{:else}
-						<img src="{base}/icons/basket_empty.png" alt="Add" class="basket-icon" />
-					{/if}
-				</button>
 			</div>
 			{#if project.authorship_visibility !== false}
 				<div class="author">
@@ -368,77 +340,6 @@
 		margin-top: 1rem;
 	}
 
-	.save-button {
-		background: none;
-		border: none;
-		color: black;
-		font-size: 1rem;
-		cursor: pointer;
-		line-height: 1;
-		border-radius: $border-radius;
-		transition: all 200ms ease-in-out;
-		z-index: 20;
-		display: flex;
-		align-self: flex-start;
-		gap: 0.5rem;
-		white-space: nowrap;
-		flex-shrink: 0;
-		min-width: fit-content;
-
-		// &:hover {
-		// 	transform: scale(1.1);
-		// }
-
-		.basket-icon-container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 1rem;
-			white-space: nowrap;
-			background: $white;
-		}
-
-		.basket-icon {
-			width: 3rem;
-			height: 3rem;
-			object-fit: contain;
-			flex-shrink: 0;
-			border-radius: $border-radius;
-			border: 1px solid $black;
-			padding: 0.5rem;
-			transition: all 200ms ease-in-out;
-
-			&:hover {
-				transform: scale(1.1);
-			}
-		}
-
-		.basket-icon-text {
-			font-size: $font-small;
-			white-space: nowrap;
-		}
-
-		&::after {
-			content: attr(data-tooltip);
-			position: absolute;
-			transform: translate(-50%, 250%) rotate(-2deg);
-			padding: 0.25rem 0.25rem;
-			background-color: $white;
-			border-radius: $border-radius;
-			font-size: $font-small;
-			white-space: nowrap;
-			transition: opacity 200ms ease-in-out;
-			z-index: 30;
-			pointer-events: none;
-			opacity: 0;
-			visibility: hidden;
-		}
-
-		&:hover::after {
-			opacity: 1;
-			visibility: visible;
-		}
-	}
 
 	.project-intro {
 		margin-bottom: 1em;
@@ -469,19 +370,5 @@
 			font-size: $font-large;
 		}
 
-		.save-button {
-			.basket-icon-text {
-				display: none;
-			}
-
-			.basket-icon {
-				width: 2.5rem;
-				height: 2.5rem;
-			}
-
-			&::after {
-				transform: translate(-65%, 200%) rotate(-2deg);
-			}
-		}
 	}
 </style>
