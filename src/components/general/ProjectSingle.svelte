@@ -12,6 +12,7 @@
 	import SaveButton from './SaveButton.svelte';
 	import { ensureResponsiveImage, applyProxyToResponsiveImage } from '$lib/utils/image-helpers';
 	import LanguageSwitcher from './LanguageSwitcher.svelte';
+	import ProjectSingleCloseButton from './ProjectSingleCloseButton.svelte';
 
 	let { project, isOpen }: { project: Project; isOpen: boolean } = $props();
 
@@ -81,7 +82,8 @@
 	vertical="center"
 	height="full"
 	staticRotation={0}
-	on:close={closeOverlay}
+	showCloseButton={false}
+	class="project-single-overlay"
 >
 	<div class="content aspect-ratio-{titleImageAspectRatio}">
 		<div class="title-image-container">
@@ -157,32 +159,34 @@
 			<ProjectSingleContent {project} />
 		{/if}
 	</div>
+
+	<ProjectSingleCloseButton onClose={closeOverlay} />
 </Overlay>
 
 <style lang="scss">
 	/* Desktop layout */
 	@include desktop {
-		:global(.overlay) {
+		:global(.project-single-overlay) {
 			overflow-y: auto;
 			padding: 2rem 0;
-			display: flex !important;
-			align-items: flex-start !important;
+			display: flex;
+			align-items: flex-start;
 			min-height: 100vh;
 		}
 
-		:global(.container) {
-			overflow: visible !important;
-			height: fit-content !important;
-			min-height: fit-content !important;
+		:global(.project-single-overlay .container) {
+			overflow: visible;
+			height: fit-content;
+			min-height: fit-content;
 			margin: 0 auto;
 			width: 75vw;
-			position: relative !important;
-			display: block !important;
+			position: relative;
+			display: block;
 		}
 
-		:global(.container > *) {
-			height: fit-content !important;
-			min-height: fit-content !important;
+		:global(.project-single-overlay .container > *) {
+			height: fit-content;
+			min-height: fit-content;
 		}
 
 		.content {
