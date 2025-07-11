@@ -8,6 +8,7 @@
 	export let height: 'auto' | 'full' = 'full';
 	export let staticRotation: number | undefined;
 	export let showCloseButton = true;
+	export let variant: 'default' | 'full-content' = 'default';
 
 	const dispatch = createEventDispatcher();
 
@@ -41,7 +42,7 @@
 	<div
 		class="overlay {horizontal === 'center' && vertical === 'center'
 			? 'center-active'
-			: ''} {horizontal === 'left' ? 'left-active' : ''}"
+			: ''} {horizontal === 'left' ? 'left-active' : ''} {variant === 'full-content' ? 'full-content-variant' : ''}"
 		bind:this={overlayElement}
 		on:click={handleBackdropClick}
 		on:keydown={(e) => e.key === 'Enter' && handleBackdropClick(e)}
@@ -55,6 +56,7 @@
 			{vertical}
 			{height}
 			{staticRotation}
+			{variant}
 			bind:this={overlayContainer}
 			on:close={handleClose}
 		>
@@ -89,6 +91,16 @@
 		:global(.container.left) ~ & {
 			overflow-y: auto;
 			padding-bottom: 10vh;
+		}
+
+		&.full-content-variant {
+			@include desktop {
+				overflow-y: auto;
+				padding: 2rem 0;
+				display: flex;
+				align-items: flex-start;
+				min-height: 100vh;
+			}
 		}
 	}
 

@@ -83,7 +83,8 @@
 	height="full"
 	staticRotation={0}
 	showCloseButton={false}
-	class="project-single-overlay"
+	variant="full-content"
+	on:close={closeOverlay}
 >
 	<div class="content aspect-ratio-{titleImageAspectRatio}">
 		<div class="title-image-container">
@@ -166,28 +167,6 @@
 <style lang="scss">
 	/* Desktop layout */
 	@include desktop {
-		:global(.project-single-overlay) {
-			overflow-y: auto;
-			padding: 2rem 0;
-			display: flex;
-			align-items: flex-start;
-			min-height: 100vh;
-		}
-
-		:global(.project-single-overlay .container) {
-			overflow: visible;
-			height: fit-content;
-			min-height: fit-content;
-			margin: 0 auto;
-			width: 75vw;
-			position: relative;
-			display: block;
-		}
-
-		:global(.project-single-overlay .container > *) {
-			height: fit-content;
-			min-height: fit-content;
-		}
 
 		.content {
 			display: grid;

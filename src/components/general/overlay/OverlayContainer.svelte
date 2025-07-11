@@ -17,6 +17,7 @@
 		height = 'full',
 		staticRotation,
 		showCloseButton = true,
+		variant = 'default',
 		children
 	}: {
 		horizontal?: 'left' | 'center' | 'right';
@@ -24,6 +25,7 @@
 		height?: 'auto' | 'full';
 		staticRotation?: number;
 		showCloseButton?: boolean;
+		variant?: 'default' | 'full-content';
 		children?: import('svelte').Snippet<[{ closeOverlay: () => void }]>;
 	} = $props();
 
@@ -148,6 +150,7 @@
 	class:height-auto={height === 'auto'}
 	class:height-full={height === 'full'}
 	class:slide-out={isClosing}
+	class:full-content-variant={variant === 'full-content'}
 	style="--rotation: {rotation}deg; --rotation-mobile: {rotation_mobile}deg; {Object.entries(
 		animationVars
 	)
@@ -259,6 +262,23 @@
 
 		&.height-full {
 			height: 90vh;
+		}
+
+		&.full-content-variant.center {
+			@include desktop {
+				overflow: visible;
+				height: fit-content;
+				min-height: fit-content;
+				margin: 0 auto;
+				width: 75vw;
+				position: relative;
+				display: block;
+
+				& > * {
+					height: fit-content;
+					min-height: fit-content;
+				}
+			}
 		}
 	}
 
