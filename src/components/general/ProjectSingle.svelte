@@ -9,7 +9,7 @@
 	import ProjectSingleContent from '../project/ProjectSingleContent.svelte';
 	import EventBadges from './event-badges/EventBadgeList.svelte';
 	import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
-import SaveButton from './SaveButton.svelte';
+	import SaveButton from './SaveButton.svelte';
 	import { ensureResponsiveImage, applyProxyToResponsiveImage } from '$lib/utils/image-helpers';
 	import LanguageSwitcher from './LanguageSwitcher.svelte';
 
@@ -73,7 +73,6 @@ import SaveButton from './SaveButton.svelte';
 			}
 		}
 	});
-
 </script>
 
 <Overlay
@@ -98,6 +97,11 @@ import SaveButton from './SaveButton.svelte';
 			{:else}
 				<div class="image-placeholder">
 					<span>No image available</span>
+				</div>
+			{/if}
+			{#if project.schedule.friday.length > 0 || project.schedule.saturday.length > 0 || project.schedule.sunday.length > 0}
+				<div class="event-badge-container">
+					<EventBadges schedule={project.schedule} direction="column" />
 				</div>
 			{/if}
 		</div>
@@ -134,10 +138,6 @@ import SaveButton from './SaveButton.svelte';
 						{/each}
 					{/if}
 				</div>
-			{/if}
-
-			{#if project.schedule.friday.length > 0 || project.schedule.saturday.length > 0 || project.schedule.sunday.length > 0}
-				<EventBadges schedule={project.schedule} />
 			{/if}
 
 			<div class="contexts-section">
@@ -258,6 +258,17 @@ import SaveButton from './SaveButton.svelte';
 			color: #666;
 			font-size: $font-medium;
 		}
+
+		.event-badge-container {
+			font-size: $font-large;
+			position: absolute;
+			bottom: 0.5rem;
+			left: 0.5rem;
+
+			@include desktop {
+				font-size: $font-large;
+			}
+		}
 	}
 
 	.top-container {
@@ -340,7 +351,6 @@ import SaveButton from './SaveButton.svelte';
 		margin-top: 1rem;
 	}
 
-
 	.project-intro {
 		margin-bottom: 1em;
 		font-weight: bold;
@@ -369,6 +379,5 @@ import SaveButton from './SaveButton.svelte';
 		.artist {
 			font-size: $font-large;
 		}
-
 	}
 </style>
