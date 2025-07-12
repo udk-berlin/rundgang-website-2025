@@ -26,6 +26,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		text-align: center;
+		text-wrap: balance;
 		width: 80vw;
 		background: white;
 		border: 1px solid black;
