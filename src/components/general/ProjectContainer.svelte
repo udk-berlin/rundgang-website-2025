@@ -14,6 +14,7 @@
 
 	let width = $state(0);
 	let height = $state(0);
+	let masonryContainer: HTMLDivElement;
 
 	// Accept projects as a prop
 	const {
@@ -61,6 +62,7 @@
 				// Filter changed - apply new filter and shuffle
 				currentFilterKey = key;
 				const shuffled = shuffleOnce(newList);
+				scrollToTop();
 				return shuffled;
 			}
 
@@ -85,6 +87,12 @@
 			[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
 		}
 		return shuffled;
+	}
+
+	function scrollToTop() {
+		if (masonryContainer) {
+			masonryContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}
 	}
 
 	function seededChance(id: string): number {
@@ -157,6 +165,7 @@
 </script>
 
 <div
+	bind:this={masonryContainer}
 	class="masonry-container"
 	class:half-width={variant === 'half'}
 	class:bottom-space={bottomSpace}
