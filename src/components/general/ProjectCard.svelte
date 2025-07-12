@@ -19,6 +19,7 @@
 	import ScribbleAnimation from '../scribble/ScribbleAnimation.svelte';
 	import EventBadges from './event-badges/EventBadgeList.svelte';
 	import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
+	import SaveButton from './SaveButton.svelte';
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { dev } from '$app/environment';
 	import type { Project } from '$lib/api/types/index';
@@ -92,21 +93,9 @@
 
 	const schedule = project.schedule;
 
-	$: isSaved = $merkelisteStore.savedProjects.includes(project.id);
-
 	function handleCardClick(event: MouseEvent) {
 		event.preventDefault();
 		dispatch('click', project);
-	}
-
-	function handleSaveClick(event: MouseEvent) {
-		event.preventDefault();
-		event.stopPropagation();
-		if (isSaved) {
-			removeFromMerkeliste(project.id);
-		} else {
-			addToMerkeliste(project.id);
-		}
 	}
 
 	// Debug helper for development
@@ -136,23 +125,7 @@
 >
 	<!-- <ScribbleBorder seed={scribbleSeed} scale={0.7} /> -->
 	<div class="image-container" style={imageAspectRatioStyle}>
-		<button
-			class="save-button"
-			class:saved={isSaved}
-			on:click={handleSaveClick}
-			aria-label={isSaved
-				? getUIText('merkliste.removeFromMerkliste', $activeLanguage)
-				: getUIText('merkliste.addToMerkliste', $activeLanguage)}
-			data-tooltip={isSaved
-				? getUIText('merkliste.removeFromMerkliste', $activeLanguage)
-				: getUIText('merkliste.addToMerkliste', $activeLanguage)}
-		>
-			{#if isSaved}
-				<img src="{base}/icons/basket_full.png" alt="Remove" class="basket-icon" />
-			{:else}
-				<img src="{base}/icons/basket_empty.png" alt="Add" class="basket-icon" />
-			{/if}
-		</button>
+		<SaveButton projectId={project.id} variant="card" />
 		{#if responsiveImage}
 			<ResponsiveImage
 				image={responsiveImage}
@@ -174,7 +147,7 @@
 		{/if}
 		{#if project.schedule?.friday?.length > 0 || project.schedule?.saturday?.length > 0 || project.schedule?.sunday?.length > 0}
 			<div class="event-badge-container">
-				<EventBadges schedule={project.schedule} />
+				<EventBadges schedule={project.schedule} direction="column" />
 			</div>
 		{/if}
 	</div>
@@ -297,98 +270,6 @@
 			padding: 0;
 			margin: 0;
 			font-size: $font-small;
-		}
-	}
-
-	.save-button {
-		position: absolute;
-		top: 0.5rem;
-		right: 0.5rem;
-		background: rgba(255, 255, 255, 0.2);
-		backdrop-filter: blur(2px);
-		color: black;
-		font-size: 1.5rem;
-		cursor: pointer;
-		padding: 0.5rem;
-		line-height: 1;
-		border-radius: $border-radius;
-		transition: all 300ms ease-in-out;
-		z-index: 20;
-		width: 2.5rem;
-		height: 2.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		box-sizing: border-box;
-		border: 1px solid rgba(255, 255, 255, 0.5);
-
-		&:hover {
-			transform: scale(1.1);
-			background: rgba(255, 255, 255, 0.4);
-			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-		}
-
-		&:active {
-			transform: scale(0.95);
-		}
-
-		&.saved {
-			background: rgba(255, 255, 255, 0.3);
-			backdrop-filter: blur(2px);
-			border: 1px solid $color_pink;
-			box-shadow: inset 0px 0px 10px $color_pink;
-
-			&:hover {
-				transform: scale(1.1);
-			}
-		}
-
-		.basket-icon {
-			width: 1.5rem;
-			height: 1.5rem;
-			object-fit: contain;
-			filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-		}
-
-		// Add a subtle pulse animation when saved
-		&.saved .basket-icon {
-			animation: pulse 0.6s ease-in-out;
-		}
-
-		&::after {
-			content: attr(data-tooltip);
-			position: absolute;
-			transform: translate(-70%, 0%) rotate(var(--rotation));
-			padding: 0.25rem 0.25rem;
-			border-radius: $border-radius;
-			font-size: $font-small;
-			white-space: nowrap;
-			transition: opacity 200ms ease-in-out;
-			z-index: 30;
-			pointer-events: none;
-			opacity: 0;
-			visibility: hidden;
-		}
-
-		&:hover::after {
-			opacity: 1;
-			visibility: visible;
-		}
-	}
-
-	@keyframes pulse {
-		0% {
-			transform: translate(-50%, -50%) scale(1);
-		}
-		50% {
-			transform: translate(-50%, -50%) scale(1.2);
-		}
-		100% {
-			transform: translate(-50%, -50%) scale(1);
 		}
 	}
 </style>

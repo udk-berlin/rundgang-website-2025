@@ -2,6 +2,7 @@
 	import type { Project } from '$lib/api/types/index';
 	import EventBadge from './EventBadge.svelte';
 	export let schedule: Project['schedule'];
+	export let direction: 'row' | 'column' = 'row';
 
 	// Flatten and sort all events by start time
 	$: allEvents = [
@@ -15,7 +16,7 @@
 	}
 </script>
 
-<div class="events">
+<div class="events" class:column={direction === 'column'}>
 	{#each allEvents as event}
 		<EventBadge from={event.fromDate} to={event.toDate} day={event.day} />
 	{/each}
@@ -27,5 +28,9 @@
 		flex-wrap: wrap;
 		gap: 0.25rem;
 		margin-top: 0.5rem;
+
+		&.column {
+			flex-direction: column;
+		}
 	}
 </style>

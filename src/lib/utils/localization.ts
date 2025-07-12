@@ -95,6 +95,10 @@ export const UI_TEXTS = {
 		switchToEnglish: { de: 'Zu Englisch wechseln', en: 'Switch to English' }
 	},
 
+	projectSingle: {
+		close: { de: 'Projekt schließen', en: 'Close project' }
+	},
+
 	announcement: {
 		content: {
 			de: 'Der Rundgang startet <span>Freitag, 18. Juli um 16 Uhr</span>',

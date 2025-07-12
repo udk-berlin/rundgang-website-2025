@@ -58,6 +58,7 @@ export const PROJECT_SELECT_INITIAL = {
 	location: {
 		query: 'page.location_field_select.toObject'
 	},
+	location_field_text: true,
 	contexts: true,
 	// Timeline-specific event fields
 	fridayDate: true,
@@ -182,6 +183,7 @@ export const PROJECT_SELECTS = {
 		location: {
 			query: 'page.location_field_select.toObject'
 		},
+		location_field_text: true,
 		contexts: 'page.categories',
 		...EVENT_FIELDS_SELECT,
 		uuid: true,
@@ -210,6 +212,7 @@ export const PROJECT_SELECTS = {
 		location: {
 			query: 'page.location_field_select.toObject'
 		},
+		location_field_text: true,
 		contexts: 'page.categories',
 		...EVENT_FIELDS_SELECT,
 		uuid: true,

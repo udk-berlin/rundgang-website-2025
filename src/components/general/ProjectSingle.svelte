@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { base } from '$app/paths';
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { replaceState } from '$app/navigation';
 	import { browser } from '$app/environment';
@@ -9,10 +8,11 @@
 	import Overlay from './overlay/Overlay.svelte';
 	import ProjectSingleContent from '../project/ProjectSingleContent.svelte';
 	import EventBadges from './event-badges/EventBadgeList.svelte';
-	import { merkelisteStore, addToMerkeliste, removeFromMerkeliste } from '$lib/stores/merkliste';
 	import ResponsiveImage from '$lib/components/ResponsiveImage.svelte';
+	import SaveButton from './SaveButton.svelte';
 	import { ensureResponsiveImage, applyProxyToResponsiveImage } from '$lib/utils/image-helpers';
 	import LanguageSwitcher from './LanguageSwitcher.svelte';
+	import ProjectSingleCloseButton from './ProjectSingleCloseButton.svelte';
 
 	let { project, isOpen }: { project: Project; isOpen: boolean } = $props();
 
@@ -74,18 +74,6 @@
 			}
 		}
 	});
-
-	let isSaved = $derived($merkelisteStore.savedProjects.includes(project.id));
-
-	function handleSaveClick(event: MouseEvent) {
-		event.preventDefault();
-		event.stopPropagation();
-		if (isSaved) {
-			removeFromMerkeliste(project.id);
-		} else {
-			addToMerkeliste(project.id);
-		}
-	}
 </script>
 
 <Overlay
@@ -94,10 +82,14 @@
 	vertical="center"
 	height="full"
 	staticRotation={0}
+	showCloseButton={false}
+	variant="full-content"
 	on:close={closeOverlay}
 >
+	<ProjectSingleCloseButton onClose={closeOverlay} />
 	<div class="content aspect-ratio-{titleImageAspectRatio}">
 		<div class="title-image-container">
+			<SaveButton projectId={project.id} variant="card" />
 			{#if responsiveTitleImage}
 				<ResponsiveImage
 					image={responsiveTitleImage}
@@ -111,6 +103,25 @@
 					<span>No image available</span>
 				</div>
 			{/if}
+			{#if project.schedule.friday.length > 0 || project.schedule.saturday.length > 0 || project.schedule.sunday.length > 0}
+				<div class="event-badge-container">
+					<EventBadges schedule={project.schedule} direction="column" />
+				</div>
+			{/if}
+		</div>
+
+		<div class="location-format-section">
+			<div class="location-container">
+				<p class="location">{project.location?.name}</p>
+				{#if project.location_additional_info}
+					<p class="location-additional-info">{project.location_additional_info}</p>
+				{/if}
+			</div>
+			<div class="category-container">
+				<p class="category">
+					{project.formats.map((format) => getLocalizedLabel(format, $activeLanguage)).join(', ')}
+				</p>
+			</div>
 		</div>
 
 		<div class="description-container">
@@ -122,23 +133,6 @@
 				>
 					<LanguageSwitcher />
 				</div>
-				<button
-					class="save-button"
-					class:saved={isSaved}
-					on:click={handleSaveClick}
-					aria-label={isSaved
-						? getUIText('merkliste.removeFromMerkliste', $activeLanguage)
-						: getUIText('merkliste.addToMerkliste', $activeLanguage)}
-					data-tooltip={isSaved
-						? getUIText('merkliste.removeFromMerkliste', $activeLanguage)
-						: getUIText('merkliste.addToMerkliste', $activeLanguage)}
-				>
-					{#if isSaved}
-						<img src="{base}/icons/basket_full.png" alt="Remove" class="basket-icon" />
-					{:else}
-						<img src="{base}/icons/basket_empty.png" alt="Add" class="basket-icon" />
-					{/if}
-				</button>
 			</div>
 			{#if project.authorship_visibility !== false}
 				<div class="author">
@@ -148,15 +142,6 @@
 						{/each}
 					{/if}
 				</div>
-			{/if}
-			<div class="location-format-section">
-				<p class="category">
-					{project.formats.map((format) => getLocalizedLabel(format, $activeLanguage)).join(', ')}
-				</p>
-				<p class="location">{project.location?.name}</p>
-			</div>
-			{#if project.schedule.friday.length > 0 || project.schedule.saturday.length > 0 || project.schedule.sunday.length > 0}
-				<EventBadges schedule={project.schedule} />
 			{/if}
 
 			<div class="contexts-section">
@@ -181,29 +166,6 @@
 <style lang="scss">
 	/* Desktop layout */
 	@include desktop {
-		:global(.overlay) {
-			overflow-y: auto;
-			padding: 2rem 0;
-			display: flex !important;
-			align-items: flex-start !important;
-			min-height: 100vh;
-		}
-
-		:global(.container) {
-			overflow: visible !important;
-			height: fit-content !important;
-			min-height: fit-content !important;
-			margin: 0 auto;
-			width: 75vw;
-			position: relative !important;
-			display: block !important;
-		}
-
-		:global(.container > *) {
-			height: fit-content !important;
-			min-height: fit-content !important;
-		}
-
 		.content {
 			display: grid;
 			grid-template-columns: 1fr 1fr;
@@ -277,6 +239,17 @@
 			color: #666;
 			font-size: $font-medium;
 		}
+
+		.event-badge-container {
+			font-size: $font-large;
+			position: absolute;
+			bottom: 0.5rem;
+			left: 0.5rem;
+
+			@include desktop {
+				font-size: $font-large;
+			}
+		}
 	}
 
 	.top-container {
@@ -327,21 +300,27 @@
 
 	.location-format-section {
 		display: flex;
-		gap: 1rem;
-		align-items: baseline;
-		flex-wrap: wrap;
+		gap: 1ch;
+		align-items: flex-start;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+		padding: 0.5rem;
+		border: 1px solid rgba($black, 0.1);
+		border-radius: $border-radius;
 
-		p.location {
+		& > div {
+			flex-basis: 50%;
+		}
+
+		p.location,
+		p.category {
 			padding: 0;
 			margin: 0;
 			font-size: $font-medium;
 		}
 
 		p.category {
-			padding: 0;
-			margin: 0;
-			font-size: $font-medium;
-			color: rgba($black, 0.7);
+			text-align: end;
 		}
 	}
 
@@ -351,78 +330,6 @@
 		align-items: flex-start;
 		gap: 1rem;
 		margin-top: 1rem;
-	}
-
-	.save-button {
-		background: none;
-		border: none;
-		color: black;
-		font-size: 1rem;
-		cursor: pointer;
-		line-height: 1;
-		border-radius: $border-radius;
-		transition: all 200ms ease-in-out;
-		z-index: 20;
-		display: flex;
-		align-self: flex-start;
-		gap: 0.5rem;
-		white-space: nowrap;
-		flex-shrink: 0;
-		min-width: fit-content;
-
-		// &:hover {
-		// 	transform: scale(1.1);
-		// }
-
-		.basket-icon-container {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			gap: 1rem;
-			white-space: nowrap;
-			background: $white;
-		}
-
-		.basket-icon {
-			width: 3rem;
-			height: 3rem;
-			object-fit: contain;
-			flex-shrink: 0;
-			border-radius: $border-radius;
-			border: 1px solid $black;
-			padding: 0.5rem;
-			transition: all 200ms ease-in-out;
-
-			&:hover {
-				transform: scale(1.1);
-			}
-		}
-
-		.basket-icon-text {
-			font-size: $font-small;
-			white-space: nowrap;
-		}
-
-		&::after {
-			content: attr(data-tooltip);
-			position: absolute;
-			transform: translate(-50%, 250%) rotate(-2deg);
-			padding: 0.25rem 0.25rem;
-			background-color: $white;
-			border-radius: $border-radius;
-			font-size: $font-small;
-			white-space: nowrap;
-			transition: opacity 200ms ease-in-out;
-			z-index: 30;
-			pointer-events: none;
-			opacity: 0;
-			visibility: hidden;
-		}
-
-		&:hover::after {
-			opacity: 1;
-			visibility: visible;
-		}
 	}
 
 	.project-intro {
@@ -452,21 +359,6 @@
 
 		.artist {
 			font-size: $font-large;
-		}
-
-		.save-button {
-			.basket-icon-text {
-				display: none;
-			}
-
-			.basket-icon {
-				width: 2.5rem;
-				height: 2.5rem;
-			}
-
-			&::after {
-				transform: translate(-65%, 200%) rotate(-2deg);
-			}
 		}
 	}
 </style>
