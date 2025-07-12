@@ -3,7 +3,6 @@
 	import { activeLanguage } from '$lib/stores/language';
 
 	let { onClose }: { onClose: () => void } = $props();
-
 </script>
 
 <!-- Close button (sticky positioned, stays 2rem from top) -->
@@ -24,8 +23,8 @@
 
 <style lang="scss">
 	.close-button {
-		position: sticky;
-		top: 2rem;
+		position: fixed;
+		top: -4rem;
 		right: 1rem;
 		width: 3rem;
 		height: 3rem;
@@ -40,7 +39,6 @@
 		justify-content: center;
 		box-shadow: $box-shadow;
 		transition: transform 0.2s ease-in-out;
-		margin-left: auto;
 
 		&:hover {
 			transform: scale(1.1);

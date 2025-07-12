@@ -86,6 +86,7 @@
 	variant="full-content"
 	on:close={closeOverlay}
 >
+	<ProjectSingleCloseButton onClose={closeOverlay} />
 	<div class="content aspect-ratio-{titleImageAspectRatio}">
 		<div class="title-image-container">
 			<SaveButton projectId={project.id} variant="card" />
@@ -160,14 +161,11 @@
 			<ProjectSingleContent {project} />
 		{/if}
 	</div>
-
-	<ProjectSingleCloseButton onClose={closeOverlay} />
 </Overlay>
 
 <style lang="scss">
 	/* Desktop layout */
 	@include desktop {
-
 		.content {
 			display: grid;
 			grid-template-columns: 1fr 1fr;
