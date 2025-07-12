@@ -260,11 +260,12 @@
 
 	.category-container {
 		display: flex;
-		gap: 1rem;
+		gap: 0.5ch;
 		flex-flow: row nowrap;
 		justify-content: space-between;
 		border-radius: 0.5rem;
 		margin-bottom: 0.5rem;
+		text-transform: uppercase;
 
 		p {
 			padding: 0;

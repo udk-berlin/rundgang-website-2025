@@ -300,13 +300,16 @@
 
 	.location-format-section {
 		display: flex;
-		gap: 1ch;
+		gap: 0.5ch;
 		align-items: flex-start;
 		flex-flow: row nowrap;
 		justify-content: space-between;
-		padding: 0.5rem;
-		border: 1px solid rgba($black, 0.1);
-		border-radius: $border-radius;
+		text-transform: uppercase;
+		font-size: $font-medium;
+
+		& .location-additional-info {
+			text-transform: none;
+		}
 
 		& > div {
 			flex-basis: 50%;
@@ -316,7 +319,6 @@
 		p.category {
 			padding: 0;
 			margin: 0;
-			font-size: $font-medium;
 		}
 
 		p.category {
