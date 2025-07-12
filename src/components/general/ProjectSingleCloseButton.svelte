@@ -7,7 +7,6 @@
 
 <!-- Close button (sticky positioned, stays 2rem from top) -->
 <button
-	data-tooltip={getUIText('projectSingle.close', $activeLanguage)}
 	class="close-button"
 	onclick={onClose}
 	aria-label={getUIText('projectSingle.close', $activeLanguage)}
