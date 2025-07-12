@@ -305,7 +305,11 @@
 		flex-flow: row nowrap;
 		justify-content: space-between;
 		text-transform: uppercase;
-		font-size: $font-medium;
+		font-size: $font-small;
+
+		@include desktop {
+			font-size: $font-medium;
+		}
 
 		& .location-additional-info {
 			text-transform: none;
