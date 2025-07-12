@@ -25,6 +25,34 @@
 	$: locationProjects = allProjects.filter((p) => p.location?.id === location.id);
 	$: projectCount = locationProjects.length;
 
+	// Extract available contexts for this location
+	$: availableContexts = extractUniqueContexts(locationProjects);
+
+	// Helper function to extract unique contexts from projects
+	function extractUniqueContexts(projects: Project[]): Array<{ context: any; count: number }> {
+		const contextMap = new Map<string, { context: any; count: number }>();
+
+		projects.forEach((project) => {
+			if (project.contexts) {
+				project.contexts.forEach((context) => {
+					const existing = contextMap.get(context.id);
+					if (existing) {
+						existing.count++;
+					} else {
+						contextMap.set(context.id, {
+							context: context,
+							count: 1
+						});
+					}
+				});
+			}
+		});
+
+		return Array.from(contextMap.values()).sort((a, b) =>
+			a.context.name.localeCompare(b.context.name)
+		);
+	}
+
 	function handleShowProjects() {
 		if (projectCount > 0) {
 			onShowProjects(location.id);
@@ -64,11 +92,13 @@
 					count: projectCount
 				})}
 				variant="primary"
+				disabled={projectCount === 0}
 				on:click={handleShowProjects}
 			/>
 			<LocationActionButtons
 				text={getUIText('locations.locationActionButtons.showContexts', $activeLanguage)}
 				variant="secondary"
+				disabled={availableContexts.length === 0}
 				on:click={handleToggleContexts}
 			/>
 		</div>

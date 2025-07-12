@@ -21,6 +21,7 @@
 	}>;
 	export let allProjects: Project[];
 	export let selectedLocationFilters: string[];
+	export let availableContexts: Array<{ context: EnrichedContextData; count: number }>;
 
 	const dispatch = createEventDispatcher<{
 		locationClick: { locationId: string; event: Event };
@@ -101,11 +102,13 @@
 						<LocationActionButtons
 							text={getUIText('locations.accordion.showProjects', $activeLanguage)}
 							variant="primary"
+							disabled={allProjects.filter((p) => p.location?.id === item.id).length === 0}
 							on:click={() => handleShowProjects(item.id)}
 						/>
 						<LocationActionButtons
 							text={getUIText('locations.locationActionButtons.showContexts', $activeLanguage)}
 							variant="secondary"
+							disabled={availableContexts.length === 0}
 							on:click={handleToggleContexts}
 						/>
 					</div>
@@ -154,7 +157,6 @@
 	.location-filter {
 		font-size: 0.9rem;
 		cursor: pointer;
-		padding: 0.25rem 0;
 		transition: color 0.15s ease;
 		color: #333;
 		background: none;

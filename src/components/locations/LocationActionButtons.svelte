@@ -4,6 +4,7 @@
 	export let text: string;
 	export let variant: 'primary' | 'secondary' = 'primary';
 	export let mobileOnly: boolean = false;
+	export let disabled: boolean = false;
 
 	const dispatch = createEventDispatcher<{
 		click: void;
@@ -19,6 +20,7 @@
 	class:primary={variant === 'primary'}
 	class:secondary={variant === 'secondary'}
 	class:mobile-only={mobileOnly}
+	class:disabled
 	on:click={handleClick}
 >
 	{text}
@@ -55,6 +57,11 @@
 	.action-button.secondary:hover {
 		background: $color_olive;
 		color: white;
+	}
+
+	.action-button.disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
 	}
 
 	.action-button.mobile-only {

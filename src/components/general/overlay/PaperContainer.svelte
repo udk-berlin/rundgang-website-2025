@@ -25,6 +25,10 @@
 <style lang="scss">
 	.paper-container {
 		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		flex-direction: column;
 		background-color: $white;
 		border-radius: $border-radius;
 		box-shadow: $paper-shadow-large;
@@ -35,9 +39,6 @@
 		position: relative;
 		left: -1rem;
 		bottom: -1rem;
-		display: flex;
-		justify-content: center;
-		align-items: flex-start;
 		transform: rotate(var(--rotation));
 		transition:
 			transform 0.3s ease,

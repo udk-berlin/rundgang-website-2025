@@ -26,10 +26,12 @@
 
 <PaperContainer height="auto" width="66vw" vertical="bottom">
 	<CloseButton onClick={handleClose} />
+	<p class="contexts-heading">{getUIText('locations.contexts.heading', $activeLanguage)}</p>
 	<div class="location-details-section" transition:slide={{ duration: 150 }}>
 		<!-- Faculties -->
 		{#if availableFaculties.length > 0}
 			<div class="section-group">
+				<h4>{getUIText('locations.facultiesHeading', $activeLanguage)}</h4>
 				<div class="pills-container">
 					{#each availableFaculties as { faculty, count }}
 						<div class="info-pill">
@@ -50,7 +52,7 @@
 						<button
 							class="info-pill clickable-pill"
 							on:click={() => handleContextClick(context.id)}
-							title={getUIText('locations.navigateToOverview', $activeLanguage)}
+							data-tooltip={getUIText('locations.navigateToOverview', $activeLanguage)}
 						>
 							<span class="item-name">{context.name}</span>
 							<span class="project-count">({count})</span>
@@ -63,6 +65,10 @@
 </PaperContainer>
 
 <style lang="scss">
+	.location-details-section {
+		margin-top: 1rem;
+	}
+
 	.section-group {
 		margin-bottom: 1.5rem;
 	}
@@ -74,6 +80,15 @@
 		margin: 0 0 0.5rem 0;
 		text-transform: uppercase;
 		letter-spacing: 0.5px;
+	}
+
+	.contexts-heading {
+		// font-weight: normal;
+		width: 100%;
+
+		@include desktop {
+			width: 80%;
+		}
 	}
 
 	.clickable-pill {

@@ -49,5 +49,6 @@
 		display: flex;
 		flex-direction: column;
 		width: 100%;
+		gap: 0.25em;
 	}
 </style>
