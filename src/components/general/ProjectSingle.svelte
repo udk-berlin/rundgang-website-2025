@@ -145,7 +145,7 @@
 					class="language-switcher-container"
 					data-tooltip={getUIText('languageSwitcher.de', $activeLanguage)}
 				>
-					<LanguageSwitcher />
+					<LanguageSwitcher fullNames={true} />
 				</div>
 				<div class="contexts pills-container">
 					{#each project.contexts as context}
@@ -261,6 +261,21 @@
 				gap: 1rem;
 				align-self: start;
 				margin-top: 1rem;
+
+				.contexts-section {
+					flex-direction: column;
+					align-items: flex-start;
+
+					.pills-container {
+						justify-content: flex-start;
+						margin-left: -0.8rem; // compensate for the padding of the language switcher
+						width: 66.666%;
+					}
+
+					.language-switcher-container {
+						padding: 0;
+					}
+				}
 			}
 
 			.project-intro {
@@ -380,7 +395,7 @@
 			justify-content: flex-end;
 
 			.info-pill {
-				text-align: end;
+				text-wrap: balance;
 			}
 		}
 	}
