@@ -221,6 +221,8 @@ input[type='checkbox'] {
 	opacity: 0;
 	visibility: hidden;
 	transition: opacity 200ms ease-in-out;
+	text-wrap: balance;
+	text-align: center;
 }
 
 [data-tooltip]:hover::after {

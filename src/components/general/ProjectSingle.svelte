@@ -124,25 +124,27 @@
 			</div>
 		</div>
 
-		<div class="description-container">
-			<div class="description-title-container">
-				<h1 class="title">{getLocalizedLabel(project.title, $activeLanguage)}</h1>
-				<div
-					class="language-switcher-container"
-					data-tooltip={getUIText('languageSwitcher.de', $activeLanguage)}
-				>
-					<LanguageSwitcher />
+		<div class="info-section">
+			<div class="title-author-container">
+				<div class="description-title-container">
+					<h1 class="title">{getLocalizedLabel(project.title, $activeLanguage)}</h1>
+					<div
+						class="language-switcher-container"
+						data-tooltip={getUIText('languageSwitcher.de', $activeLanguage)}
+					>
+						<LanguageSwitcher />
+					</div>
 				</div>
+				{#if project.authorship_visibility !== false}
+					<div class="author">
+						<span>{project.author}</span>{#if project.coauthors && project.coauthors.length > 0}
+							{#each project.coauthors as coauthor}
+								<span>, {coauthor}</span>
+							{/each}
+						{/if}
+					</div>
+				{/if}
 			</div>
-			{#if project.authorship_visibility !== false}
-				<div class="author">
-					<span>{project.author}</span>{#if project.coauthors && project.coauthors.length > 0}
-						{#each project.coauthors as coauthor}
-							<span>, {coauthor}</span>
-						{/each}
-					{/if}
-				</div>
-			{/if}
 
 			<div class="contexts-section">
 				<div class="contexts pills-container">
@@ -167,45 +169,93 @@
 	/* Desktop layout */
 	@include desktop {
 		.content {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: auto auto 1fr;
-			height: fit-content;
 			padding: 2rem;
 			gap: 2rem;
 			max-height: none;
 			overflow: visible;
 			width: 100%;
+			height: fit-content;
 		}
 
 		.content.aspect-ratio-landscape {
+			display: grid;
+			grid-template-areas:
+				'image image'
+				'location contexts'
+				'title-author contexts'
+				'intro intro'
+				'content content';
+			grid-template-columns: 2fr 1fr;
+			grid-template-rows: auto auto auto auto 1fr;
+
 			.title-image-container {
-				grid-column: 1 / 3;
-				grid-row: 1 / 2;
+				grid-area: image;
 			}
 
-			.description-container {
-				grid-column: 1 / 3;
-				grid-row: 2 / 3;
+			.location-format-section {
+				grid-area: location;
+				align-self: start;
+				height: fit-content;
+			}
+
+			.info-section {
+				display: contents;
+
+				.title-author-container {
+					grid-area: title-author;
+				}
+
+				.contexts-section {
+					grid-area: contexts;
+					align-self: start;
+				}
+			}
+
+			.project-intro {
+				grid-area: intro;
+			}
+
+			:global(.dynamic-content-blocks) {
+				grid-area: content;
 			}
 		}
 
 		.content.aspect-ratio-portrait {
+			display: grid;
+			grid-template-areas:
+				'image location-format'
+				'image title-author'
+				'intro intro'
+				'content content';
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: auto 1fr auto 1fr;
+
 			.title-image-container {
-				grid-column: 1 / 2;
-				grid-row: 1 / 2;
+				grid-area: image;
 			}
 
-			.description-container {
-				grid-column: 2 / 3;
-				grid-row: 1 / 2;
+			.location-format-section {
+				grid-area: location-format;
+				align-self: start;
+				height: fit-content;
 			}
-		}
 
-		:global(.dynamic-content-blocks) {
-			grid-column: 1 / 3;
-			grid-row: 3 / 4;
-			transform: rotate(0deg);
+			.info-section {
+				grid-area: title-author;
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+				align-self: start;
+				margin-top: 1rem;
+			}
+
+			.project-intro {
+				grid-area: intro;
+			}
+
+			:global(.dynamic-content-blocks) {
+				grid-area: content;
+			}
 		}
 	}
 
@@ -249,30 +299,6 @@
 			@include desktop {
 				font-size: $font-large;
 			}
-		}
-	}
-
-	.top-container {
-		display: flex;
-		flex-flow: row nowrap;
-		justify-content: space-between;
-		align-items: flex-start;
-		margin-bottom: 4rem;
-		gap: 1ch;
-
-		.title-container {
-			flex-grow: 1;
-		}
-
-		.save-button-container {
-			width: fit-content;
-			flex-grow: 0;
-		}
-	}
-
-	@include desktop {
-		.content.aspect-ratio-portrait .top-container {
-			align-items: flex-end;
 		}
 	}
 
@@ -335,10 +361,19 @@
 		justify-content: space-between;
 		align-items: flex-start;
 		gap: 1rem;
-		margin-top: 1rem;
+
+		.pills-container {
+			justify-content: flex-end;
+
+			.info-pill {
+				text-align: end;
+			}
+		}
 	}
 
 	.project-intro {
+		width: 66.666%;
+		max-width: 66.666%;
 		margin-bottom: 1em;
 		font-weight: bold;
 		white-space: pre-wrap;
@@ -357,14 +392,16 @@
 			font-size: $font-large;
 		}
 
-		.description-container {
+		.info-section {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.title-author-container {
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
-		}
-
-		.artist {
-			font-size: $font-large;
 		}
 	}
 </style>
