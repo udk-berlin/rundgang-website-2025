@@ -218,6 +218,11 @@
 					align-items: flex-end;
 					grid-area: contexts;
 					align-self: start;
+
+					.pills-container {
+						justify-content: flex-end;
+						margin-right: -0.8rem; // compensate for the padding of the language switcher
+					}
 				}
 			}
 
@@ -266,6 +271,9 @@
 
 			.project-intro {
 				grid-area: intro;
+				@include desktop {
+					width: 66.666%;
+				}
 			}
 
 			:global(.dynamic-content-blocks) {
@@ -343,8 +351,6 @@
 		justify-content: space-between;
 		text-transform: uppercase;
 		font-size: $font-small;
-		margin-top: -1em;
-		margin-bottom: 1em;
 
 		@include desktop {
 			font-size: $font-medium;
@@ -416,6 +422,11 @@
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
+		}
+
+		.location-format-section {
+			margin-top: -1em;
+			margin-bottom: 1em;
 		}
 	}
 </style>
