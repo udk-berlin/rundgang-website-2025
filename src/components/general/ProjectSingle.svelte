@@ -181,15 +181,19 @@
 			display: grid;
 			grid-template-areas:
 				'image image'
-				'location contexts'
+				'location location'
 				'title-author contexts'
-				'intro intro'
+				'intro contexts'
 				'content content';
 			grid-template-columns: 2fr 1fr;
 			grid-template-rows: auto auto auto auto 1fr;
 
 			.title-image-container {
 				grid-area: image;
+			}
+
+			.project-intro {
+				width: 100%;
 			}
 
 			.location-format-section {
@@ -206,6 +210,7 @@
 				}
 
 				.contexts-section {
+					// width: 66.666%;
 					grid-area: contexts;
 					align-self: start;
 				}
