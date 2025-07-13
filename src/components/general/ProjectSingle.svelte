@@ -128,12 +128,6 @@
 			<div class="title-author-container">
 				<div class="description-title-container">
 					<h1 class="title">{getLocalizedLabel(project.title, $activeLanguage)}</h1>
-					<div
-						class="language-switcher-container"
-						data-tooltip={getUIText('languageSwitcher.de', $activeLanguage)}
-					>
-						<LanguageSwitcher />
-					</div>
 				</div>
 				{#if project.authorship_visibility !== false}
 					<div class="author">
@@ -147,6 +141,12 @@
 			</div>
 
 			<div class="contexts-section">
+				<div
+					class="language-switcher-container"
+					data-tooltip={getUIText('languageSwitcher.de', $activeLanguage)}
+				>
+					<LanguageSwitcher />
+				</div>
 				<div class="contexts pills-container">
 					{#each project.contexts as context}
 						<p class="context info-pill">{context.name}</p>
@@ -200,6 +200,10 @@
 				grid-area: location;
 				align-self: start;
 				height: fit-content;
+
+				@include desktop {
+					margin-top: -1.5rem; // move up towards title image but keep gap constant
+				}
 			}
 
 			.info-section {
@@ -210,9 +214,14 @@
 				}
 
 				.contexts-section {
-					// width: 66.666%;
+					flex-direction: column;
+					align-items: flex-end;
 					grid-area: contexts;
 					align-self: start;
+
+					.language-switcher-container {
+						padding: 0;
+					}
 				}
 			}
 
