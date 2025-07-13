@@ -45,6 +45,7 @@
 
 		@include desktop {
 			right: -4rem;
+			top: 0;
 		}
 
 		img {

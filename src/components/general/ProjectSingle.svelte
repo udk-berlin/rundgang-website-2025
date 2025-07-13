@@ -124,27 +124,29 @@
 			</div>
 		</div>
 
-		<div class="description-container">
-			<div class="description-title-container">
-				<h1 class="title">{getLocalizedLabel(project.title, $activeLanguage)}</h1>
+		<div class="info-section">
+			<div class="title-author-container">
+				<div class="description-title-container">
+					<h1 class="title">{getLocalizedLabel(project.title, $activeLanguage)}</h1>
+				</div>
+				{#if project.authorship_visibility !== false}
+					<div class="author">
+						<span>{project.author}</span>{#if project.coauthors && project.coauthors.length > 0}
+							{#each project.coauthors as coauthor}
+								<span>, {coauthor}</span>
+							{/each}
+						{/if}
+					</div>
+				{/if}
+			</div>
+
+			<div class="contexts-section">
 				<div
 					class="language-switcher-container"
 					data-tooltip={getUIText('languageSwitcher.de', $activeLanguage)}
 				>
-					<LanguageSwitcher />
+					<LanguageSwitcher fullNames={true} />
 				</div>
-			</div>
-			{#if project.authorship_visibility !== false}
-				<div class="author">
-					<span>{project.author}</span>{#if project.coauthors && project.coauthors.length > 0}
-						{#each project.coauthors as coauthor}
-							<span>, {coauthor}</span>
-						{/each}
-					{/if}
-				</div>
-			{/if}
-
-			<div class="contexts-section">
 				<div class="contexts pills-container">
 					{#each project.contexts as context}
 						<p class="context info-pill">{context.name}</p>
@@ -167,45 +169,116 @@
 	/* Desktop layout */
 	@include desktop {
 		.content {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: auto auto 1fr;
-			height: fit-content;
 			padding: 2rem;
 			gap: 2rem;
 			max-height: none;
 			overflow: visible;
 			width: 100%;
+			height: fit-content;
 		}
 
 		.content.aspect-ratio-landscape {
+			display: grid;
+			grid-template-areas:
+				'image image'
+				'location location'
+				'title-author contexts'
+				'intro contexts'
+				'content content';
+			grid-template-columns: 2fr 1fr;
+			grid-template-rows: auto auto auto auto 1fr;
+
 			.title-image-container {
-				grid-column: 1 / 3;
-				grid-row: 1 / 2;
+				grid-area: image;
 			}
 
-			.description-container {
-				grid-column: 1 / 3;
-				grid-row: 2 / 3;
+			.project-intro {
+				width: 100%;
+			}
+
+			.location-format-section {
+				grid-area: location;
+				align-self: start;
+				height: fit-content;
+
+				@include desktop {
+					margin-top: -1.5rem; // move up towards title image but keep gap constant
+				}
+			}
+
+			.info-section {
+				display: contents;
+
+				.title-author-container {
+					grid-area: title-author;
+				}
+
+				.contexts-section {
+					flex-direction: column;
+					align-items: flex-end;
+					grid-area: contexts;
+					align-self: start;
+
+					.pills-container {
+						justify-content: flex-end;
+						margin-right: -0.8rem; // compensate for the padding of the language switcher
+					}
+				}
+			}
+
+			.project-intro {
+				grid-area: intro;
+			}
+
+			:global(.dynamic-content-blocks) {
+				grid-area: content;
 			}
 		}
 
 		.content.aspect-ratio-portrait {
+			display: grid;
+			grid-template-areas:
+				'image location-format'
+				'image title-author'
+				'intro intro'
+				'content content';
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: auto 1fr auto 1fr;
+
 			.title-image-container {
-				grid-column: 1 / 2;
-				grid-row: 1 / 2;
+				grid-area: image;
 			}
 
-			.description-container {
-				grid-column: 2 / 3;
-				grid-row: 1 / 2;
+			.location-format-section {
+				grid-area: location-format;
+				align-self: start;
+				height: fit-content;
 			}
-		}
 
-		:global(.dynamic-content-blocks) {
-			grid-column: 1 / 3;
-			grid-row: 3 / 4;
-			transform: rotate(0deg);
+			.info-section {
+				grid-area: title-author;
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+				align-self: start;
+				margin-top: 1rem;
+
+				.contexts-section {
+					flex-direction: column;
+					align-items: flex-start;
+				}
+			}
+
+			.project-intro {
+				grid-area: intro;
+				@include desktop {
+					width: 66.666%;
+				}
+			}
+
+			:global(.dynamic-content-blocks) {
+				grid-area: content;
+			}
 		}
 	}
 
@@ -252,30 +325,6 @@
 		}
 	}
 
-	.top-container {
-		display: flex;
-		flex-flow: row nowrap;
-		justify-content: space-between;
-		align-items: flex-start;
-		margin-bottom: 4rem;
-		gap: 1ch;
-
-		.title-container {
-			flex-grow: 1;
-		}
-
-		.save-button-container {
-			width: fit-content;
-			flex-grow: 0;
-		}
-	}
-
-	@include desktop {
-		.content.aspect-ratio-portrait .top-container {
-			align-items: flex-end;
-		}
-	}
-
 	.title {
 		margin: 0;
 		font-size: $font-xlarge;
@@ -292,10 +341,6 @@
 		font-size: $font-large;
 		font-style: italic;
 		color: rgba($black, 0.8);
-	}
-
-	.language-switcher-container {
-		@include padding-h(1em);
 	}
 
 	.location-format-section {
@@ -332,10 +377,20 @@
 
 	.contexts-section {
 		display: flex;
+		flex-direction: column;
 		justify-content: space-between;
 		align-items: flex-start;
 		gap: 1rem;
-		margin-top: 1rem;
+
+		.pills-container {
+			justify-content: flex-start;
+			margin-left: -0.8rem; // compensate for the padding of the language switcher
+			margin-bottom: 1.5em;
+
+			.info-pill {
+				text-wrap: balance;
+			}
+		}
 	}
 
 	.project-intro {
@@ -357,14 +412,21 @@
 			font-size: $font-large;
 		}
 
-		.description-container {
+		.info-section {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.title-author-container {
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
 		}
 
-		.artist {
-			font-size: $font-large;
+		.location-format-section {
+			margin-top: -1em;
+			margin-bottom: 1em;
 		}
 	}
 </style>

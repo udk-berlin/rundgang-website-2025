@@ -2,10 +2,10 @@
 	import { activeLanguage } from '../../lib/stores/language';
 	import { getUIText } from '../../lib/utils/localization';
 
+	export let fullNames: boolean = false;
+
 	function setLanguage(lang: 'DE' | 'EN') {
-		console.log(`LanguageSwitcher: Switching language to: ${lang}`);
 		activeLanguage.set(lang);
-		console.log(`LanguageSwitcher: Language store updated to: ${lang}`);
 	}
 </script>
 
@@ -16,7 +16,11 @@
 		aria-label={getUIText('menu.switchToGerman', $activeLanguage)}
 		aria-pressed={$activeLanguage === 'DE'}
 	>
-		DE
+		{#if fullNames}
+			Deutsch
+		{:else}
+			DE
+		{/if}
 	</button>
 	<button
 		class:active={$activeLanguage === 'EN'}
@@ -24,7 +28,11 @@
 		aria-label={getUIText('menu.switchToEnglish', $activeLanguage)}
 		aria-pressed={$activeLanguage === 'EN'}
 	>
-		EN
+		{#if fullNames}
+			English
+		{:else}
+			EN
+		{/if}
 	</button>
 </div>
 

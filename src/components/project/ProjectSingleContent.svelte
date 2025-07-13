@@ -7,6 +7,12 @@
 
 	let { project }: { project: Project } = $props();
 
+	// Function to determine if an image is landscape or portrait
+	function getImageOrientation(image: any): 'landscape' | 'portrait' {
+		if (!image?.originalWidth || !image?.originalHeight) return 'landscape';
+		return image.originalWidth > image.originalHeight ? 'landscape' : 'portrait';
+	}
+
 	// Function to check if an image is the same as titleImage
 	function isImageInTitleImage(imageToCheck: any): boolean {
 		if (!project.titleImage || project.titleImage.length === 0) return false;
@@ -130,7 +136,8 @@
 				{@const responsiveImage = ensureResponsiveImage(image)}
 				{#if responsiveImage}
 					{@const proxiedImage = applyProxyToResponsiveImage(responsiveImage)}
-					<figure class="dynamic-image-figure">
+					{@const orientation = getImageOrientation(image)}
+					<figure class="dynamic-image-figure image-{orientation}">
 						<ResponsiveImage
 							image={proxiedImage}
 							context="detail"
@@ -149,11 +156,11 @@
 
 <style lang="scss">
 	.dynamic-content-blocks {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
+		display: flex;
+		flex-direction: column;
 		gap: 2rem;
 
-		// Allow content to flow naturally in columns
+		// Allow content to flow naturally
 		> * {
 			break-inside: avoid;
 		}
@@ -173,9 +180,8 @@
 		}
 
 		.dynamic-text {
-			white-space: pre-wrap; // To respect newlines in plain text from CMS
+			white-space: pre-wrap;
 			p {
-				// If text contains <p> tags from {@html}
 				margin-bottom: 1em;
 				&:last-child {
 					margin-bottom: 0;
@@ -200,10 +206,16 @@
 			}
 		}
 
-		// Responsive optimizations
+		// Mobile: all content takes full width
 		@include mobile-only {
-			grid-template-columns: 1fr;
 			gap: 1rem;
+
+			.dynamic-text,
+			.dynamic-heading,
+			.dynamic-image-figure {
+				width: 100% !important;
+				max-width: 100% !important;
+			}
 
 			.dynamic-image-figure {
 				margin-bottom: 1rem;
@@ -229,6 +241,25 @@
 
 		@include desktop {
 			gap: 1.5rem;
+
+			// Text blocks take 2/3 width
+			.dynamic-text,
+			.dynamic-heading {
+				width: 66.666%;
+				max-width: 66.666%;
+			}
+
+			// Portrait images take 2/3 width
+			.dynamic-image-figure.image-portrait {
+				width: 66.666%;
+				max-width: 66.666%;
+			}
+
+			// Landscape images take full width
+			.dynamic-image-figure.image-landscape {
+				width: 100%;
+				max-width: 100%;
+			}
 
 			.dynamic-image-figure {
 				margin-bottom: 1.5rem;
