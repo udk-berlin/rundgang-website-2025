@@ -218,10 +218,6 @@
 					align-items: flex-end;
 					grid-area: contexts;
 					align-self: start;
-
-					.language-switcher-container {
-						padding: 0;
-					}
 				}
 			}
 
@@ -265,16 +261,6 @@
 				.contexts-section {
 					flex-direction: column;
 					align-items: flex-start;
-
-					.pills-container {
-						justify-content: flex-start;
-						margin-left: -0.8rem; // compensate for the padding of the language switcher
-						width: 66.666%;
-					}
-
-					.language-switcher-container {
-						padding: 0;
-					}
 				}
 			}
 
@@ -349,10 +335,6 @@
 		color: rgba($black, 0.8);
 	}
 
-	.language-switcher-container {
-		@include padding-h(1em);
-	}
-
 	.location-format-section {
 		display: flex;
 		gap: 0.5ch;
@@ -361,6 +343,8 @@
 		justify-content: space-between;
 		text-transform: uppercase;
 		font-size: $font-small;
+		margin-top: -1em;
+		margin-bottom: 1em;
 
 		@include desktop {
 			font-size: $font-medium;
@@ -387,12 +371,15 @@
 
 	.contexts-section {
 		display: flex;
+		flex-direction: column;
 		justify-content: space-between;
 		align-items: flex-start;
 		gap: 1rem;
 
 		.pills-container {
-			justify-content: flex-end;
+			justify-content: flex-start;
+			margin-left: -0.8rem; // compensate for the padding of the language switcher
+			margin-bottom: 1.5em;
 
 			.info-pill {
 				text-wrap: balance;
@@ -401,8 +388,6 @@
 	}
 
 	.project-intro {
-		width: 66.666%;
-		max-width: 66.666%;
 		margin-bottom: 1em;
 		font-weight: bold;
 		white-space: pre-wrap;
