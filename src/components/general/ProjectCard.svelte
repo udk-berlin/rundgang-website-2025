@@ -254,6 +254,10 @@
 		font-weight: 400;
 	}
 
+	h3 {
+		overflow-wrap: anywhere; // otherwise very long titles disrupt layout
+	}
+
 	.author span {
 		font-style: italic;
 	}
