@@ -21,8 +21,8 @@
 	// Get optimal title image
 	let titleImage = $derived.by(() => {
 		if (!project?.titleImage?.[0]) {
-			// Fallback to first image if no titleImage
-			return project?.images?.[0] || null;
+			// Do not fallback to project.images[0] because it contains also images that should no longer be shown at all
+			return null;
 		}
 		return project.titleImage[0];
 	});
