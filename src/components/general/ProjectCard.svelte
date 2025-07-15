@@ -163,7 +163,7 @@
 			</div>
 		</div>
 		<h3 class="title">{getLocalizedLabel(project.title, $activeLanguage)}</h3>
-		{#if project.authorship_visibility !== false}
+		{#if !project.authorship_visibility}
 			<div class="author">
 				<span>{project.author}</span>{#if project.coauthors && project.coauthors.length > 0}
 					{#each project.coauthors as coauthor}
