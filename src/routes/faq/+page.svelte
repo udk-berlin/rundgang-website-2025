@@ -138,6 +138,10 @@
 		overflow: hidden;
 	}
 
+	:global(.about-container .paper-container) {
+		justify-content: flex-start;
+	}
+
 	.about-container,
 	.info-container {
 		padding: $body-header-spacing $body-padding-h-desktop;
