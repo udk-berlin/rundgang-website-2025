@@ -42,17 +42,34 @@
 			for (const contentItem of project.content) {
 				if (contentItem.type === 'image' && contentItem.content?.image) {
 					// For image content, look up the full image data from the images array
-					const enhancedImages = contentItem.content.image.map((contentImage: any) => {
+					const enhancedImages = contentItem.content.image.map((contentImageRef: any) => {
+						// Handle file ID references in format "file://uuid"
+						let lookupUuid = null;
+						if (typeof contentImageRef === 'string' && contentImageRef.startsWith('file://')) {
+							lookupUuid = contentImageRef.replace('file://', '');
+						} else if (contentImageRef.uuid) {
+							lookupUuid = contentImageRef.uuid;
+						}
+
 						// Find the full image data in the images array
 						const fullImageData = project.images?.find((image) => {
-							if (contentImage.uuid && image.uuid) {
-								return contentImage.uuid === image.uuid;
+							// Handle both formats: strip file:// prefix from image.uuid if present
+							let imageUuid = image.uuid;
+							if (typeof imageUuid === 'string' && imageUuid.startsWith('file://')) {
+								imageUuid = imageUuid.replace('file://', '');
 							}
-							return contentImage.originalUrl === image.originalUrl;
+
+							if (lookupUuid && imageUuid) {
+								return imageUuid === lookupUuid;
+							}
+							if (contentImageRef.originalUrl && image.originalUrl) {
+								return contentImageRef.originalUrl === image.originalUrl;
+							}
+							return false;
 						});
 
-						// Return the full image data if found, otherwise use the content image
-						return fullImageData || contentImage;
+						// Return the full image data if found, otherwise use the content image reference
+						return fullImageData || contentImageRef;
 					});
 
 					// Skip if this image is the titleImage
@@ -71,42 +88,6 @@
 					items.push(contentItem);
 				}
 			}
-		}
-
-		// Add remaining images that are not in content and not titleImage
-		if (project.images) {
-			const remainingImages = project.images.filter((image) => {
-				// Skip if it's the titleImage
-				if (isImageInTitleImage(image)) return false;
-
-				// Skip if it's already in content blocks
-				const isInContent = project.content?.some((contentItem) => {
-					if (contentItem.type === 'image' && contentItem.content?.image) {
-						return contentItem.content.image.some((contentImage: any) => {
-							if (contentImage.uuid && image.uuid) {
-								return contentImage.uuid === image.uuid;
-							}
-							return contentImage.originalUrl === image.originalUrl;
-						});
-					}
-					return false;
-				});
-
-				return !isInContent;
-			});
-
-			// Convert remaining images to content block format
-			remainingImages.forEach((image) => {
-				items.push({
-					id: image.uuid || `image-${image.originalUrl}`,
-					type: 'image',
-					isHidden: false,
-					content: {
-						image: [image],
-						alt: image.alt ? { de: image.alt, en: image.alt } : undefined
-					}
-				});
-			});
 		}
 
 		return items;
