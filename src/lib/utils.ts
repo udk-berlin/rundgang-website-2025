@@ -3,6 +3,25 @@ import type { EnrichedFormatData, EnrichedContextData } from './api/types/kirby'
 import { locationMatchData } from './data/locations';
 
 /**
+ * Normalize location ID format for consistent comparison
+ * Converts between dash-separated and underscore-separated formats
+ * @param locationId The location ID to normalize
+ * @param format The target format ('dash' or 'underscore')
+ * @returns Normalized location ID
+ */
+export function normalizeLocationId(locationId: string, format: 'dash' | 'underscore' = 'underscore'): string {
+	if (!locationId) return '';
+	
+	if (format === 'underscore') {
+		// Convert dashes to underscores
+		return locationId.replace(/-/g, '_');
+	} else {
+		// Convert underscores to dashes
+		return locationId.replace(/_/g, '-');
+	}
+}
+
+/**
  * Generate a random rotation angle within a specified range
  * @param minDegrees Minimum rotation in degrees (default: -2)
  * @param maxDegrees Maximum rotation in degrees (default: 2)
@@ -52,12 +71,17 @@ export function filterProjects(
 			if (!project.location || !project.location.id) return false;
 
 			const hasMatchingLocation = selectedFilters.locations.some((selectedLocation) => {
-				// Find the location mapping that contains this normalized name
+				// Primary: Find the location mapping that contains this normalized name
 				const locationMapping = locationMatchData.find((mapping) =>
 					mapping.match.includes(selectedLocation)
 				);
-				// If we found a mapping, check if the project's location ID matches the canonical ID
-				return locationMapping ? project.location?.id === locationMapping.id : false;
+				if (locationMapping && project.location?.id === locationMapping.id) {
+					return true;
+				}
+
+				// Fallback: Direct comparison after normalization (for cases not covered by mapping)
+				const normalizedSelectedLocation = normalizeLocationId(selectedLocation, 'underscore');
+				return project.location?.id === normalizedSelectedLocation;
 			});
 			if (!hasMatchingLocation) return false;
 		}

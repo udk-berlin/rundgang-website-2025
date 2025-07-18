@@ -10,6 +10,8 @@
 
 	import type { EnrichedContextData } from '$lib/api/types/kirby';
 	import type { LocationData, MapSettings, MarkerConfig } from './+page';
+	import { locationMatchData } from '$lib/data/locations';
+	import { normalizeLocationId } from '$lib/utils';
 
 	// Data from load function - now includes static configuration
 	export let data: {
@@ -63,9 +65,24 @@
 	// Filter projects by location only (no context filtering on locations page)
 	$: filteredProjects =
 		selectedLocationFilters.length > 0
-			? allProjects.filter(
-					(project) => project.location && selectedLocationFilters.includes(project.location.id)
-				)
+			? allProjects.filter((project) => {
+					if (!project.location || !project.location.id) return false;
+
+					// Use locationMatchData mapping to match location IDs
+					return selectedLocationFilters.some((selectedLocation) => {
+						// Primary: Find the location mapping that contains this normalized name
+						const locationMapping = locationMatchData.find((mapping) =>
+							mapping.match.includes(selectedLocation)
+						);
+						if (locationMapping && project.location?.id === locationMapping.id) {
+							return true;
+						}
+
+						// Fallback: Direct comparison after normalization (for cases not covered by mapping)
+						const normalizedSelectedLocation = normalizeLocationId(selectedLocation, 'underscore');
+						return project.location?.id === normalizedSelectedLocation;
+					});
+				})
 			: allProjects;
 
 	// Extract unique faculties, contexts, and formats from projects at selected locations
@@ -215,7 +232,23 @@
 	// Handle opening location projects overlay
 	function openLocationOverlay(locationId: string) {
 		const location = locations.find((loc) => loc.id === locationId);
-		const locationProjects = allProjects.filter((p) => p.location?.id === locationId);
+
+		// Use locationMatchData mapping to find projects for this location
+		const locationProjects = allProjects.filter((p) => {
+			if (!p.location?.id) return false;
+
+			// Primary: Find the location mapping that contains this locationId
+			const locationMapping = locationMatchData.find((mapping) =>
+				mapping.match.includes(locationId)
+			);
+			if (locationMapping && p.location.id === locationMapping.id) {
+				return true;
+			}
+
+			// Fallback: Direct comparison after normalization
+			const normalizedLocationId = normalizeLocationId(locationId, 'underscore');
+			return p.location.id === normalizedLocationId;
+		});
 
 		if (location && locationProjects.length > 0) {
 			overlayLocationName = location.name;
@@ -254,7 +287,6 @@
 		<div class="filter-container" slot="left">
 			<LocationFilters
 				{locations}
-				{allProjects}
 				{selectedLocationFilters}
 				{availableContexts}
 				on:locationClick={({ detail }) => handleLocationClick(detail.locationId, detail.event)}
@@ -263,15 +295,6 @@
 				on:clearFilters={() => clearFilterCategory('locations')}
 				on:toggleContexts={handleToggleContexts}
 			/>
-			<!-- Location Contexts -->
-			{#if showContexts && availableContexts.length > 0 && selectedLocationFilters.length > 0}
-				<LocationContexts
-					{availableFaculties}
-					{availableContexts}
-					on:contextClick={(e) => handleContextClick(e.detail.contextId)}
-					on:close={handleCloseContexts}
-				/>
-			{/if}
 		</div>
 		<MapContainer
 			slot="right"
@@ -279,7 +302,6 @@
 			{locations}
 			{mapSettings}
 			{selectedLocationFilters}
-			{allProjects}
 			{openLocationOverlay}
 			{handleToggleContexts}
 		/>
@@ -433,9 +455,14 @@
 
 	/* Location Overlay Styles */
 	.overlay-content {
-		padding: 2rem;
+		padding: 0;
 		max-width: 90vw;
 		max-height: 90vh;
 		overflow-y: auto;
+		margin-right: -1rem; // move the scrollbar out of viewport
+
+		@include desktop {
+			padding: 2rem;
+		}
 	}
 </style>

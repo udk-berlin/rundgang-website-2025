@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { MapLibre, Marker } from 'svelte-maplibre-gl';
 	import MapPopup from './MapPopup.svelte';
-	import type { Project } from '$lib/api';
 	import { filterStore, toggleFilterOption, clearFilterCategory } from '$lib/stores/filter';
 	import { createEventDispatcher } from 'svelte';
 
@@ -10,7 +9,6 @@
 	export let locations: LocationData[];
 	export let mapSettings: MapSettings;
 	export let selectedLocationFilters: string[];
-	export let allProjects: Project[];
 	export let openLocationOverlay: (locationId: string) => void;
 	export let handleToggleContexts: () => void;
 
@@ -148,7 +146,6 @@
 				<MapPopup
 					{lnglat}
 					{location}
-					{allProjects}
 					onShowProjects={openLocationOverlay}
 					onToggleContexts={handleToggleContexts}
 				/>
