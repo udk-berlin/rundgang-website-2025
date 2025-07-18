@@ -261,7 +261,8 @@
 		}
 
 		&.height-full {
-			height: 90vh;
+			min-height: 90vh;
+			height: auto;
 		}
 
 		&.full-content-variant.center {
