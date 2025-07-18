@@ -97,24 +97,6 @@
 		event.preventDefault();
 		dispatch('click', project);
 	}
-
-	// Debug helper for development
-	onMount(() => {
-		if (dev && typeof window !== 'undefined') {
-			// Add debug helper to window for easy testing
-			(window as any).debugProjectCard = (projectId: string) => {
-				if (project.id === projectId) {
-					console.group(`🎯 ProjectCard Debug: ${project.id}`);
-					console.log('Project data:', project);
-					console.log('Responsive image:', responsiveImage);
-					console.log('Title image data:', project.titleImage);
-					console.log('Image alt:', imageAlt);
-					console.log('Aspect ratio style:', imageAspectRatioStyle);
-					console.groupEnd();
-				}
-			};
-		}
-	});
 </script>
 
 <a

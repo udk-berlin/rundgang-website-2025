@@ -152,13 +152,20 @@ export function transformFormats(data: FormatsResponse): FilterGroup[] {
 	for (const item of data) {
 		if (!item?.key) continue;
 
-		const label = item.en || item.name || item.key;
+		// Preserve the full format object structure for localization
+		const formatObject = {
+			key: item.key,
+			de: item.de,
+			en: item.en
+		};
 
 		options.push({
 			id: item.key,
-			label,
+			label: item.en || item.name || item.key, // Keep fallback for non-localized display
 			value: item.key,
-			projectCount: item.projectCount ?? 0
+			projectCount: item.projectCount ?? 0,
+			// Store the full format object for localization
+			formatData: formatObject
 		});
 	}
 

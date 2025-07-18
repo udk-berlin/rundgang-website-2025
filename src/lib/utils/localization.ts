@@ -116,6 +116,8 @@ export const UI_TEXTS = {
 	// Filter component
 	filter: {
 		title: { de: 'Filter', en: 'Filter' },
+		formats: { de: 'Formate', en: 'Formats' },
+		faculties: { de: 'Fakultäten', en: 'Faculties' },
 		loading: { de: 'Filter werden geladen...', en: 'Loading filters...' },
 		noFilters: { de: 'Keine Filter verfügbar', en: 'No filters available' },
 		clearSelection: { de: 'Auswahl löschen', en: 'Clear Selection' },

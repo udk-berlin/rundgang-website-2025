@@ -42,7 +42,9 @@
 	<div
 		class="overlay {horizontal === 'center' && vertical === 'center'
 			? 'center-active'
-			: ''} {horizontal === 'left' ? 'left-active' : ''} {variant === 'full-content' ? 'full-content-variant' : ''}"
+			: ''} {horizontal === 'left' ? 'left-active' : ''} {variant === 'full-content'
+			? 'full-content-variant'
+			: ''}"
 		bind:this={overlayElement}
 		on:click={handleBackdropClick}
 		on:keydown={(e) => e.key === 'Enter' && handleBackdropClick(e)}

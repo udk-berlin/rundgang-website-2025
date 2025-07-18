@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { activeLanguage } from '$lib/stores/language';
-	import { getUIText } from '$lib/utils/localization';
+	import { getUIText, getLocalizedLabel } from '$lib/utils/localization';
 	import Overlay from '../general/overlay/Overlay.svelte';
 	import { closeFilter, filterStore, toggleFilterOption } from '$lib/stores/filter';
 
@@ -40,7 +40,53 @@
 
 	$: filteredGroups = (() => {
 		const { contexts, formats, locations } = $filterStore.data;
-		return [...contexts, ...formats, ...locations];
+
+		// Process contexts to apply localized group titles
+		const processedContexts = contexts.map((group) => {
+			if (group.title === 'Faculties') {
+				return {
+					...group,
+					title: getUIText('filter.faculties', $activeLanguage)
+				};
+			}
+			return group;
+		});
+
+		// Process formats to apply localized labels and group titles
+		const processedFormats = formats.map((group) => {
+			if (group.title === 'Formats') {
+				const localizedOptions = group.options.map((option) => {
+					if ((option as any).formatData) {
+						// Apply localization to format options
+						const localizedLabel = getLocalizedLabel((option as any).formatData, $activeLanguage);
+						return {
+							...option,
+							label: localizedLabel || option.label
+						};
+					}
+					return option;
+				});
+				return {
+					...group,
+					title: getUIText('filter.formats', $activeLanguage),
+					options: localizedOptions
+				};
+			}
+			return group;
+		});
+
+		// Process locations to apply localized group titles
+		const processedLocations = locations.map((group) => {
+			if (group.title === 'Locations') {
+				return {
+					...group,
+					title: getUIText('filter.locations', $activeLanguage)
+				};
+			}
+			return group;
+		});
+
+		return [...processedContexts, ...processedFormats, ...processedLocations];
 	})();
 </script>
 
