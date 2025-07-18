@@ -153,6 +153,10 @@
 		text-transform: capitalize;
 	}
 
+	:global(.filter-group.faculties) .filter-count {
+		display: none;
+	}
+
 	:global(.filter-group) {
 		display: flex;
 		flex-direction: column;
