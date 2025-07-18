@@ -152,6 +152,7 @@
 	.header .text {
 		flex: 1;
 		margin-right: 5px;
+		align-items: center;
 	}
 
 	.header button {
