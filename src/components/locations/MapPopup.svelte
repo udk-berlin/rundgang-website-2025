@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Popup } from 'svelte-maplibre-gl';
-	import type { Project } from '$lib/api';
 	import { base } from '$app/paths';
 	import { clearFilterCategory, toggleFilterOption } from '$lib/stores/filter';
 	import { getUIText } from '$lib/utils/localization';
@@ -16,42 +15,17 @@
 		street: string;
 		postcode: string;
 		city: string;
+		projectCount?: number;
 	};
-	export let allProjects: Project[];
 	export let onShowProjects: (locationId: string) => void;
 	export let onToggleContexts: () => void;
 	const marker_selected_color = 'pink';
 
-	$: locationProjects = allProjects.filter((p) => p.location?.id === location.id);
-	$: projectCount = locationProjects.length;
+	$: projectCount = location.projectCount || 0;
 
-	// Extract available contexts for this location
-	$: availableContexts = extractUniqueContexts(locationProjects);
+	// For now, disable contexts in popup since we don't have project data
+	$: availableContexts = [];
 
-	// Helper function to extract unique contexts from projects
-	function extractUniqueContexts(projects: Project[]): Array<{ context: any; count: number }> {
-		const contextMap = new Map<string, { context: any; count: number }>();
-
-		projects.forEach((project) => {
-			if (project.contexts) {
-				project.contexts.forEach((context) => {
-					const existing = contextMap.get(context.id);
-					if (existing) {
-						existing.count++;
-					} else {
-						contextMap.set(context.id, {
-							context: context,
-							count: 1
-						});
-					}
-				});
-			}
-		});
-
-		return Array.from(contextMap.values()).sort((a, b) =>
-			a.context.name.localeCompare(b.context.name)
-		);
-	}
 
 	function handleShowProjects() {
 		if (projectCount > 0) {
@@ -106,8 +80,6 @@
 </Popup>
 
 <style lang="scss">
-	@use '../../variables.scss' as *;
-
 	.popup-content {
 		padding: $overlay-padding;
 

@@ -10,6 +10,7 @@ export interface LocationData {
 	city: string;
 	latitude: string;
 	longitude: string;
+	projectCount?: number;
 }
 
 export interface MapSettings {
@@ -39,90 +40,25 @@ export const load = async ({ url, fetch }: { url: URL; fetch: typeof globalThis.
 	// Get language from URL params or default to EN
 	const language = (url.searchParams.get('lang')?.toUpperCase() as 'DE' | 'EN') || 'EN';
 
-	// Static location data - moved from component
-	const locations: LocationData[] = [
-		{
-			id: 'hardenbergstrasse',
-			name: 'Hardenbergstraße 33',
-			street: 'Hardenbergstraße 33',
-			postcode: '10623',
-			city: 'Berlin',
-			latitude: '52.509653',
-			longitude: '13.3271929'
-		},
-		{
-			id: 'bundesallee',
-			name: 'Bundesallee 1-12',
-			street: 'Bundesallee 1-12',
-			postcode: '10719',
-			city: 'Berlin',
-			latitude: '52.4981932',
-			longitude: '13.3274551'
-		},
-		{
-			id: 'jazz-institut_berlin',
-			name: 'Jazz-Institut Berlin',
-			street: 'Einsteinufer 43-53',
-			postcode: '10587',
-			city: 'Berlin',
-			latitude: '52.5169628',
-			longitude: '13.3181485'
-		},
-		{
-			id: 'fasanenstrasse',
-			name: 'Fasanenstraße 1b',
-			street: 'Fasanenstraße 1b',
-			postcode: '10623',
-			city: 'Berlin',
-			latitude: '52.5093475',
-			longitude: '13.3276388'
-		},
-		{
-			id: 'unit_theater',
-			name: 'UNI.T - Theater der UdK Berlin',
-			street: 'Fasanenstraße 1b',
-			postcode: '10623',
-			city: 'Berlin',
-			latitude: '52.5093475',
-			longitude: '13.3276388'
-		},
-		{
-			id: 'konzertsaal',
-			name: 'Konzertsaal',
-			street: 'Hardenbergstraße, Fasanenstraße 33 (Ecke)',
-			postcode: '10623',
-			city: 'Berlin',
-			latitude: '52.5092561',
-			longitude: '13.3275879'
-		},
-		{
-			id: 'lietzenburger_strasse',
-			name: 'Lietzenburger Straße 45',
-			street: 'Lietzenburger Straße 45',
-			postcode: '10777',
-			city: 'Berlin',
-			latitude: '52.4997893',
-			longitude: '13.3314795'
-		},
-		{
-			id: 'medienhaus',
-			name: 'Medienhaus',
-			street: 'Grunewaldstraße 2-5',
-			postcode: '10823',
-			city: 'Berlin',
-			latitude: '52.4908577',
-			longitude: '13.357244'
-		},
-		{
-			id: 'strasse_des_17_juni',
-			name: 'Straße des 17. Juni',
-			street: 'Straße des 17. Juni 118',
-			postcode: '10623',
-			city: 'Berlin',
-			latitude: '52.5138075',
-			longitude: '13.3241008'
-		}
-	];
+	// Fetch location data from API
+	const locationsResponse = await fetch(`/api/filters/locations`);
+	if (!locationsResponse.ok) {
+		throw new Error(`Failed to fetch locations: ${locationsResponse.status}`);
+	}
+	
+	const apiLocations = await locationsResponse.json();
+	
+	// Transform API data to match LocationData interface
+	const locations: LocationData[] = apiLocations.map((loc: any) => ({
+		id: loc.normalizedKebabName || loc.name.toLowerCase().replace(/\s+/g, '-'),
+		name: loc.name,
+		street: loc.street,
+		postcode: loc.postcode,
+		city: loc.city,
+		latitude: loc.latitude,
+		longitude: loc.longitude,
+		projectCount: loc.projectCount
+	}));
 
 	// Static map configuration - moved from component
 	const mapSettings: MapSettings = {
@@ -173,7 +109,7 @@ export const load = async ({ url, fetch }: { url: URL; fetch: typeof globalThis.
 	try {
 		// Load all projects with full data (needed for locations page display)
 		const projectsService = createProjectsService(fetch);
-		const allProjects = await projectsService.fetchAllProjects(language);
+		const allProjects = await projectsService.fetchAllProjects();
 
 		return {
 			allProjects: allProjects,

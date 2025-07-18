@@ -3,7 +3,6 @@
 	import PaperContainerTitle from '../general/overlay/PaperContainerTitle.svelte';
 	import { activeLanguage } from '$lib/stores/language';
 	import { getUIText } from '$lib/utils/localization';
-	import type { Project } from '$lib/api';
 	import type { EnrichedContextData } from '$lib/api/types/kirby';
 	import AccordionList from '../general/accordion/AccordionList.svelte';
 	import PaperContainer from '../general/overlay/PaperContainer.svelte';
@@ -18,8 +17,8 @@
 		city: string;
 		latitude: string;
 		longitude: string;
+		projectCount?: number;
 	}>;
-	export let allProjects: Project[];
 	export let selectedLocationFilters: string[];
 	export let availableContexts: Array<{ context: EnrichedContextData; count: number }>;
 
@@ -92,7 +91,7 @@
 				>
 					<span class="location-name">{item.name}</span>
 					<span class="project-count">
-						({allProjects.filter((p) => p.location?.id === item.id).length})
+						({item.projectCount || 0})
 					</span>
 				</button>
 				<div slot="details" let:item>
@@ -102,7 +101,7 @@
 						<LocationActionButtons
 							text={getUIText('locations.accordion.showProjects', $activeLanguage)}
 							variant="primary"
-							disabled={allProjects.filter((p) => p.location?.id === item.id).length === 0}
+							disabled={(item.projectCount || 0) === 0}
 							on:click={() => handleShowProjects(item.id)}
 						/>
 						<LocationActionButtons
@@ -164,6 +163,7 @@
 		outline: none;
 		width: 100%;
 		text-align: left;
+		align-items: center;
 	}
 
 	.location-filter:hover {
