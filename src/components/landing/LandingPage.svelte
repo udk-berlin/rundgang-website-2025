@@ -29,7 +29,7 @@
 </script>
 
 <section class="landing-page">
-	<Announcement />
+	<!-- <Announcement /> -->
 	<div class="content">
 		<div class="text-container">
 			<div class="logo-container">
