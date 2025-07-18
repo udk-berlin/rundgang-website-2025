@@ -54,7 +54,7 @@
 >
 	<div class="content">
 		<div class="header">
-			<h1>{getUIText('filter.title', $activeLanguage)}</h1>
+			<h3 class="filter-title">{getUIText('filter.title', $activeLanguage)}</h3>
 			{#if hasActiveFilters}
 				<button class="clear-all-button" on:click={clearAllFilters}>
 					{getUIText('filter.clearSelection', $activeLanguage) || 'Clear all'}
@@ -70,7 +70,7 @@
 			<!-- Regular filters for other pages -->
 			<div class="filter-options">
 				{#each filteredGroups as group}
-					<div class="filter-group">
+					<div class="filter-group {group.title.toLowerCase()}">
 						<h3>{group.title}</h3>
 						{#each group.options as option}
 							{#if option.projectCount && option.projectCount > 0}
@@ -110,7 +110,7 @@
 		margin: 0 0 1.5rem 0;
 	}
 
-	h1 {
+	.filter-title {
 		margin: 0;
 		font-size: $font-xlarge;
 		font-weight: 400;
@@ -147,6 +147,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1.75rem;
+	}
+
+	:global(.filter-group.formats) span {
+		text-transform: capitalize;
 	}
 
 	:global(.filter-group) {
