@@ -104,24 +104,10 @@
 							disabled={(item.projectCount || 0) === 0}
 							on:click={() => handleShowProjects(item.id)}
 						/>
-						<LocationActionButtons
-							text={getUIText('locations.locationActionButtons.showContexts', $activeLanguage)}
-							variant="secondary"
-							disabled={availableContexts.length === 0}
-							on:click={handleToggleContexts}
-						/>
 					</div>
 				</div>
 				<!-- </Accordion> -->
 			</AccordionList>
-		</div>
-
-		<div class="bottom-buttons">
-			{#if selectedLocationFilters.length > 0}
-				<button class="clear-all-button" on:click={handleClearFilters}>
-					{getUIText('locations.clearSelection', $activeLanguage)}
-				</button>
-			{/if}
 		</div>
 	</div>
 </PaperContainer>

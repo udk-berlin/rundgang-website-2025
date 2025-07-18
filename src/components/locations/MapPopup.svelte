@@ -26,7 +26,6 @@
 	// For now, disable contexts in popup since we don't have project data
 	$: availableContexts = [];
 
-
 	function handleShowProjects() {
 		if (projectCount > 0) {
 			onShowProjects(location.id);
@@ -69,12 +68,12 @@
 				disabled={projectCount === 0}
 				on:click={handleShowProjects}
 			/>
-			<LocationActionButtons
+			<!-- <LocationActionButtons
 				text={getUIText('locations.locationActionButtons.showContexts', $activeLanguage)}
 				variant="secondary"
 				disabled={availableContexts.length === 0}
 				on:click={handleToggleContexts}
-			/>
+			/> -->
 		</div>
 	</div>
 </Popup>

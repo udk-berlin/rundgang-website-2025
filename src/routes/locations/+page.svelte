@@ -232,11 +232,11 @@
 	// Handle opening location projects overlay
 	function openLocationOverlay(locationId: string) {
 		const location = locations.find((loc) => loc.id === locationId);
-		
+
 		// Use locationMatchData mapping to find projects for this location
 		const locationProjects = allProjects.filter((p) => {
 			if (!p.location?.id) return false;
-			
+
 			// Primary: Find the location mapping that contains this locationId
 			const locationMapping = locationMatchData.find((mapping) =>
 				mapping.match.includes(locationId)
@@ -295,15 +295,6 @@
 				on:clearFilters={() => clearFilterCategory('locations')}
 				on:toggleContexts={handleToggleContexts}
 			/>
-			<!-- Location Contexts -->
-			{#if showContexts && availableContexts.length > 0 && selectedLocationFilters.length > 0}
-				<LocationContexts
-					{availableFaculties}
-					{availableContexts}
-					on:contextClick={(e) => handleContextClick(e.detail.contextId)}
-					on:close={handleCloseContexts}
-				/>
-			{/if}
 		</div>
 		<MapContainer
 			slot="right"
