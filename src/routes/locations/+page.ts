@@ -60,15 +60,6 @@ export const load = async ({ url, fetch }: { url: URL; fetch: typeof globalThis.
 			longitude: '13.3274551'
 		},
 		{
-			id: 'einsteinufer',
-			name: 'Einsteinufer 43-53',
-			street: 'Einsteinufer 43-53',
-			postcode: '10587',
-			city: 'Berlin',
-			latitude: '52.5165548',
-			longitude: '13.3202177'
-		},
-		{
 			id: 'jazz-institut_berlin',
 			name: 'Jazz-Institut Berlin',
 			street: 'Einsteinufer 43-53',
@@ -78,15 +69,6 @@ export const load = async ({ url, fetch }: { url: URL; fetch: typeof globalThis.
 			longitude: '13.3181485'
 		},
 		{
-			id: 'fasanenstrasse',
-			name: 'Fasanenstraße 1b',
-			street: 'Fasanenstraße 1b',
-			postcode: '10623',
-			city: 'Berlin',
-			latitude: '52.5093475',
-			longitude: '13.3276388'
-		},
-		{
 			id: 'unit_theater',
 			name: 'UNI.T - Theater der UdK Berlin',
 			street: 'Fasanenstraße 1b',
@@ -94,15 +76,6 @@ export const load = async ({ url, fetch }: { url: URL; fetch: typeof globalThis.
 			city: 'Berlin',
 			latitude: '52.5093475',
 			longitude: '13.3276388'
-		},
-		{
-			id: 'hzt',
-			name: 'Hochschulübergreifendes Zentrum Tanz (HZT)',
-			street: 'Uferstraße 23',
-			postcode: '13357',
-			city: 'Berlin',
-			latitude: '52.5517727',
-			longitude: '13.3700503'
 		},
 		{
 			id: 'konzertsaal',
@@ -139,24 +112,6 @@ export const load = async ({ url, fetch }: { url: URL; fetch: typeof globalThis.
 			city: 'Berlin',
 			latitude: '52.5138075',
 			longitude: '13.3241008'
-		},
-		{
-			id: 'universitaetsbibliothek',
-			name: 'Universitätsbibliothek im Volkswagen-Haus',
-			street: 'Fasanenstraße 88',
-			postcode: '10623',
-			city: 'Berlin',
-			latitude: '52.5101646',
-			longitude: '13.3278948'
-		},
-		{
-			id: 'mierendorffstrasse',
-			name: 'Mierendorffstraße 30',
-			street: 'Mierendorffstraße 30',
-			postcode: '10589',
-			city: 'Berlin',
-			latitude: '52.524442',
-			longitude: '13.3027563'
 		}
 	];
 
