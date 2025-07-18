@@ -99,6 +99,7 @@ export function transformContexts(data: ContextsResponse): FilterGroup[] {
 		? [
 				{
 					title: 'Faculties',
+					key: 'faculties',
 					options: facultyOptions
 				}
 			]
@@ -133,6 +134,7 @@ export function transformLocations(data: LocationsResponse): FilterGroup[] {
 		? [
 				{
 					title: 'Locations',
+					key: 'locations',
 					options
 				}
 			]
@@ -173,6 +175,7 @@ export function transformFormats(data: FormatsResponse): FilterGroup[] {
 		? [
 				{
 					title: 'Formats',
+					key: 'formats',
 					options
 				}
 			]

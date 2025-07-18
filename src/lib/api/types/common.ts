@@ -45,6 +45,7 @@ export interface FilterOption {
 
 export interface FilterGroup {
 	title: string;
+	key: string;
 	options: FilterOption[];
 }
 

@@ -116,15 +116,15 @@
 			<!-- Regular filters for other pages -->
 			<div class="filter-options">
 				{#each filteredGroups as group}
-					<div class="filter-group {group.title.toLowerCase()}">
+					<div class="filter-group {group.key}">
 						<h3>{group.title}</h3>
 						{#each group.options as option}
 							{#if option.projectCount && option.projectCount > 0}
-								<label class:selected={isOptionSelected(group.title.toLowerCase(), option.value)}>
+								<label class:selected={isOptionSelected(group.key, option.value)}>
 									<input
 										type="checkbox"
-										checked={isOptionSelected(group.title.toLowerCase(), option.value)}
-										on:change={() => handleFilterChange(group.title.toLowerCase(), option.value)}
+										checked={isOptionSelected(group.key, option.value)}
+										on:change={() => handleFilterChange(group.key, option.value)}
 									/>
 									<span class="filter-text">{option.label}</span>
 									<span class="dots"></span>
