@@ -62,13 +62,16 @@ export function filterProjects(
 			if (!hasMatchingLocation) return false;
 		}
 
-		// Check contexts filter (maps to project.contexts)
+		// Check contexts filter - use same logic as server-side count calculation
 		if (selectedFilters.contexts && selectedFilters.contexts.length > 0) {
+			// Extract raw category IDs from enriched contexts (same as server-side categories field)
+			const projectCategoryIds = project.contexts.map((context) => context.id);
+
+			// Check if any selected context ID is in the project's category IDs
 			const hasMatchingContext = selectedFilters.contexts.some((selectedContext) => {
-				return project.contexts.some(
-					(context: EnrichedContextData) => context.id === selectedContext
-				);
+				return projectCategoryIds.includes(selectedContext);
 			});
+
 			if (!hasMatchingContext) return false;
 		}
 

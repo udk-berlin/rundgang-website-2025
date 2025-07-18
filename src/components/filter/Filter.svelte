@@ -17,7 +17,9 @@
 	}
 
 	function handleFilterChange(category: string, value: string) {
-		toggleFilterOption(category, value);
+		// Store faculty selections under 'contexts' since faculties are a type of context
+		const filterCategory = category === 'faculties' ? 'contexts' : category;
+		toggleFilterOption(filterCategory, value);
 	}
 
 	function clearAllFilters() {
@@ -27,7 +29,9 @@
 	}
 
 	function isOptionSelected(category: string, value: string): boolean {
-		return $filterStore.selectedFilters[category]?.includes(value) || false;
+		// Check faculty selections under 'contexts' since that's where we store them
+		const filterCategory = category === 'faculties' ? 'contexts' : category;
+		return $filterStore.selectedFilters[filterCategory]?.includes(value) || false;
 	}
 
 	$: hasActiveFilters = Object.values($filterStore.selectedFilters).some(
@@ -147,6 +151,10 @@
 
 	:global(.filter-group.formats) span {
 		text-transform: capitalize;
+	}
+
+	:global(.filter-group.faculties) .filter-count {
+		display: none;
 	}
 
 	:global(.filter-group) {
