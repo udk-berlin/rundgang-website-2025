@@ -36,6 +36,11 @@ export interface FilterOption {
 	value: string;
 	projectCount?: number;
 	type?: string;
+	formatData?: {
+		key: string;
+		de?: string;
+		en?: string;
+	};
 }
 
 export interface FilterGroup {
