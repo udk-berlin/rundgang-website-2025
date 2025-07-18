@@ -69,6 +69,15 @@ export const load = async ({ url, fetch }: { url: URL; fetch: typeof globalThis.
 			longitude: '13.3181485'
 		},
 		{
+			id: 'fasanenstrasse',
+			name: 'Fasanenstraße 1b',
+			street: 'Fasanenstraße 1b',
+			postcode: '10623',
+			city: 'Berlin',
+			latitude: '52.5093475',
+			longitude: '13.3276388'
+		},
+		{
 			id: 'unit_theater',
 			name: 'UNI.T - Theater der UdK Berlin',
 			street: 'Fasanenstraße 1b',
