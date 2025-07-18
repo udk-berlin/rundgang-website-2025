@@ -330,10 +330,12 @@
 		font-size: $font-xlarge;
 		font-weight: 400;
 		line-height: 1.2;
+		margin-bottom: 0.5em;
 	}
 
 	.author {
 		margin-bottom: 1em;
+		line-height: 1.2; // same as title
 	}
 
 	.author span {
