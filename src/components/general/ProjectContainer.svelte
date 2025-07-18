@@ -7,9 +7,7 @@
 	import { activeLanguage } from '$lib/stores/language';
 	import { filterProjects } from '$lib/utils';
 	import type { Project } from '$lib/api/types/index';
-	import type { ContextsResponse } from '$lib/api/types/index';
 	import { projectsService } from '$lib/api';
-	import { filtersService } from '$lib/api/services/filters';
 
 	import { writable, derived, get } from 'svelte/store';
 	import Masonry from 'svelte-bricks';
@@ -38,9 +36,6 @@
 	// Initialize the projects store with the prop value
 	const projectsStore = writable<Project[]>(projects);
 
-	// Store for contexts data used in hierarchical filtering
-	const contextsDataStore = writable<ContextsResponse | null>(null);
-
 	// Update projects when prop changes
 	$effect(() => {
 		// Always update the store when projects prop changes, regardless of length
@@ -48,31 +43,13 @@
 		projectsStore.set(projects);
 	});
 
-	// Load contexts data for hierarchical filtering
-	$effect(() => {
-		if (!disableFiltering) {
-			filtersService
-				.getRawContexts()
-				.then((data) => {
-					contextsDataStore.set(data);
-				})
-				.catch((error) => {
-					console.error('Failed to load contexts data for filtering:', error);
-					contextsDataStore.set(null);
-				});
+	const rawFiltered = derived([projectsStore, filterStore], ([$projects, $filterStore]) => {
+		// Skip filtering if disabled (e.g., on timeline page where filtering is handled by parent)
+		if (disableFiltering) {
+			return $projects;
 		}
+		return filterProjects($projects, $filterStore.selectedFilters);
 	});
-
-	const rawFiltered = derived(
-		[projectsStore, filterStore, contextsDataStore],
-		([$projects, $filterStore, $contextsData]) => {
-			// Skip filtering if disabled (e.g., on timeline page where filtering is handled by parent)
-			if (disableFiltering) {
-				return $projects;
-			}
-			return filterProjects($projects, $filterStore.selectedFilters, $contextsData);
-		}
-	);
 
 	const filteredProjects = writable<Project[]>([]);
 
