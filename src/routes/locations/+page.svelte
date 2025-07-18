@@ -455,9 +455,14 @@
 
 	/* Location Overlay Styles */
 	.overlay-content {
-		padding: 2rem;
+		padding: 0;
 		max-width: 90vw;
 		max-height: 90vh;
 		overflow-y: auto;
+		margin-right: -1rem; // move the scrollbar out of viewport
+
+		@include desktop {
+			padding: 2rem;
+		}
 	}
 </style>
